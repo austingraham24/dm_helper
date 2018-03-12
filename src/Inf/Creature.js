@@ -2,14 +2,22 @@
 
 const Creature = {
 	//
-	const create = (name, type, classification, alignment, challenge_rating, xp, 
-		profficiency, ac, size, hp, laguages, stats, senses, skills, save_dc, attack_bonus, dpr,
-		vulnerabilities, resistances, immunities, weapons, actions) => {
+	const create = (core, offenseBlock, defenseBlock) => {
 
 	}
 
 	//
-	const 
+	const createCore = (name, species, classification, alignment, challengeRating, xp, size, laguages, stats) => {
+
+	}
+
+	const createOffenseBlock = (profficiency, senses, skills, saveDC, attackBonus, dpr, weapons, actions) => {
+
+	}
+
+	const createDefenseBlock = (ac, hp, hitDice, vulnerabilities, resistances, immunities) => {
+
+	}
 };
 
 export default Creature;
