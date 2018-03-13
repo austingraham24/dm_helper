@@ -5,3 +5,7 @@
 .banner {
 	border-radius: 0px;
 }
+
+.brand {
+	cursor:pointer;
+}
