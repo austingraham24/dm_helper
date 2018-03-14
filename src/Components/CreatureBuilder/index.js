@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
 import "./style.css";
 import jsonData from "../../Inf/CreatureStatChart.json";
-import ReferenceStats from "./ReferenceStats.js";
-import {PageHeader, FormControl, FormGroup, ControlLabel, Grid, Row, Col} from "react-bootstrap";
+import ReferenceStatTable from "./ReferenceStatTable/ReferenceStatTable.js";
+import {PageHeader, FormGroup, ControlLabel, Grid, Row, Col} from "react-bootstrap";
 import TemplateSelect from "./TemplateSelect.js";
+import PropTypes from 'prop-types';
 
 class CreatureBuilder extends Component {
 	constructor(props) {
@@ -18,7 +19,14 @@ class CreatureBuilder extends Component {
 		console.log(event.target.value)
 		let value = event.target.value || null
 		this.setState({templateCR: value});
-		console.log(this.state);
+		//console.log(this.state);
+	}
+
+	showTemplate() {
+		return (this.state.templateCR != null)
+	}
+	getCRData() {
+		return this.state.templateCR ? jsonData[this.state.templateCR] : null
 	}
 
 	render() {
@@ -31,13 +39,12 @@ class CreatureBuilder extends Component {
 				      <Col sm={6} md={3}>
 				        <FormGroup controlId="formControlsSelect">
 				        	<ControlLabel>View Quick Stats for CR</ControlLabel>
-				        	<TemplateSelect currentValue={this.state.templateCR} Options={Object.keys(jsonData)} onChange={this.setSelectedCrTemplate.bind(this)} />
+				        	<TemplateSelect currentValue={this.state.templateCR} Options={Object.keys(jsonData)} callback={this.setSelectedCrTemplate.bind(this)} />
 					      </FormGroup>
 				      </Col>
 				    </Row>
 			    </Grid>
-			  {/* only load the component if state has data saying it should be loaded */}
-			    {this.state.templateCR ? <ReferenceStats CR={this.state.templateCR} crData={jsonData[this.state.templateCR]} /> : <div></div>}
+					<ReferenceStatTable CR={this.state.templateCR} crData={this.getCRData()} />
 		  		<label>
 		  			Expected Challenge Rating:
 		  		</label><br/>
