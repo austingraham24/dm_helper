@@ -1,0 +1,47 @@
+{
+	"0": {
+		"proficiency": 2,
+		"ac": 13,
+		"hp":"1-6",
+		"attackBonus": 3,
+		"dpr": "0-1",
+		"saveDC": 13,
+		"xp":10
+	},
+	"1/8": {
+		"proficiency": 2,
+		"ac": 13,
+		"hp":"7-35",
+		"attackBonus": 3,
+		"dpr": "2-3",
+		"saveDC": 13,
+		"xp":25
+	},
+	"1/4": {
+		"proficiency": 2,
+		"ac": 13,
+		"hp":"36-49",
+		"attackBonus": 3,
+		"dpr": "4-5",
+		"saveDC": 13,
+		"xp":50
+	},
+	"1/2": {
+		"proficiency": 2,
+		"ac": 13,
+		"hp":"50-70",
+		"attackBonus": 3,
+		"dpr": "6-8",
+		"saveDC": 13,
+		"xp":100
+	},
+	"1": {
+		"proficiency": 2,
+		"ac": 13,
+		"hp":"71-85",
+		"attackBonus": 3,
+		"dpr": "9-14",
+		"saveDC": 13,
+		"xp":200
+	}
+}

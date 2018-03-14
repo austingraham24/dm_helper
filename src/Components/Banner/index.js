@@ -26,7 +26,7 @@ const Banner =()=> {
 			      </LinkContainer>
 			    </Nav>
 			    <Nav pullRight>
-			      <NavItem eventKey={1} href="#">
+			      <NavItem eventKey={1} href="#" disabled>
 			        Sign In
 			      </NavItem>
 			    </Nav>
