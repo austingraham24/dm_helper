@@ -8,7 +8,7 @@ const TemplateSelect = (props) => {
 
 	function generateRatingButtons() {
 		return formattedList.map((option) => {
-				let active = props.currentValue === option? "active" : null
+				let active = props.currentValue === option? true : null
 				return <Button key={option} bsSize="xsmall" value={option} onClick={props.callback} active={active}>{option}</Button>
 			})
 	}

@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import "./style.css";
 import jsonData from "../../Inf/CreatureStatChart.json";
 import ReferenceStatTable from "./ReferenceStatTable/ReferenceStatTable.js";
-import {PageHeader, FormGroup, ControlLabel, Grid, Row, Col} from "react-bootstrap";
+import {PageHeader, Button, FormGroup, ControlLabel, Grid, Row, Col} from "react-bootstrap";
 import TemplateSelect from "./TemplateSelect.js";
 import PropTypes from 'prop-types';
 
@@ -25,6 +25,7 @@ class CreatureBuilder extends Component {
 	showTemplate() {
 		return (this.state.templateCR != null)
 	}
+
 	getCRData() {
 		return this.state.templateCR ? jsonData[this.state.templateCR] : null
 	}

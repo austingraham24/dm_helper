@@ -12,6 +12,7 @@
     "lodash": "^3.10.1",
     "prop-types": "^15.6.1",
     "react": "^16.2.0",
+    "react-animate-height": "^0.10.10",
     "react-bootstrap": "^0.32.1",
     "react-dom": "^16.2.0",
     "react-loading": "^1.0.1",
