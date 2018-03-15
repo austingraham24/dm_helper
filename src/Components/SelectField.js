@@ -4,6 +4,13 @@ import {FormControl} from "react-bootstrap";
 //expects array as optionArray of string options
 const CreatureClassificationSelect = (props) => {
 
+	function hasPlaceholder() {
+		if (!props.placeholder) {
+			return null
+		}
+		return <option key={props.placeholder} value="" hidden>{props.placeholder}</option>
+	}
+
 	function generateOptions() {
 		if (props.arrayData){
 			return props.arrayData.map((value) => {
@@ -20,13 +27,14 @@ const CreatureClassificationSelect = (props) => {
 	return (
 		<FormControl
 			componentClass="select"
-			name = "classification"
+			name = {props.name || ""}
 			value={props.stateValue || ""}
 			placeholder=""
 			onChange={props.onChange}
 			>
-			  <option value="" hidden>Unknown</option>
+				{hasPlaceholder()}
 			  {generateOptions()}
+				}
 		</FormControl>
 	);
 }

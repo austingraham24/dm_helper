@@ -3,7 +3,7 @@ import "./style.css";
 import jsonData from "../../Inf/CreatureStatChart.json";
 import CreatureClassificationArray from "../../Inf/CreatureClassification.json";
 import ReferenceStatTable from "./ReferenceStatTable/ReferenceStatTable.js";
-import {PageHeader, Button, FormGroup, FormControl, HelpBlock, ControlLabel, Grid, Row, Col} from "react-bootstrap";
+import {PageHeader, FormGroup, FormControl, ControlLabel, Row, Col} from "react-bootstrap";
 import TemplateSelect from "./TemplateSelect.js";
 import SelectField from "../SelectField.js"
 import PropTypes from 'prop-types';
@@ -90,11 +90,11 @@ class CreatureBuilder extends Component {
 	        	<FormGroup controlId="creatureIdentifiers">
 			      	<Col xs={4} md={2}>
 				      <ControlLabel>Classification:</ControlLabel>
-				      <SelectField arrayData={CreatureClassificationArray} onChange={this.handleChange.bind(this)} stateValue={this.state.classification} />
+				      <SelectField name="classification" arrayData={CreatureClassificationArray} onChange={this.handleChange.bind(this)} stateValue={this.state.classification} placeholder="Unknown" />
 					</Col>
 					<Col xs={4} md={2}>
 				      <ControlLabel>Alignment:</ControlLabel>
-			        	<SelectField  objectData={this.state.alignments} onChange={this.handleChange.bind(this)} stateValue={this.state.alignment}/>
+			        	<SelectField name="alignment" objectData={this.state.alignments} onChange={this.handleChange.bind(this)} stateValue={this.state.alignment}/>
 					</Col>
 					<Col xs={4} md={2}>
 				      <ControlLabel>Size:</ControlLabel>
