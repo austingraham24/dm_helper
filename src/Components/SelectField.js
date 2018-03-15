@@ -1,14 +1,20 @@
 import React from 'react';
 import {FormControl} from "react-bootstrap";
-import CreatureClassificationArray from "../../Inf/CreatureClassification.json";
 
 //expects array as optionArray of string options
-const CreatureAlignmentOptions = (props) => {
+const CreatureClassificationSelect = (props) => {
 
 	function generateOptions() {
-		return CreatureClassificationArray.map((value) => {
-			return <option key={value} value={value}>{value}</option>
-		});
+		if (props.arrayData){
+			return props.arrayData.map((value) => {
+				return <option key={value} value={value}>{value}</option>
+			});
+		}
+		else if (props.objectData) {
+			return Object.keys(props.objectData).map((key) => {
+				return <option key={key} value={key}>{props.objectData[key]}</option>
+			});
+		}
 	}
 
 	return (
@@ -26,4 +32,4 @@ const CreatureAlignmentOptions = (props) => {
 }
 
 
-export default CreatureAlignmentOptions;
+export default CreatureClassificationSelect;

@@ -1,20 +1,23 @@
 import React, {Component} from 'react';
 import "./style.css";
 import jsonData from "../../Inf/CreatureStatChart.json";
+import CreatureClassificationArray from "../../Inf/CreatureClassification.json";
 import ReferenceStatTable from "./ReferenceStatTable/ReferenceStatTable.js";
 import {PageHeader, Button, FormGroup, FormControl, HelpBlock, ControlLabel, Grid, Row, Col} from "react-bootstrap";
 import TemplateSelect from "./TemplateSelect.js";
-import CreatureAlignmentSelect from "./CreatureAlignmentSelect.js"
+import SelectField from "../SelectField.js"
 import PropTypes from 'prop-types';
 
 class CreatureBuilder extends Component {
 	constructor(props) {
 		super(props);
+		let alignments = {"none":"Unaligned", "lg":"Lawful Good", "ng":"Neutral Good", "cg":"Chaotic Good", "ln":"Lawful Neutral", "n":"Neutral", "cn":"Chaotic Neutral", "le":"Lawful Evil", "ne":"Neutral Evil", "ce":"Chaotic Evil"}
 
 		this.state = {
 			templateCR: null,
 			type:"",
-			name:""
+			name:"",
+			alignments: alignments
 		};
 	};
 
@@ -87,28 +90,11 @@ class CreatureBuilder extends Component {
 	        	<FormGroup controlId="creatureIdentifiers">
 			      	<Col xs={4} md={2}>
 				      <ControlLabel>Classification:</ControlLabel>
-				      <CreatureAlignmentSelect onChange={this.handleChange.bind(this)} stateValue={this.state.classification} />
+				      <SelectField arrayData={CreatureClassificationArray} onChange={this.handleChange.bind(this)} stateValue={this.state.classification} />
 					</Col>
 					<Col xs={4} md={2}>
 				      <ControlLabel>Alignment:</ControlLabel>
-			        	<FormControl
-				            componentClass="select"
-				            name = "alignment"
-				            value={this.state.alignment || "none"}
-				            placeholder="none"
-				            onChange={this.handleChange.bind(this)}
-				          >
-				          	<option value="none">Unaligned</option>
-				          	<option value="lg">Lawful Good</option>
-				          	<option value="ng">Neutral Good</option>
-				          	<option value="cg">Chaotic Good</option>
-				          	<option value="ln">Lawful Neutral</option>
-				          	<option value="n">Neutral</option>
-				          	<option value="cn">Chaotic Neutral</option>
-				          	<option value="le">Lawful Evil</option>
-				          	<option value="ne">Neutral Evil</option>
-				          	<option value="ce">Chaotic Evil</option>
-				          </FormControl>
+			        	<SelectField  objectData={this.state.alignments} onChange={this.handleChange.bind(this)} stateValue={this.state.alignment}/>
 					</Col>
 					<Col xs={4} md={2}>
 				      <ControlLabel>Size:</ControlLabel>
