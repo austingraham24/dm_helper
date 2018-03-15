@@ -23,12 +23,12 @@ const TableTemplate = (props) => {
 			return <td></td>
 		}
 		return dataElements.map((data) => {
-			return <td key={data}>{data}</td>
+			return <td>{data}</td>
 		});
 	}
 
 	return (
-		<Table key="test" className={"example "+props.status} bordered>
+		<Table bordered>
   		<thead>
 		    <tr>
 		      {headers()}
