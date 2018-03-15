@@ -1,0 +1,12 @@
+.formRow {
+	padding-bottom: 15px;
+}
+
+.form-help {
+	color: grey;
+	font-size: 11px;
+}
+
+.form-static-text {
+	padding-left: 5px;
+}

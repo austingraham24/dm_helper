@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
-import {Table} from 'react-bootstrap';
 import AnimateHeight from 'react-animate-height';
 import TableTemplate from './TableTemplate.js';
+import './style.css';
 
 //props should include CR and crData
 //"CR": String -> the selected CR
@@ -21,7 +21,7 @@ class ReferenceStatTable extends Component {
 	componentWillReceiveProps(nextProps) {
 		let nextCRData = nextProps.crData;
 		if (!nextCRData || !nextProps.CR) {
-			if(this.state.tableShowSize != "0"){
+			if(this.state.tableShowSize !== "0"){
 				this.setState({tableShowSize: "0"});
 			}
 		}
@@ -31,7 +31,6 @@ class ReferenceStatTable extends Component {
 			}
 			let dataArray = [nextProps.CR, nextCRData.xp, nextCRData.proficiency, nextCRData.ac, nextCRData.hp, nextCRData.attackBonus, nextCRData.dpr, nextCRData.saveDC]
 			this.setState({crData: dataArray});
-			console.log(this.state);
 		}
 	}
 
@@ -40,7 +39,7 @@ class ReferenceStatTable extends Component {
 			<AnimateHeight
 				duration={ 300 }
 				height={ this.state.tableShowSize }>
-				<TableTemplate headers={this.state.tableHeaders} rows={[this.state.crData]} />
+				<div><TableTemplate headers={this.state.tableHeaders} rows={[this.state.crData]} /></div>
 			</AnimateHeight>
 		);
 	}
