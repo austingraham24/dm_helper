@@ -37,7 +37,6 @@ const SelectField = (props) => {
 			>
 				{hasPlaceholder()}
 			  {generateOptions()}
-				}
 		</FormControl>
 	);
 }

@@ -6,6 +6,7 @@ import ReferenceStatTable from "./ReferenceStatTable/ReferenceStatTable.js";
 import {PageHeader, Panel, Clearfix, FormGroup, FormControl, ControlLabel, Row, Col} from "react-bootstrap";
 import TemplateSelect from "./TemplateSelect.js";
 import SelectField from "../SelectField.js"
+import HealthMod from "./HealthMod.js"
 import PropTypes from 'prop-types';
 
 class CreatureBuilder extends Component {
@@ -103,46 +104,110 @@ class CreatureBuilder extends Component {
 					      			<ControlLabel>XP Awarded:</ControlLabel>
 							    	<div>{this.state.experience || 0}</div>
 						    	</Col>
+						    	<Col xs={6} md={4} className="form-col">
+					      			<ControlLabel>Proficiency Bonus:</ControlLabel>
+							    	<div>+{this.state.profficiency || 0}</div>
+						    	</Col>
 			      			</FormGroup>
 			        	</Col>
 					</Panel.Body>
 				</Panel>
 		      	
 	        	<Row className="formRow">
-	        	<Col xs={12} md={6}>
-	        	<FormGroup controlId="offenseBlock">
-	        		<Panel>
-	        			<Panel.Heading>Attack Block</Panel.Heading>
-						<Panel.Body>
-							<ControlLabel>Creature Type:</ControlLabel>
-				        	<FormControl
-					            type="text"
-					            name = "type"
-					            value={this.state.type}
-					            placeholder="Creature Type (e.g. Wraith)"
-					            onChange={this.handleChange.bind(this)}
-					          />
-						</Panel.Body>
-					</Panel>
-	        	</FormGroup>
-	        	</Col>
-	        	<Col xs={12} md={6}>
-	        	<FormGroup controlId="offenseBlock">
+	        	<Col xs={12} md={5}>
+	        	<FormGroup controlId="deffenseBlock">
 	        		<Panel>
 	        			<Panel.Heading>Defense Block</Panel.Heading>
 						<Panel.Body>
-							<ControlLabel>Creature Type:</ControlLabel>
+							<Col xs={12} className="form-col">
+							<div>Deffensive CR: 0</div>
+							</Col>
+							<Col xs={12} md={6} className="form-col">
+											<ControlLabel>Health Points:</ControlLabel>
+											<FormControl
+												type="text"
+												name = "hp"
+												value={this.state.hp || 0}
+												placeholder="Health Points"
+												onChange={this.handleChange.bind(this)}
+											/>
+										</Col>
+							<Col xs={12} md={6} className="form-col">
+							<ControlLabel>Armor Class:</ControlLabel>
 				        	<FormControl
 					            type="text"
-					            name = "type"
-					            value={this.state.type}
-					            placeholder="Creature Type (e.g. Wraith)"
+					            name = "ac"
+					            value={this.state.ac || 0}
+					            placeholder="Armor Class"
 					            onChange={this.handleChange.bind(this)}
 					          />
+					          </Col>
 						</Panel.Body>
 					</Panel>
 	        	</FormGroup>
 	        	</Col>
+	        	<Col xs={12} md={7}>
+	        	<FormGroup controlId="offenseBlock">
+	        		<Panel>
+	        			<Panel.Heading>Offense Block</Panel.Heading>
+						<Panel.Body>
+							<Col xs={12} className="form-col">
+								<div>Offensive CR: 0</div>
+							</Col>
+							<Col xs={12} md={4} className="form-col">
+											<ControlLabel>Attack Bonus: <span className="form-help">(Number only)</span></ControlLabel>
+											<FormControl
+												type="text"
+												name = "attackBonus"
+												value={this.state.attackBonus || 0}
+												onChange={this.handleChange.bind(this)}
+											/>
+										</Col>
+							<Col xs={12} md={4} className="form-col">
+							<ControlLabel>Save DC:</ControlLabel>
+				        	<FormControl
+					            type="text"
+					            name = "saveDC"
+					            value={this.state.saveDC || 0}
+					            onChange={this.handleChange.bind(this)}
+					          />
+					    </Col>
+					    <Col xs={12} md={4} className="form-col">
+							<ControlLabel>Damage Per Round:</ControlLabel>
+				        	<FormControl
+					            type="text"
+					            name = "dpr"
+					            value={this.state.dpr || 0}
+					            onChange={this.handleChange.bind(this)}
+					          />
+					    </Col>
+						</Panel.Body>
+					</Panel>
+	        	</FormGroup>
+	        	</Col>
+	        	</Row>
+	        	<Row className="formRow">
+	        		<FormGroup controlId="healthModifiers">
+	        			<Col xs={12} sm={5} className="form-col">
+	        				<Panel>
+	        					<Panel.Heading>Immunities, Resistances, and Vulnerabilities</Panel.Heading>
+										<Panel.Body>
+											<Col xs={12} className="form-col">
+												<ControlLabel>Imunities:</ControlLabel>
+												<HealthMod />
+											</Col>
+											<Col xs={12} className="form-col">
+												<ControlLabel>Resistances:</ControlLabel>
+												<HealthMod />
+											</Col>
+											<Col xs={12} className="form-col">
+												<ControlLabel>Vulnerabilities:</ControlLabel>
+												<HealthMod />
+											</Col>
+										</Panel.Body>
+	        				</Panel>
+	        			</Col>
+	        		</FormGroup>
 	        	</Row>
 		  	</form>
 		  </div>
