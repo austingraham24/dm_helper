@@ -12,14 +12,20 @@ import PropTypes from 'prop-types';
 class CreatureBuilder extends Component {
 	constructor(props) {
 		super(props);
+		//so since "1" is technically less than "1/2" we need to do some manual formatting for the special cases
+		let keys = Object.keys(jsonData).sort();
+		let sortedKeys = [keys[0], ...keys.slice(2,5).reverse(), keys[1], ...keys.slice(5)];
+
 		let alignments = {"none":"Unaligned", "lg":"Lawful Good", "ng":"Neutral Good", "cg":"Chaotic Good", "ln":"Lawful Neutral", "n":"Neutral", "cn":"Chaotic Neutral", "le":"Lawful Evil", "ne":"Neutral Evil", "ce":"Chaotic Evil"}
 		let sizes = {"tiny":"Tiny", "small": "Small", "medium": "Medium", "large":"Large", "huge":"Huge", "gargantuan":"Gargantuan"}
 		this.state = {
+			crKeys: sortedKeys,
 			templateCR: null,
 			type:"",
 			name:"",
 			sizes:sizes,
-			alignments: alignments
+			alignments: alignments,
+			allowFieldOverrides: false
 		};
 	};
 
@@ -36,6 +42,32 @@ class CreatureBuilder extends Component {
 		let newDataObject={}
 		newDataObject[event.target.name] = event.target.value;
 		this.setState({...newDataObject});
+		console.log(this.calculateCR(event.target.name, event.target.value));
+	}
+
+	calculateCR(field, value, dataSourceKeys = this.state.crKeys) {
+		if (value == "") {
+			return null;
+		}
+		//failsafe to prevent infinite looping
+		if (dataSourceKeys.length == 1) {
+			return dataSourceKeys[0];
+		}
+		let halfMarker = Math.floor(dataSourceKeys.length / 2);
+		let cr = dataSourceKeys[halfMarker];
+		let dataValue = jsonData[cr][field];
+		let dataArray = dataValue.split("-").map((value) => {
+			return parseInt(value);
+		});
+		if (value < dataArray[0]) {
+			return this.calculateCR(field, value, dataSourceKeys.slice(0,halfMarker))
+		}
+		else if (dataArray.length > 1 && value <= dataArray[1]) {
+			return cr;
+		}
+		else {
+			return this.calculateCR(field, value, dataSourceKeys.slice(halfMarker, dataSourceKeys.length + 1))
+		}
 	}
 
 	render() {
@@ -47,11 +79,12 @@ class CreatureBuilder extends Component {
 			  	<FormGroup controlId="templateOptions">
 				  	<Col md={12}>
 			        	<ControlLabel>View Quick Stats for CR:</ControlLabel>
-			        	<TemplateSelect currentValue={this.state.templateCR} Options={Object.keys(jsonData).sort()} callback={this.setSelectedCrTemplate.bind(this)} />
+			        	<TemplateSelect currentValue={this.state.templateCR} Options={this.state.crKeys} callback={this.setSelectedCrTemplate.bind(this)} />
 				      	<ReferenceStatTable CR={this.state.templateCR} crData={this.getCRData()} />
 				     </Col>
 		      	</FormGroup>
 		      	</Row>
+		      	{/*Creature Overview Panel*/}
 		      	<Panel>
         			<Panel.Heading>Creature Overview</Panel.Heading>
 					<Panel.Body>
@@ -112,7 +145,7 @@ class CreatureBuilder extends Component {
 			        	</Col>
 					</Panel.Body>
 				</Panel>
-		      	
+		      	{/*Creature Defenses Panel*/}
 	        	<Row className="formRow">
 	        	<Col xs={12} md={5}>
 	        	<FormGroup controlId="deffenseBlock">
@@ -127,7 +160,7 @@ class CreatureBuilder extends Component {
 											<FormControl
 												type="text"
 												name = "hp"
-												value={this.state.hp || 0}
+												value={this.state.hp || ""}
 												placeholder="Health Points"
 												onChange={this.handleChange.bind(this)}
 											/>
@@ -147,6 +180,7 @@ class CreatureBuilder extends Component {
 	        	</FormGroup>
 	        	</Col>
 	        	<Col xs={12} md={7}>
+	        {/*Creature Offenses Panel*/}
 	        	<FormGroup controlId="offenseBlock">
 	        		<Panel>
 	        			<Panel.Heading>Offense Block</Panel.Heading>
