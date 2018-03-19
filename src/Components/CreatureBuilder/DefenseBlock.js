@@ -111,7 +111,7 @@ class DefenseBlock extends Component {
 	        			<Panel.Heading>Defense Block</Panel.Heading>
 						<Panel.Body>
 							<Col xs={12} className="form-col">
-							<ControlLabel>Defnsive CR: {this.state.defensiveCR || 0}</ControlLabel>
+							<ControlLabel>Defensive CR: {this.state.defensiveCR || 0}</ControlLabel>
 							</Col>
 							<Col xs={12} sm={6} className="form-col">
 								<ControlLabel>Health Points: {this.getHitDice()}</ControlLabel>
