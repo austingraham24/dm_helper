@@ -14,3 +14,7 @@
 .form-col {
 	padding-bottom: 15px;
 }
+
+.panel-body {
+	padding-bottom: 0px;
+}

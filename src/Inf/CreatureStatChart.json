@@ -1,11 +1,11 @@
 {
 	"0": {
 		"proficiency": 2,
-		"ac": 13,
+		"ac": "0-13",
 		"hp":"1-6",
 		"attackBonus": 3,
 		"dpr": "0-1",
-		"saveDC": 13,
+		"saveDC": "0-13",
 		"xp":10
 	},
 	"1/8": {

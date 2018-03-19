@@ -1,33 +1,39 @@
 import React, {Component} from 'react';
 import "./style.css";
-import jsonData from "../../Inf/CreatureStatChart.json";
+import CreatureStats from "../../Inf/CreatureStatChart.json";
+import creatureSizes from "../../Inf/CreatureSize.json";
 import CreatureClassificationArray from "../../Inf/CreatureClassification.json";
 import ReferenceStatTable from "./ReferenceStatTable/ReferenceStatTable.js";
 import {PageHeader, Panel, Clearfix, FormGroup, FormControl, ControlLabel, Row, Col} from "react-bootstrap";
 import TemplateSelect from "./TemplateSelect.js";
 import SelectField from "../SelectField.js"
 import HealthMod from "./HealthMod.js"
+import DefenseBlock from "./DefenseBlock.js";
 import PropTypes from 'prop-types';
 
 class CreatureBuilder extends Component {
 	constructor(props) {
 		super(props);
 		//so since "1" is technically less than "1/2" we need to do some manual formatting for the special cases
-		let keys = Object.keys(jsonData).sort();
+		let keys = Object.keys(CreatureStats).sort();
 		let sortedKeys = [keys[0], ...keys.slice(2,5).reverse(), keys[1], ...keys.slice(5)];
 
 		let alignments = {"none":"Unaligned", "lg":"Lawful Good", "ng":"Neutral Good", "cg":"Chaotic Good", "ln":"Lawful Neutral", "n":"Neutral", "cn":"Chaotic Neutral", "le":"Lawful Evil", "ne":"Neutral Evil", "ce":"Chaotic Evil"}
-		let sizes = {"tiny":"Tiny", "small": "Small", "medium": "Medium", "large":"Large", "huge":"Huge", "gargantuan":"Gargantuan"}
+		let damageTypes = ["Fire","Thunder","Radiant","Poison","Slashing","Piercing","Bludgeoning","Lightning", "Psychic", "Necrotic", "Cold", "Acid"]
 		this.state = {
 			crKeys: sortedKeys,
 			templateCR: null,
+			damageTypes: damageTypes,
 			type:"",
 			name:"",
-			sizes:sizes,
+			sizes:creatureSizes,
 			alignments: alignments,
 			allowFieldOverrides: false
 		};
 	};
+
+	componentDidUpdate(prevProps, prevState) {
+	}
 
 	setSelectedCrTemplate(event) {
 		let value = event.target.value || null
@@ -35,39 +41,86 @@ class CreatureBuilder extends Component {
 	}
 
 	getCRData() {
-		return this.state.templateCR ? jsonData[this.state.templateCR] : null
+		return this.state.templateCR ? CreatureStats[this.state.templateCR] : null
+	}
+
+	getHitDice() {
+		return this.state.size? creatureSizes[this.state.size] : null
 	}
 
 	handleChange(event) {
 		let newDataObject={}
 		newDataObject[event.target.name] = event.target.value;
+		if (!this.state.allowFieldOverrides) {
+			//this.setState({challengeRating: hpCR})
+		}
 		this.setState({...newDataObject});
-		console.log(this.calculateCR(event.target.name, event.target.value));
+		//console.log(this.calculateCR(event.target.name, event.target.value));
 	}
 
-	calculateCR(field, value, dataSourceKeys = this.state.crKeys) {
-		if (value == "") {
-			return null;
+	updateDefensiveData(newData) {
+		let object = {defenseBlock: newData}
+		this.setState({...object});
+	}
+
+	calculateCR(field, value, referenceCR = null) {
+		//console.log(field,value);
+		if (value === null || value === undefined || value === "") {
+			return 0;
 		}
-		//failsafe to prevent infinite looping
-		if (dataSourceKeys.length == 1) {
-			return dataSourceKeys[0];
+
+		let cr;
+
+		if (referenceCR !== null && referenceCR !== undefined) {
+			let dataValue = CreatureStats[referenceCR][field]
+			if (isNaN(dataValue)) {
+				let dataArray = dataValue.split("-").map((value) => {
+					return parseInt(value);
+				});
+				if ((value >= dataArray[0]) && (value <= dataArray[1])) {
+					return referenceCR;
+				}
+			}
+			else {
+				if (value == dataValue) {
+					return referenceCR;
+				}
+			}
 		}
-		let halfMarker = Math.floor(dataSourceKeys.length / 2);
-		let cr = dataSourceKeys[halfMarker];
-		let dataValue = jsonData[cr][field];
-		let dataArray = dataValue.split("-").map((value) => {
-			return parseInt(value);
-		});
-		if (value < dataArray[0]) {
-			return this.calculateCR(field, value, dataSourceKeys.slice(0,halfMarker))
+		var index;
+		for (index in this.state.crKeys) {
+			let rating = this.state.crKeys[index];
+			let dataValue = CreatureStats[rating][field];
+			if (isNaN(dataValue)) {
+				let dataArray = dataValue.split("-").map((value) => {
+					return parseInt(value);
+				});
+				if (index == 0) {
+					if (value < dataArray[0]) {
+						cr = 0;
+						break;
+					}
+				}
+				if ((value >= dataArray[0]) && (value <= dataArray[1])) {
+					cr = rating;
+					break;
+				}
+			}
+
+			else {
+				if (index == 0) {
+					if (value < dataValue) {
+						cr = 0;
+						break;
+					}
+				}
+				if (value === dataValue) {
+					cr = rating;
+					break;
+				}
+			}
 		}
-		else if (dataArray.length > 1 && value <= dataArray[1]) {
-			return cr;
-		}
-		else {
-			return this.calculateCR(field, value, dataSourceKeys.slice(halfMarker, dataSourceKeys.length + 1))
-		}
+		return (cr !== undefined? cr : this.state.crKeys.slice(-1)[0]);
 	}
 
 	render() {
@@ -89,28 +142,28 @@ class CreatureBuilder extends Component {
         			<Panel.Heading>Creature Overview</Panel.Heading>
 					<Panel.Body>
 						<Col sm={12} md={5} className="form-col">
-				      	<FormGroup controlId="creatureIdentifiers">
-					      	<Col xs={12} className="form-col">
-						      <ControlLabel>Creature Type:</ControlLabel>
-					        	<FormControl
-						            type="text"
-						            name = "type"
-						            value={this.state.type}
-						            placeholder="Creature Type (e.g. Wraith)"
-						            onChange={this.handleChange.bind(this)}
-						          />
-							</Col>
-							<Col xs={12} className="form-col">
-						      <ControlLabel>Creature Name: <span className="form-help">(Optional)</span></ControlLabel>
-					        	<FormControl
-						            type="text"
-						            name = "name"
-						            value={this.state.name}
-						            placeholder="Creature's Name"
-						            onChange={this.handleChange.bind(this)}
-						          />
-							</Col>
-			        	</FormGroup>
+					      	<FormGroup controlId="creatureIdentifiers">
+						      	<Col xs={12} className="form-col">
+							      <ControlLabel>Creature Type:</ControlLabel>
+						        	<FormControl
+							            type="text"
+							            name = "type"
+							            value={this.state.type}
+							            placeholder="Creature Type (e.g. Wraith)"
+							            onChange={this.handleChange.bind(this)}
+							          />
+								</Col>
+								<Col xs={12} className="form-col">
+							      <ControlLabel>Creature Name: <span className="form-help">(Optional)</span></ControlLabel>
+						        	<FormControl
+							            type="text"
+							            name = "name"
+							            value={this.state.name}
+							            placeholder="Creature's Name"
+							            onChange={this.handleChange.bind(this)}
+							          />
+								</Col>
+				        	</FormGroup>
 			        	</Col>
 			        	<Col sm={12} md={7} className="form-col">
 			        	<FormGroup controlId="creatureIdentifiers">
@@ -124,7 +177,7 @@ class CreatureBuilder extends Component {
 							</Col>
 							<Col xs={6} md={4} className="form-col">
 						      <ControlLabel>Size:</ControlLabel>
-						      <SelectField name="size" objectData={this.state.sizes} placeholder="Select Size" onChange={this.handleChange.bind(this)} stateValue={this.state.size}/>
+						      <SelectField name="size" arrayData={Object.keys(creatureSizes)} placeholder="Select Size" onChange={this.handleChange.bind(this)} stateValue={this.state.size}/>
 							</Col>
 			        	</FormGroup>
 				        	<FormGroup controlId="creatureCore">
@@ -147,53 +200,22 @@ class CreatureBuilder extends Component {
 				</Panel>
 		      	{/*Creature Defenses Panel*/}
 	        	<Row className="formRow">
-	        	<Col xs={12} md={5}>
-	        	<FormGroup controlId="deffenseBlock">
-	        		<Panel>
-	        			<Panel.Heading>Defense Block</Panel.Heading>
-						<Panel.Body>
-							<Col xs={12} className="form-col">
-							<div>Deffensive CR: 0</div>
-							</Col>
-							<Col xs={12} md={6} className="form-col">
-											<ControlLabel>Health Points:</ControlLabel>
-											<FormControl
-												type="text"
-												name = "hp"
-												value={this.state.hp || ""}
-												placeholder="Health Points"
-												onChange={this.handleChange.bind(this)}
-											/>
-										</Col>
-							<Col xs={12} md={6} className="form-col">
-							<ControlLabel>Armor Class:</ControlLabel>
-				        	<FormControl
-					            type="text"
-					            name = "ac"
-					            value={this.state.ac || 0}
-					            placeholder="Armor Class"
-					            onChange={this.handleChange.bind(this)}
-					          />
-					          </Col>
-						</Panel.Body>
-					</Panel>
-	        	</FormGroup>
-	        	</Col>
+	        	<DefenseBlock damageTypes={this.state.damageTypes} crKeys={this.state.crKeys} handleChange={this.updateDefensiveData.bind(this)} CRMethod={this.calculateCR.bind(this)} hitDice={this.getHitDice()} />
 	        	<Col xs={12} md={7}>
-	        {/*Creature Offenses Panel*/}
+	        	{/*Creature Offenses Panel*/}
 	        	<FormGroup controlId="offenseBlock">
 	        		<Panel>
 	        			<Panel.Heading>Offense Block</Panel.Heading>
 						<Panel.Body>
 							<Col xs={12} className="form-col">
-								<div>Offensive CR: 0</div>
+								<ControlLabel>Offensive CR: {this.state.offensiveCR || 0}</ControlLabel>
 							</Col>
 							<Col xs={12} md={4} className="form-col">
 											<ControlLabel>Attack Bonus: <span className="form-help">(Number only)</span></ControlLabel>
 											<FormControl
 												type="text"
 												name = "attackBonus"
-												value={this.state.attackBonus || 0}
+												value={this.state.attackBonus || ""}
 												onChange={this.handleChange.bind(this)}
 											/>
 										</Col>
@@ -202,7 +224,7 @@ class CreatureBuilder extends Component {
 				        	<FormControl
 					            type="text"
 					            name = "saveDC"
-					            value={this.state.saveDC || 0}
+					            value={this.state.saveDC || ""}
 					            onChange={this.handleChange.bind(this)}
 					          />
 					    </Col>
@@ -211,7 +233,7 @@ class CreatureBuilder extends Component {
 				        	<FormControl
 					            type="text"
 					            name = "dpr"
-					            value={this.state.dpr || 0}
+					            value={this.state.dpr || ""}
 					            onChange={this.handleChange.bind(this)}
 					          />
 					    </Col>
@@ -225,20 +247,20 @@ class CreatureBuilder extends Component {
 	        			<Col xs={12} sm={5} className="form-col">
 	        				<Panel>
 	        					<Panel.Heading>Immunities, Resistances, and Vulnerabilities</Panel.Heading>
-										<Panel.Body>
-											<Col xs={12} className="form-col">
-												<ControlLabel>Imunities:</ControlLabel>
-												<HealthMod />
-											</Col>
-											<Col xs={12} className="form-col">
-												<ControlLabel>Resistances:</ControlLabel>
-												<HealthMod />
-											</Col>
-											<Col xs={12} className="form-col">
-												<ControlLabel>Vulnerabilities:</ControlLabel>
-												<HealthMod />
-											</Col>
-										</Panel.Body>
+								<Panel.Body>
+									<Col xs={12} className="form-col">
+										<ControlLabel>Imunities:</ControlLabel>
+										<HealthMod />
+									</Col>
+									<Col xs={12} className="form-col">
+										<ControlLabel>Resistances:</ControlLabel>
+										<HealthMod />
+									</Col>
+									<Col xs={12} className="form-col">
+										<ControlLabel>Vulnerabilities:</ControlLabel>
+										<HealthMod />
+									</Col>
+								</Panel.Body>
 	        				</Panel>
 	        			</Col>
 	        		</FormGroup>
