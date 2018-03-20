@@ -146,8 +146,11 @@ class DefenseBlock extends Component {
 					    		<Panel.Heading>Damage Modifiers</Panel.Heading>
 								<Panel.Body>
 									<ControlLabel>Immunities:</ControlLabel>
+									<HealthMod />
 									<ControlLabel>Resistances:</ControlLabel>
+									<HealthMod />
 									<ControlLabel>Vulnerabilities:</ControlLabel>
+									<HealthMod />
 								</Panel.Body>
 							</Panel>
 					    </Col>
