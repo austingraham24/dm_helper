@@ -1,0 +1,104 @@
+.hidden {
+	display: none;
+}
+
+.typeList {
+	margin-bottom: 10px;
+}
+
+.labelRow .label {
+	margin-bottom: 0px;
+}
+
+.type-segment{
+	margin-left: 0px;
+	margin-right: 5px;
+	margin-bottom: 5px;
+}
+
+button.btn.damageType-token, button.btn.damageType-token:hover, button.btn.damageType-token:focus, button.btn.damageType-token:active, button.btn.damageType-token:active:hover, button.btn.damageType-token.active, .open {
+	color: white;
+	background-position: 0 0;
+	cursor: default;
+	font-weight: 700;
+	text-shadow: none;
+	border-color: #616161;
+}
+
+/*Styles for different types*/
+
+button.btn.fire {
+	background-image: linear-gradient(to bottom,#F08030 0,#9C531F 100%);/*fire reg:F08030 / dark:9C531F / light:F5AC78*/
+	background-color: #F08030;
+}
+
+button.btn.editing.fire:hover {
+	background-image: linear-gradient(to bottom,#F5AC78 0,#F08030 100%);
+}
+
+button.btn.editing.fire:focus, button.btn.editing.fire:active, button.btn.editing.fire:active:hover, button.btn.editing.fire.active, .open {
+	background-color: #9C531F;
+	background-image: none;
+}
+
+button.btn.thunder, .thunder:hover{
+	color: black;
+	/*background-image: linear-gradient(to bottom,#A890F0 0,#6D5E9C 100%); /*flying*/
+	background-image: linear-gradient(to bottom,#B8B8D0 0,#787887 100%); /*steel reg:B8B8D0 / dark:787887 / light:D1D1E0 */
+}
+
+button.btn.radiant, .radiant:hover{
+	color: white;
+	background-image: linear-gradient(to bottom,#A890F0 0,#6D5E9C 100%); /*flying reg:A890F0 / dark:6D5E9C / light:C6B7F5 */
+}
+
+button.btn.poison, .poison:hover{
+	color: white;
+	background-image: linear-gradient(to bottom,#A040A0 0,#682A68 100%);/*poison reg:A040A0 / dark:682A68 / light:C183C1 */
+}
+
+button.btn.slashing, .slashing:hover{
+	color: white;
+	background-image: linear-gradient(to bottom,#6890F0 0,#445E9C 100%); /*water reg:6890F0 / dark:445E9C / light:9DB7F5 */
+}
+
+button.btn.piercing, .piercing:hover{
+	color: white;
+	/*background-image: linear-gradient(to bottom,#E0C068 0,#927D44 100%); /*ground*/
+	background-image: linear-gradient(to bottom,#705848 0,#49392F 100%); /*dark reg:705848 / dark:49392F / light:A29288 */
+}
+
+button.btn.bludgeoning, .bludgeoning:hover{
+	color: white;
+	background-image: linear-gradient(to bottom,#C03028 0,#7D1F1A 100%); /*fighting reg:C03028 / dark:7D1F1A / light:D67873 */
+}
+
+button.btn.lightning, .lightning:hover{
+	color: black;
+	background-image: linear-gradient(to bottom,#F8D030 0,#A1871F 100%); /*electric reg:F8D030 / dark:A1871F / light:FAE078 */
+}
+
+button.btn.psychic, .psychic:hover{
+	color: white;
+	background-image: linear-gradient(to bottom,#F85888 0,#A13959 100%);/*psychic reg:F85888 / dark:A13959 / light:FA92B2 */
+}
+
+button.btn.necrotic, .necrotic:hover{
+	color: white;
+	background-image: linear-gradient(to bottom,#705898 0,#493963 100%); /*ghost reg:705898 / dark:493963 / light:A292BC */
+}
+
+button.btn.cold, .cold:hover{
+	color: black;
+	background-image: linear-gradient(to bottom,#BCE6E6 0,#638D8D 100%);/*ice reg:98D8D8 / dark:638D8D / light:BCE6E6 */
+}
+
+button.btn.acid, .acid:hover{
+	color: white;
+	background-image: linear-gradient(to bottom,#A8B820 0,#6D7815 100%);/*bug reg:A8B820 / dark:6D7815 / light:C6D16E */
+}
+
+button.btn.force, .force:hover{
+	color: white;
+	background-image: linear-gradient(to bottom,#A8A878 0,#6D6D4E 100%);/*normal reg:A8A878 / dark:6D6D4E / light:C6C6A7 */
+}

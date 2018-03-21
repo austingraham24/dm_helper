@@ -7,7 +7,6 @@ import ReferenceStatTable from "./ReferenceStatTable/ReferenceStatTable.js";
 import {PageHeader, Panel, Clearfix, FormGroup, FormControl, ControlLabel, Row, Col} from "react-bootstrap";
 import TemplateSelect from "./TemplateSelect.js";
 import SelectField from "../SelectField.js"
-import HealthMod from "./HealthMod.js"
 import DefenseBlock from "./DefenseBlock.js";
 import PropTypes from 'prop-types';
 
@@ -241,29 +240,6 @@ class CreatureBuilder extends Component {
 					</Panel>
 	        	</FormGroup>
 	        	</Col>
-	        	</Row>
-	        	<Row className="formRow">
-	        		<FormGroup controlId="healthModifiers">
-	        			<Col xs={12} sm={5} className="form-col">
-	        				<Panel>
-	        					<Panel.Heading>Immunities, Resistances, and Vulnerabilities</Panel.Heading>
-								<Panel.Body>
-									<Col xs={12} className="form-col">
-										<ControlLabel>Imunities:</ControlLabel>
-										<HealthMod />
-									</Col>
-									<Col xs={12} className="form-col">
-										<ControlLabel>Resistances:</ControlLabel>
-										<HealthMod />
-									</Col>
-									<Col xs={12} className="form-col">
-										<ControlLabel>Vulnerabilities:</ControlLabel>
-										<HealthMod />
-									</Col>
-								</Panel.Body>
-	        				</Panel>
-	        			</Col>
-	        		</FormGroup>
 	        	</Row>
 		  	</form>
 		  </div>

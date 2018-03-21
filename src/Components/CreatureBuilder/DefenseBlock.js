@@ -3,7 +3,7 @@ import "./style.css";
 import DiceAverages from "../../Inf/DiceAverages.json";
 import {Panel, FormGroup, FormControl, ControlLabel, Row, Col} from "react-bootstrap";
 import SelectField from "../SelectField.js"
-import HealthMod from "./HealthMod.js"
+import HealthMod from "./HealthMod/HealthMod.js"
 import PropTypes from 'prop-types';
 import _ from "lodash";
 
@@ -145,12 +145,9 @@ class DefenseBlock extends Component {
 					    	<Panel>
 					    		<Panel.Heading>Damage Modifiers</Panel.Heading>
 								<Panel.Body>
-									<ControlLabel>Immunities:</ControlLabel>
-									<HealthMod />
-									<ControlLabel>Resistances:</ControlLabel>
-									<HealthMod />
-									<ControlLabel>Vulnerabilities:</ControlLabel>
-									<HealthMod />
+									<HealthMod name="Immunities" />
+									<HealthMod name="Resistances" />
+									<HealthMod name="Vulnerabilities" />
 								</Panel.Body>
 							</Panel>
 					    </Col>
