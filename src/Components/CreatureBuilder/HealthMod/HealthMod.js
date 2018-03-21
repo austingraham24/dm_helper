@@ -6,7 +6,7 @@ class HealthMod extends Component {
 	constructor(props) {
 		super(props);
 		let damageTypes = ["Fire","Thunder","Radiant","Poison","Slashing","Piercing","Bludgeoning","Lightning", "Psychic", "Necrotic", "Force", "Cold", "Acid"]
-		let selectedValues = ["Fire", "Thunder"]
+		let selectedValues = []
 		//let sizes = {"tiny":"Tiny", "small": "Small", "medium": "Medium", "large":"Large", "huge":"Huge", "gargantuan":"Gargantuan"}
 		let isEditing = false;
 		this.state = {damageTypes, selectedValues, isEditing};
