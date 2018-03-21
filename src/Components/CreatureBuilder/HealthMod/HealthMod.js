@@ -1,13 +1,12 @@
 import React, {Component} from 'react';
 import "./style.css";
-import {PageHeader, Button, InputGroup, Panel, Clearfix, FormGroup, FormControl, ControlLabel, Row, Col, Glyphicon} from "react-bootstrap";
+import {Button, ControlLabel, Row, Col, Glyphicon} from "react-bootstrap";
 
 class HealthMod extends Component {
 	constructor(props) {
 		super(props);
 		let damageTypes = ["Fire","Thunder","Radiant","Poison","Slashing","Piercing","Bludgeoning","Lightning", "Psychic", "Necrotic", "Force", "Cold", "Acid"]
-		let selectedValues = []
-		//let sizes = {"tiny":"Tiny", "small": "Small", "medium": "Medium", "large":"Large", "huge":"Huge", "gargantuan":"Gargantuan"}
+		let selectedValues = this.props.prefill || []
 		let isEditing = false;
 		this.state = {damageTypes, selectedValues, isEditing};
 	};
@@ -29,6 +28,9 @@ class HealthMod extends Component {
 
 	toggleEditing(){
 		let editing = !(this.state.isEditing)
+		if (!editing) {
+			this.props.updateMods(this.props.name.toLowerCase(), this.state.selectedValues);
+		}
 		this.setState({...this.state, isEditing:editing});
 	}
 
@@ -58,7 +60,7 @@ class HealthMod extends Component {
 			<div>
 				{shownTypes}
 				{this.generateEditButton()}
-				</div>
+			</div>
 		);
 	}
 

@@ -1,8 +1,6 @@
 import React, {Component} from 'react';
 import "./style.css";
-import DiceAverages from "../../Inf/DiceAverages.json";
-import {Panel, FormGroup, FormControl, ControlLabel, Row, Col} from "react-bootstrap";
-import SelectField from "../SelectField.js"
+import {Panel, FormGroup, FormControl, ControlLabel, Col} from "react-bootstrap";
 import HealthMod from "./HealthMod/HealthMod.js"
 import PropTypes from 'prop-types';
 import _ from "lodash";
@@ -15,7 +13,7 @@ class DefenseBlock extends Component {
 			effectiveHP: 0,
 			ac: 0,
 			effectiveAC: 0,
-			sizeData: null,
+			defensiveCR: 0,
 			immunities: [],
 			resistances: [],
 			vulnerabilities: []
@@ -38,6 +36,14 @@ class DefenseBlock extends Component {
 			dataObject["hp"] = 0;
 		}
 		let effectiveHP = dataObject.hp
+		if (dataObject.immunities.length > 0) {
+			let multiplier = 1.5
+			effectiveHP = Math.ceil(effectiveHP * multiplier);
+		}
+		if (dataObject.resistances.length > 0) {
+			let multiplier = 1.5
+			effectiveHP = Math.ceil(effectiveHP * multiplier);
+		}
 		let updatedDataObject = {...dataObject}
 		updatedDataObject["effectiveHP"] = effectiveHP;
 		return updatedDataObject
@@ -77,6 +83,12 @@ class DefenseBlock extends Component {
 			}
 		}
 		return finalCR || 0;
+	}
+
+	updateDamageMod(name, values) {
+		let dataObject = {...this.state, name:values};
+		dataObject = this.calculateEffectiveHP(dataObject);
+		this.setState({...dataObject})
 	}
 
 	handleChange(event) {
@@ -145,9 +157,9 @@ class DefenseBlock extends Component {
 					    	<Panel>
 					    		<Panel.Heading>Damage Modifiers</Panel.Heading>
 								<Panel.Body>
-									<HealthMod name="Immunities" />
-									<HealthMod name="Resistances" />
-									<HealthMod name="Vulnerabilities" />
+									<HealthMod name="Immunities" prefill={this.state.immunities} updateMods={this.updateDamageMod.bind(this)} />
+									<HealthMod name="Resistances" prefill={this.state.resistances} updateMods={this.updateDamageMod.bind(this)} />
+									<HealthMod name="Vulnerabilities" prefill={this.state.vulnerabilities} updateMods={this.updateDamageMod.bind(this)} />
 								</Panel.Body>
 							</Panel>
 					    </Col>

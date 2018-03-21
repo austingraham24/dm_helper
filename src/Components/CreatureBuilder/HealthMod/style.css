@@ -20,7 +20,7 @@ button.btn.damageType-token, button.btn.damageType-token:hover, button.btn.damag
 	color: white;
 	background-position: 0 0;
 	cursor: default;
-	font-weight: 700;
+	/*font-weight: 700;*/
 	text-shadow: none;
 	border-color: #616161;
 }
@@ -44,12 +44,12 @@ button.btn.editing.fire:active, button.btn.editing.fire:active:hover, button.btn
 
 /*Thunder*/
 button.btn.thunder, button.btn.editing.thunder, button.btn.thunder:focus, button.btn.thunder:hover{
-	color: black;
+	color: white;
 	background-image: linear-gradient(to bottom,#B8B8D0 0,#787887 100%); /*steel reg:B8B8D0 / dark:787887 / light:D1D1E0 */
 }
 
 button.btn.editing.thunder:hover {
-	color: black;
+	color: white;
 	background-image: linear-gradient(to bottom,#D1D1E0 0,#B8B8D0 100%);
 }
 
@@ -133,17 +133,17 @@ button.btn.editing.bludgeoning:active, button.btn.editing.bludgeoning:active:hov
 
 /*Lightning*/
 button.btn.lightning, button.btn.lightning:hover, button.btn.lightning:focus {
-	color: black;
+	color: white;
 	background-image: linear-gradient(to bottom,#F8D030 0,#A1871F 100%); /*electric reg:F8D030 / dark:A1871F / light:FAE078 */
 }
 
 button.btn.editing.lightning:hover {
-	color: black;
+	color: white;
 	background-image: linear-gradient(to bottom,#FAE078 0,#F8D030 100%);
 }
 
 button.btn.editing.lightning:active, button.btn.editing.lightning:active:hover, button.btn.editing.lightning.active, .open {
-	color:black;
+	color:white;
 	background-color: #A1871F;
 	background-image: none;
 }
@@ -179,17 +179,17 @@ button.btn.editing.necrotic:active, button.btn.editing.necrotic:active:hover, bu
 
 /*Cold*/
 button.btn.cold, button.btn.cold:hover, button.btn.cold:focus{
-	color: black;
+	color: white;
 	background-image: linear-gradient(to bottom,#BCE6E6 0,#638D8D 100%);/*ice reg:98D8D8 / dark:638D8D / light:BCE6E6 */
 }
 
 button.btn.editing.cold:hover {
-	color: black;
+	color: white;
 	background-image: linear-gradient(to bottom,#BCE6E6 0,#98D8D8 100%);
 }
 
 button.btn.editing.cold:active, button.btn.editing.cold:active:hover, button.btn.editing.cold.active, .open {
-	color: black;
+	color: white;
 	background-color: #638D8D;
 	background-image: none;
 }
