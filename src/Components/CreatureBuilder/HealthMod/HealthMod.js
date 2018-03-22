@@ -72,11 +72,20 @@ class HealthMod extends Component {
 
 	layoutDamageTypes() {
 		return this.state.damageTypes.map((damageType) => {
-			let isSelected="";
-			if (this.state.selectedValues.includes(damageType)) {
-				isSelected = " active";
+			if (!this.props.exceptionMods.includes(damageType)){
+				let isSelected="";
+				if (this.state.selectedValues.includes(damageType)) {
+					isSelected = " active";
+				}
+				return <Button onClick={this.toggleTypeActive.bind(this)} key={damageType} name={damageType} bsSize="xs" className={damageType.toLowerCase() + " damageType-token editing type-segment" + isSelected}>{damageType}</Button>
 			}
-			return <Button onClick={this.toggleTypeActive.bind(this)} key={damageType} name={damageType} bsSize="xs" className={damageType.toLowerCase() + " damageType-token editing type-segment" + isSelected}>{damageType}</Button>
+			else {
+				//make sure another field hasn't already included this specific type. If so, remove it from this fields selected state
+				if (this.state.selectedValues.includes(damageType)) {
+					this.toggleTypeActive({target:{name: damageType}});
+					//the function takes an event so for now, mock the path
+				}
+			}
 		});
 	}
 

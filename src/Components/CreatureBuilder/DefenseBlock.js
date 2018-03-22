@@ -8,6 +8,8 @@ import _ from "lodash";
 class DefenseBlock extends Component {
 	constructor(props) {
 		super(props);
+
+		this.modifierMultipliers = [{lowerBoundCR: 17, resistance: 1, immunity: 1.25}, {lowerBoundCR: 11, resistance: 1.25, immunity: 1.5}, {lowerBoundCR: 5, resistance: 1.5, immunity: 2}, {lowerBoundCR: 0, resistance: 2, immunity: 2}];
 		this.state = {
 			hp: 0,
 			effectiveHP: 0,
@@ -30,18 +32,43 @@ class DefenseBlock extends Component {
 		}
 	}
 
+	getExceptionMods(exceptionKey) {
+		let mods = [];
+		let keys = ["immunities", "resistances", "vulnerabilities"];
+		for (var index in keys) {
+			console.log("Key:",keys[index], this.state[keys[index]]);
+			if (keys[index] != exceptionKey) {
+				mods = mods.concat(this.state[keys[index]]);
+			}
+		}
+		console.log("Exceptions",mods);
+		return mods;
+	}
+
 	calculateEffectiveHP(dataObject) {
 		//the input could be empty string ("") so reset it back to base 0
 		if (dataObject.hp === "") {
 			dataObject["hp"] = 0;
 		}
+		let baseHPCR = this.props.CRMethod("ac", dataObject.hp);
 		let effectiveHP = dataObject.hp
-		if (dataObject.immunities.length > 0) {
-			let multiplier = 1.5
-			effectiveHP = Math.ceil(effectiveHP * multiplier);
-		}
-		if (dataObject.resistances.length > 0) {
-			let multiplier = 1.5
+		let immunitiesCount = dataObject.immunities.length;
+		let resistancesCount = dataObject.resistances.length;
+		if (immunitiesCount + resistancesCount > 2) {
+			let multiplier = 1
+			let key;
+			if (resistancesCount > immunitiesCount) {
+				key="resistance";
+			}
+			else {
+				key="immunity";
+			}
+			for (var index in this.modifierMultipliers) {
+				if (baseHPCR >= this.modifierMultipliers[index].lowerBoundCR) {
+					multiplier = this.modifierMultipliers[index][key];
+					break;
+				}
+			}
 			effectiveHP = Math.ceil(effectiveHP * multiplier);
 		}
 		let updatedDataObject = {...dataObject}
@@ -74,10 +101,10 @@ class DefenseBlock extends Component {
 			let difference = Math.abs(hpIndex - acIndex);
 			//console.log(difference);
 			if (difference == 1) {
-				finalCR = eval(hpCR) > eval(acCR)? hpCR: acCR;
+				finalCR=hpCR; //finalCR = eval(hpCR) > eval(acCR)? hpCR: acCR;
 			}
 			else {
-				let averagedCRIndex = Math.ceil((hpIndex + acIndex)/2);
+				let averagedCRIndex = Math.floor((hpIndex + acIndex)/2);
 				let averagedCR = this.props.crKeys[averagedCRIndex];
 				finalCR = averagedCR;
 			}
@@ -100,7 +127,6 @@ class DefenseBlock extends Component {
 		newDataObject = this.calculateEffectiveAC(newDataObject);
 		let calculatedCR = this.calculateDefensiveCR(newDataObject);
 		newDataObject["defensiveCR"] = calculatedCR;
-		console.log(newDataObject);
 		this.setState({...newDataObject});
 		return
 	}
@@ -157,9 +183,9 @@ class DefenseBlock extends Component {
 					    	<Panel>
 					    		<Panel.Heading>Damage Modifiers</Panel.Heading>
 								<Panel.Body>
-									<HealthMod name="Immunities" prefill={this.state.immunities} updateMods={this.updateDamageMod.bind(this)} />
-									<HealthMod name="Resistances" prefill={this.state.resistances} updateMods={this.updateDamageMod.bind(this)} />
-									<HealthMod name="Vulnerabilities" prefill={this.state.vulnerabilities} updateMods={this.updateDamageMod.bind(this)} />
+									<HealthMod name="Immunities" prefill={this.state.immunities} updateMods={this.updateDamageMod.bind(this)} exceptionMods={this.getExceptionMods("immunities")}/>
+									<HealthMod name="Resistances" prefill={this.state.resistances} updateMods={this.updateDamageMod.bind(this)} exceptionMods={this.getExceptionMods("resistances")} />
+									<HealthMod name="Vulnerabilities" prefill={this.state.vulnerabilities} updateMods={this.updateDamageMod.bind(this)} exceptionMods={this.getExceptionMods("vulnerabilities")} />
 								</Panel.Body>
 							</Panel>
 					    </Col>
