@@ -3,6 +3,7 @@ import "./style.css";
 import {Panel, FormGroup, FormControl, ControlLabel, Col} from "react-bootstrap";
 import HealthMod from "./HealthMod/HealthMod.js"
 import PropTypes from 'prop-types';
+import CalculationFunctions from "./CalculationFunctions";
 import _ from "lodash";
 
 class DefenseBlock extends Component {
@@ -48,7 +49,7 @@ class DefenseBlock extends Component {
 		if (dataObject.hp === "") {
 			dataObject["hp"] = 0;
 		}
-		let baseHPCR = this.props.CRMethod("ac", dataObject.hp);
+		let baseHPCR = CalculationFunctions.calculateCR("ac", dataObject.hp);
 		let effectiveHP = dataObject.hp
 		let immunitiesCount = dataObject.immunities.length;
 		let resistancesCount = dataObject.resistances.length;
@@ -87,15 +88,15 @@ class DefenseBlock extends Component {
 
 	calculateDefensiveCR(dataObject) {
 		let finalCR;
-		let hpCR = this.props.CRMethod("hp", dataObject.effectiveHP || 0);
-		let acCR = this.props.CRMethod("ac", dataObject.effectiveAC || 0, hpCR);
+		let hpCR = CalculationFunctions.calculateCR("hp", dataObject.effectiveHP || 0);
+		let acCR = CalculationFunctions.calculateCR("ac", dataObject.effectiveAC || 0, hpCR);
 		//console.log("HPCR:", hpCR, "ACCR:", acCR);
 		if (hpCR === acCR) {
 			finalCR = hpCR;
 		}
 		else {
-			let hpIndex = this.props.crKeys.indexOf(hpCR.toString());
-			let acIndex = this.props.crKeys.indexOf(acCR.toString());
+			let hpIndex = CalculationFunctions.crKeys.indexOf(hpCR.toString());
+			let acIndex = CalculationFunctions.crKeys.indexOf(acCR.toString());
 			let difference = Math.abs(hpIndex - acIndex);
 			//console.log(difference);
 			if (difference == 1) {
@@ -103,7 +104,7 @@ class DefenseBlock extends Component {
 			}
 			else {
 				let averagedCRIndex = Math.floor((hpIndex + acIndex)/2);
-				let averagedCR = this.props.crKeys[averagedCRIndex];
+				let averagedCR = CalculationFunctions.crKeys[averagedCRIndex];
 				finalCR = averagedCR;
 			}
 		}

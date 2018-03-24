@@ -8,6 +8,7 @@ import {PageHeader, Panel, Clearfix, FormGroup, FormControl, ControlLabel, Row, 
 import TemplateSelect from "./TemplateSelect.js";
 import SelectField from "../SelectField.js"
 import DefenseBlock from "./DefenseBlock.js";
+import OffenseBlock from "./OffenseBlock.js";
 import PropTypes from 'prop-types';
 
 class CreatureBuilder extends Component {
@@ -16,23 +17,16 @@ class CreatureBuilder extends Component {
 		//so since "1" is technically less than "1/2" we need to do some manual formatting for the special cases
 		let keys = Object.keys(CreatureStats).sort();
 		let sortedKeys = [keys[0], ...keys.slice(2,5).reverse(), keys[1], ...keys.slice(5)];
-
-		let alignments = {"none":"Unaligned", "lg":"Lawful Good", "ng":"Neutral Good", "cg":"Chaotic Good", "ln":"Lawful Neutral", "n":"Neutral", "cn":"Chaotic Neutral", "le":"Lawful Evil", "ne":"Neutral Evil", "ce":"Chaotic Evil"}
-		let damageTypes = ["Fire","Thunder","Radiant","Poison","Slashing","Piercing","Bludgeoning","Lightning", "Psychic", "Necrotic", "Cold", "Acid"]
+		this.alignments = {"none":"Unaligned", "lg":"Lawful Good", "ng":"Neutral Good", "cg":"Chaotic Good", "ln":"Lawful Neutral", "n":"Neutral", "cn":"Chaotic Neutral", "le":"Lawful Evil", "ne":"Neutral Evil", "ce":"Chaotic Evil"}
+		this.damageTypes = ["Fire","Thunder","Radiant","Poison","Slashing","Piercing","Bludgeoning","Lightning", "Psychic", "Necrotic", "Cold", "Acid"]
 		this.state = {
 			crKeys: sortedKeys,
 			templateCR: null,
-			damageTypes: damageTypes,
 			type:"",
 			name:"",
-			sizes:creatureSizes,
-			alignments: alignments,
 			allowFieldOverrides: false
 		};
 	};
-
-	componentDidUpdate(prevProps, prevState) {
-	}
 
 	setSelectedCrTemplate(event) {
 		let value = event.target.value || null
@@ -60,66 +54,6 @@ class CreatureBuilder extends Component {
 	updateDefensiveData(newData) {
 		let object = {defenseBlock: newData}
 		this.setState({...object});
-	}
-
-	calculateCR(field, value, referenceCR = null) {
-		//console.log(field,value);
-		if (value === null || value === undefined || value === "") {
-			return 0;
-		}
-
-		let cr;
-
-		if (referenceCR !== null && referenceCR !== undefined) {
-			let dataValue = CreatureStats[referenceCR][field]
-			if (isNaN(dataValue)) {
-				let dataArray = dataValue.split("-").map((value) => {
-					return parseInt(value);
-				});
-				if ((value >= dataArray[0]) && (value <= dataArray[1])) {
-					return referenceCR;
-				}
-			}
-			else {
-				if (value == dataValue) {
-					return referenceCR;
-				}
-			}
-		}
-		var index;
-		for (index in this.state.crKeys) {
-			let rating = this.state.crKeys[index];
-			let dataValue = CreatureStats[rating][field];
-			if (isNaN(dataValue)) {
-				let dataArray = dataValue.split("-").map((value) => {
-					return parseInt(value);
-				});
-				if (index == 0) {
-					if (value < dataArray[0]) {
-						cr = 0;
-						break;
-					}
-				}
-				if ((value >= dataArray[0]) && (value <= dataArray[1])) {
-					cr = rating;
-					break;
-				}
-			}
-
-			else {
-				if (index == 0) {
-					if (value < dataValue) {
-						cr = 0;
-						break;
-					}
-				}
-				if (value === dataValue) {
-					cr = rating;
-					break;
-				}
-			}
-		}
-		return (cr !== undefined? cr : this.state.crKeys.slice(-1)[0]);
 	}
 
 	render() {
@@ -172,7 +106,7 @@ class CreatureBuilder extends Component {
 							</Col>
 							<Col xs={6} md={4} className="form-col">
 						      <ControlLabel>Alignment:</ControlLabel>
-					        	<SelectField name="alignment" objectData={this.state.alignments} onChange={this.handleChange.bind(this)} stateValue={this.state.alignment}/>
+					        	<SelectField name="alignment" objectData={this.alignments} onChange={this.handleChange.bind(this)} stateValue={this.state.alignment}/>
 							</Col>
 							<Col xs={6} md={4} className="form-col">
 						      <ControlLabel>Size:</ControlLabel>
@@ -199,47 +133,8 @@ class CreatureBuilder extends Component {
 				</Panel>
 		      	{/*Creature Defenses Panel*/}
 	        	<Row className="formRow">
-	        	<DefenseBlock damageTypes={this.state.damageTypes} crKeys={this.state.crKeys} handleChange={this.updateDefensiveData.bind(this)} CRMethod={this.calculateCR.bind(this)} hitDice={this.getHitDice()} />
-	        	<Col xs={12} md={7}>
-	        	{/*Creature Offenses Panel*/}
-	        	<FormGroup controlId="offenseBlock">
-	        		<Panel>
-	        			<Panel.Heading>Offense Block</Panel.Heading>
-						<Panel.Body>
-							<Col xs={12} className="form-col">
-								<ControlLabel>Offensive CR: {this.state.offensiveCR || 0}</ControlLabel>
-							</Col>
-							<Col xs={12} md={4} className="form-col">
-											<ControlLabel>Attack Bonus: <span className="form-help">(Number only)</span></ControlLabel>
-											<FormControl
-												type="text"
-												name = "attackBonus"
-												value={this.state.attackBonus || ""}
-												onChange={this.handleChange.bind(this)}
-											/>
-										</Col>
-							<Col xs={12} md={4} className="form-col">
-							<ControlLabel>Save DC:</ControlLabel>
-				        	<FormControl
-					            type="text"
-					            name = "saveDC"
-					            value={this.state.saveDC || ""}
-					            onChange={this.handleChange.bind(this)}
-					          />
-					    </Col>
-					    <Col xs={12} md={4} className="form-col">
-							<ControlLabel>Damage Per Round:</ControlLabel>
-				        	<FormControl
-					            type="text"
-					            name = "dpr"
-					            value={this.state.dpr || ""}
-					            onChange={this.handleChange.bind(this)}
-					          />
-					    </Col>
-						</Panel.Body>
-					</Panel>
-	        	</FormGroup>
-	        	</Col>
+	        	<DefenseBlock damageTypes={this.state.damageTypes} handleChange={this.updateDefensiveData.bind(this)} hitDice={this.getHitDice()} />
+	        	<OffenseBlock />
 	        	</Row>
 		  	</form>
 		  </div>
