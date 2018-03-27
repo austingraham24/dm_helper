@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import {Panel, FormGroup, FormControl, ControlLabel, Col} from "react-bootstrap";
+import ActionBlock from "./ActionBlock";
 import CalculationFunctions from "./CalculationFunctions";
 
 class OffenseBlock extends Component {
@@ -7,7 +8,10 @@ class OffenseBlock extends Component {
 		super(props);
 		console.log(CalculationFunctions.calculateCR("hp",100));
 		this.state = {
-			offensiveCR: 0
+			offensiveCR: 0,
+			saveDC: 0,
+			attackBonus: 0,
+			dpr: 0
 		};
 	};
 
@@ -59,6 +63,7 @@ class OffenseBlock extends Component {
 					            onChange={this.handleChange.bind(this)}
 					          />
 					    </Col>
+					    <ActionBlock />
 						</Panel.Body>
 					</Panel>
 					</FormGroup>

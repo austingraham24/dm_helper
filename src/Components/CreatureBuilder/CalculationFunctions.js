@@ -44,8 +44,9 @@ function calculateCR(field, value, referenceCR = null) {
 		for (var index in crKeys) {
 			let rating = crKeys[index];
 			let dataValue = CreatureStats[rating][field];
-			cr = crCompareValues(index, rating, dataValue, value);
-			if (cr) {
+			let result = crCompareValues(index, rating, dataValue, value);
+			if (result || result === 0) {
+				cr = result
 				break;
 			}
 		}
@@ -53,7 +54,7 @@ function calculateCR(field, value, referenceCR = null) {
 	}
 
 function crCompareValues(index, rating, crValue, value) {
-	let cr = 0;
+	let cr = null;
 	console.log(index, rating, crValue, value);
 	if (isNaN(crValue)) {
 		let dataArray = crValue.split("-").map((value) => {
