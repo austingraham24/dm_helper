@@ -31,7 +31,7 @@ function compareAgainstReferenceCR(field, value, referenceCR) {
 }
 
 function calculateCR(field, value, referenceCR = null) {
-		console.log(field,value);
+		//console.log(field,value);
 		if (!value && value !== 0) {
 			return 0;
 		}
@@ -55,7 +55,7 @@ function calculateCR(field, value, referenceCR = null) {
 
 function crCompareValues(index, rating, crValue, value) {
 	let cr = null;
-	console.log(index, rating, crValue, value);
+	//console.log(index, rating, crValue, value);
 	if (isNaN(crValue)) {
 		let dataArray = crValue.split("-").map((value) => {
 			return parseInt(value);

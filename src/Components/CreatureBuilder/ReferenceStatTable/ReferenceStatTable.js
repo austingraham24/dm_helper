@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import AnimateHeight from 'react-animate-height';
-import TableTemplate from './TableTemplate.js';
+import TableTemplate from '../../TableTemplate.js';
 import './style.css';
 
 //props should include CR and crData

@@ -112,7 +112,8 @@ class DefenseBlock extends Component {
 	}
 
 	updateDamageMod(name, values) {
-		let dataObject = {...this.state, name:values};
+		let dataObject = {...this.state, [name]:values};
+		console.log(dataObject);
 		dataObject = this.calculateEffectiveHP(dataObject);
 		this.setState({...dataObject})
 	}

@@ -6,6 +6,7 @@ import CreatureClassificationArray from "../../Inf/CreatureClassification.json";
 import ReferenceStatTable from "./ReferenceStatTable/ReferenceStatTable.js";
 import {PageHeader, Panel, Clearfix, FormGroup, FormControl, ControlLabel, Row, Col} from "react-bootstrap";
 import TemplateSelect from "./TemplateSelect.js";
+import StatBlock from "./StatsBlock";
 import SelectField from "../SelectField.js"
 import DefenseBlock from "./DefenseBlock.js";
 import OffenseBlock from "./OffenseBlock.js";
@@ -67,9 +68,9 @@ class CreatureBuilder extends Component {
 			        	<ControlLabel>View Quick Stats for CR:</ControlLabel>
 			        	<TemplateSelect currentValue={this.state.templateCR} Options={this.state.crKeys} callback={this.setSelectedCrTemplate.bind(this)} />
 				      	<ReferenceStatTable CR={this.state.templateCR} crData={this.getCRData()} />
-				     </Col>
+				    </Col>
 		      	</FormGroup>
-		      	</Row>
+		      </Row>
 		      	{/*Creature Overview Panel*/}
 		      	<Panel>
         			<Panel.Heading>Creature Overview</Panel.Heading>
@@ -82,7 +83,7 @@ class CreatureBuilder extends Component {
 							            type="text"
 							            name = "type"
 							            value={this.state.type}
-							            placeholder="Creature Type (e.g. Wraith)"
+							            placeholder="Creature Type (e.g. Skeleton)"
 							            onChange={this.handleChange.bind(this)}
 							          />
 								</Col>
@@ -92,7 +93,7 @@ class CreatureBuilder extends Component {
 							            type="text"
 							            name = "name"
 							            value={this.state.name}
-							            placeholder="Creature's Name"
+							            placeholder="Creature's Name (e.g. Yorick)"
 							            onChange={this.handleChange.bind(this)}
 							          />
 								</Col>
@@ -131,6 +132,9 @@ class CreatureBuilder extends Component {
 			        	</Col>
 					</Panel.Body>
 				</Panel>
+				<Row className="formRow">
+					<StatBlock />
+				</Row>
 		      	{/*Creature Defenses Panel*/}
 	        	<Row className="formRow">
 	        	<DefenseBlock damageTypes={this.state.damageTypes} handleChange={this.updateDefensiveData.bind(this)} hitDice={this.getHitDice()} />
