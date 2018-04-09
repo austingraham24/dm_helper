@@ -90,7 +90,7 @@ class DefenseBlock extends Component {
 		let finalCR;
 		let hpCR = CalculationFunctions.calculateCR("hp", dataObject.effectiveHP || 0);
 		let acCR = CalculationFunctions.calculateCR("ac", dataObject.effectiveAC || 0, hpCR);
-		//console.log("HPCR:", hpCR, "ACCR:", acCR);
+		console.log("HPCR:", hpCR, "ACCR:", acCR);
 		if (hpCR === acCR) {
 			finalCR = hpCR;
 		}

@@ -31,7 +31,7 @@ function compareAgainstReferenceCR(field, value, referenceCR) {
 }
 
 function calculateCR(field, value, referenceCR = null) {
-		//console.log(field,value);
+		console.log(field,value);
 		if (!value && value !== 0) {
 			return 0;
 		}
@@ -50,7 +50,9 @@ function calculateCR(field, value, referenceCR = null) {
 				break;
 			}
 		}
-		return (cr !== undefined? cr : crKeys.slice(-1)[0]);
+		cr = cr !== undefined? cr : crKeys.slice(-1)[0];
+		console.log("Returning CR for",field,":",cr);
+		return (cr);
 	}
 
 function crCompareValues(index, rating, crValue, value) {
