@@ -25,20 +25,22 @@ function compareAgainstReferenceCR(field, value, referenceCR) {
 		if (value == dataValue) {
 			return referenceCR;
 		}
-
-		return 0
 	}
+	return false
 }
 
 function calculateCR(field, value, referenceCR = null) {
-		console.log(field,value);
+		//console.log(field,value);
 		if (!value && value !== 0) {
 			return 0;
 		}
 
 		let cr;
 		if (referenceCR !== null && referenceCR !== undefined) {
-			return compareAgainstReferenceCR(field, value, referenceCR);
+			let matchesref = compareAgainstReferenceCR(field, value, referenceCR);
+			if (!(matchesref === false)) {
+				return matchesref;
+			}
 		}
 
 		for (var index in crKeys) {
@@ -51,7 +53,6 @@ function calculateCR(field, value, referenceCR = null) {
 			}
 		}
 		cr = cr !== undefined? cr : crKeys.slice(-1)[0];
-		console.log("Returning CR for",field,":",cr);
 		return (cr);
 	}
 

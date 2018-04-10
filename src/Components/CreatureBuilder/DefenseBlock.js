@@ -80,6 +80,7 @@ class DefenseBlock extends Component {
 		if (dataObject.ac === "") {
 			dataObject["ac"] = 0;
 		}
+		console.log("effectiveAC:",dataObject.ac);
 		let effectiveAC = dataObject.ac
 		let updatedDataObject = {...dataObject}
 		updatedDataObject["effectiveAC"] = effectiveAC;
