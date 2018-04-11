@@ -71,6 +71,7 @@ class DefenseBlock extends Component {
 			effectiveHP = Math.ceil(effectiveHP * multiplier);
 		}
 		let updatedDataObject = {...dataObject}
+		//console.log("Effective HP:",effectiveHP);
 		updatedDataObject["effectiveHP"] = effectiveHP;
 		return updatedDataObject
 	}
@@ -80,7 +81,7 @@ class DefenseBlock extends Component {
 		if (dataObject.ac === "") {
 			dataObject["ac"] = 0;
 		}
-		console.log("effectiveAC:",dataObject.ac);
+		//console.log("effectiveAC:",dataObject.ac);
 		let effectiveAC = dataObject.ac
 		let updatedDataObject = {...dataObject}
 		updatedDataObject["effectiveAC"] = effectiveAC;
@@ -114,8 +115,10 @@ class DefenseBlock extends Component {
 
 	updateDamageMod(name, values) {
 		let dataObject = {...this.state, [name]:values};
-		console.log(dataObject);
+		//console.log(dataObject);
 		dataObject = this.calculateEffectiveHP(dataObject);
+		let calculatedCR = this.calculateDefensiveCR(dataObject);
+		dataObject["defensiveCR"] = calculatedCR;
 		this.setState({...dataObject})
 	}
 
@@ -200,7 +203,6 @@ class DefenseBlock extends Component {
 
 DefenseBlock.propTypes = {
 	/*REQUIRED*/
-  damageTypes: PropTypes.arrayOf(PropTypes.string).isRequired, // list of valid damage types
   handleChange: PropTypes.func.isRequired, //the method to call when the component's state has changed
 
   /*Optional*/

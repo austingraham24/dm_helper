@@ -13,6 +13,7 @@ class StatsBlock extends Component {
 
 		this.state = {
 			panelOpen: true,
+			panelGlyph: "minus",
 			Strength: null,
 			Wisdom: null,
 			Dexterity: null,
@@ -53,21 +54,15 @@ class StatsBlock extends Component {
 		});
 	}
 
-	togglePanelButton() {
-		if (this.state.panelOpen) {
-			return "minus"
-		}
-		return "plus"
-	}
-
-	togglePanelOpen() {
+	togglePanel() {
 		let open = true;
+		let glyph = "minus";
 		if (this.state.panelOpen) {
 			open = false;
+			glyph = "plus";
 		}
-		this.setState({panelOpen: open});
+		this.setState({panelOpen: open, panelGlyph: glyph});
 	}
-
 
 	statPanels() {
 		return this.statKeys.map((key) => {
@@ -92,10 +87,10 @@ class StatsBlock extends Component {
 	render() {
 		return (
 			<Col xs={12}>
-				<Panel expanded={this.state.panelOpen}>
+				<Panel expanded={this.state.panelOpen} onToggle={this.togglePanel.bind(this)}>
 					<Panel.Heading>
 						Stats & Proficiencies
-						<Panel.Toggle componentClass="a" className="panel-toggle btn btn-default btn-xs" onClick={this.togglePanelOpen.bind(this)}><Glyphicon glyph={this.togglePanelButton()} /></Panel.Toggle>
+						<Panel.Toggle componentClass="a" className="panel-toggle btn btn-default btn-xs"><Glyphicon glyph={this.state.panelGlyph} /></Panel.Toggle>
 					</Panel.Heading>
 					<Panel.Collapse>
 						<Panel.Body>

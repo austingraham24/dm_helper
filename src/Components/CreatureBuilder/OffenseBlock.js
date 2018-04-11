@@ -6,7 +6,6 @@ import CalculationFunctions from "./CalculationFunctions";
 class OffenseBlock extends Component {
 	constructor(props) {
 		super(props);
-		console.log(CalculationFunctions.calculateCR("hp",100));
 		this.state = {
 			offensiveCR: 0,
 			saveDC: 0,
@@ -25,7 +24,7 @@ class OffenseBlock extends Component {
 		let attackIndex = CalculationFunctions.crKeys.indexOf(attackCR.toString());
 		let damageIndex = CalculationFunctions.crKeys.indexOf(damageCR.toString());
 
-		let averagedCRIndex = Math.floor((saveIndex + attackIndex + damageIndex)/3);
+		let averagedCRIndex = Math.ceil((saveIndex + attackIndex + damageIndex)/3);
 		let averagedCR = CalculationFunctions.crKeys[averagedCRIndex];
 		return averagedCR;
 	}
@@ -41,7 +40,6 @@ class OffenseBlock extends Component {
 	}
 
 	render() {
-		console.log(this.state);
 		return (
 				<Col xs={12} md={7}>
 	        	{/*Creature Offenses Panel*/}
