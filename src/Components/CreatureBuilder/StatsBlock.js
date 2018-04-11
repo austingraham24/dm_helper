@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import "./style.css";
-import {Panel, Label, FormGroup, FormControl, ControlLabel, Checkbox, Col, Clearfix} from "react-bootstrap";
+import {Panel, Label, FormGroup, FormControl, ControlLabel, Checkbox, Col, Clearfix, Glyphicon} from "react-bootstrap";
 import TableTemplate from '../TableTemplate.js';
 import PropTypes from 'prop-types';
 import _ from "lodash";
@@ -12,6 +12,7 @@ class StatsBlock extends Component {
 		this.debounceChange = _.debounce(this.updateParent.bind(this),500);
 
 		this.state = {
+			panelOpen: true,
 			Strength: null,
 			Wisdom: null,
 			Dexterity: null,
@@ -52,6 +53,21 @@ class StatsBlock extends Component {
 		});
 	}
 
+	togglePanelButton() {
+		if (this.state.panelOpen) {
+			return "minus"
+		}
+		return "plus"
+	}
+
+	togglePanelOpen() {
+		let open = true;
+		if (this.state.panelOpen) {
+			open = false;
+		}
+		this.setState({panelOpen: open});
+	}
+
 
 	statPanels() {
 		return this.statKeys.map((key) => {
@@ -76,13 +92,16 @@ class StatsBlock extends Component {
 	render() {
 		return (
 			<Col xs={12}>
-				<Panel>
-				<Panel.Heading>
-				Stats & Proficiencies
-				</Panel.Heading>
-				<Panel.Body>
-				{this.statPanels()}
-				</Panel.Body>
+				<Panel expanded={this.state.panelOpen}>
+					<Panel.Heading>
+						Stats & Proficiencies
+						<Panel.Toggle componentClass="a" className="panel-toggle btn btn-default btn-xs" onClick={this.togglePanelOpen.bind(this)}><Glyphicon glyph={this.togglePanelButton()} /></Panel.Toggle>
+					</Panel.Heading>
+					<Panel.Collapse>
+						<Panel.Body>
+							{this.statPanels()}
+						</Panel.Body>
+					</Panel.Collapse>
 				</Panel>
 			</Col>
 		);

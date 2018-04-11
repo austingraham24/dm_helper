@@ -15,17 +15,33 @@ class OffenseBlock extends Component {
 		};
 	};
 
+	getAverageOffensiveCR(dataObject) {
+		//calculate the Challenge Ratings for each field
+		let saveCR = CalculationFunctions.calculateCR("saveDC", dataObject.saveDC);
+		let attackCR = CalculationFunctions.calculateCR("attackBonus", dataObject.attackBonus);
+		let damageCR = CalculationFunctions.calculateCR("dpr", dataObject.dpr);
+		//get the index for that CR; this is because the average of 2 and 1/8 isn't a real CR, but by using indexes we can get the proper CR
+		let saveIndex = CalculationFunctions.crKeys.indexOf(saveCR.toString());
+		let attackIndex = CalculationFunctions.crKeys.indexOf(attackCR.toString());
+		let damageIndex = CalculationFunctions.crKeys.indexOf(damageCR.toString());
+
+		let averagedCRIndex = Math.floor((saveIndex + attackIndex + damageIndex)/3);
+		let averagedCR = CalculationFunctions.crKeys[averagedCRIndex];
+		return averagedCR;
+	}
+
 	handleChange(event) {
 		let fieldName = event.target.name
 		let newValue = event.target.value
 		let newDataObject = {...this.state}
 		newDataObject[fieldName] = newValue;
-		newDataObject["offensiveCR"] = CalculationFunctions.calculateCR(fieldName,newValue);
+		newDataObject["offensiveCR"] = this.getAverageOffensiveCR(newDataObject)
 		this.setState({...newDataObject});
 		return
 	}
 
 	render() {
+		console.log(this.state);
 		return (
 				<Col xs={12} md={7}>
 	        	{/*Creature Offenses Panel*/}

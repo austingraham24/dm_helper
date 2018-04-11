@@ -37,7 +37,7 @@ class DefenseBlock extends Component {
 		let mods = [];
 		let keys = ["immunities", "resistances", "vulnerabilities"];
 		for (var index in keys) {
-			if (keys[index] != exceptionKey) {
+			if (keys[index] !== exceptionKey) {
 				mods = mods.concat(this.state[keys[index]]);
 			}
 		}
