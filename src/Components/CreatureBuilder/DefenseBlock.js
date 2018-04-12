@@ -13,10 +13,7 @@ class DefenseBlock extends Component {
 		this.modifierMultipliers = [{lowerBoundCR: 17, resistance: 1, immunity: 1.25}, {lowerBoundCR: 11, resistance: 1.25, immunity: 1.5}, {lowerBoundCR: 5, resistance: 1.5, immunity: 2}, {lowerBoundCR: 0, resistance: 2, immunity: 2}];
 		this.state = {
 			hp: 0,
-			effectiveHP: 0,
 			ac: 0,
-			effectiveAC: 0,
-			defensiveCR: 0,
 			immunities: [],
 			resistances: [],
 			vulnerabilities: []
@@ -42,38 +39,6 @@ class DefenseBlock extends Component {
 			}
 		}
 		return mods;
-	}
-
-	calculateEffectiveHP(dataObject) {
-		//the input could be empty string ("") so reset it back to base 0
-		if (dataObject.hp === "") {
-			dataObject["hp"] = 0;
-		}
-		let baseHPCR = CalculationFunctions.calculateCR("ac", dataObject.hp);
-		let effectiveHP = dataObject.hp
-		let immunitiesCount = dataObject.immunities.length;
-		let resistancesCount = dataObject.resistances.length;
-		if (immunitiesCount + resistancesCount > 2) {
-			let multiplier = 1
-			let key;
-			if (resistancesCount > immunitiesCount) {
-				key="resistance";
-			}
-			else {
-				key="immunity";
-			}
-			for (var index in this.modifierMultipliers) {
-				if (baseHPCR >= this.modifierMultipliers[index].lowerBoundCR) {
-					multiplier = this.modifierMultipliers[index][key];
-					break;
-				}
-			}
-			effectiveHP = Math.ceil(effectiveHP * multiplier);
-		}
-		let updatedDataObject = {...dataObject}
-		//console.log("Effective HP:",effectiveHP);
-		updatedDataObject["effectiveHP"] = effectiveHP;
-		return updatedDataObject
 	}
 
 	calculateEffectiveAC(dataObject) {
@@ -115,10 +80,6 @@ class DefenseBlock extends Component {
 
 	updateDamageMod(name, values) {
 		let dataObject = {...this.state, [name]:values};
-		//console.log(dataObject);
-		dataObject = CalculationFunctions.calculateEffectiveHP(dataObject); //this.calculateEffectiveHP(dataObject);
-		let calculatedCR = this.calculateDefensiveCR(dataObject);
-		dataObject["defensiveCR"] = calculatedCR;
 		this.setState({...dataObject})
 	}
 
@@ -127,10 +88,6 @@ class DefenseBlock extends Component {
 		let newValue = event.target.value
 		let newDataObject = {...this.state}
 		newDataObject[fieldName] = newValue;
-		newDataObject = CalculationFunctions.calculateEffectiveHP(newDataObject);
-		newDataObject = this.calculateEffectiveAC(newDataObject);
-		let calculatedCR = this.calculateDefensiveCR(newDataObject);
-		newDataObject["defensiveCR"] = calculatedCR;
 		this.setState({...newDataObject});
 		return
 	}
@@ -150,7 +107,7 @@ class DefenseBlock extends Component {
 			<Col xs={12} md={5}>
 	        	<FormGroup controlId="deffenseBlock">
 	        		<Panel>
-	        			<Panel.Heading>Defense (CR: {this.state.defensiveCR || 0})</Panel.Heading>
+	        			<Panel.Heading>Defense (CR: {this.props.defenseProps.defenseCR || 0})</Panel.Heading>
 						<Panel.Body>
 							<Col xs={12} sm={6} className="form-col">
 								<ControlLabel>Health Points: {this.getHitDice()}</ControlLabel>
@@ -174,11 +131,11 @@ class DefenseBlock extends Component {
 					        </Col>
 					        <Col xs={12} sm={6} className="form-col">
 							<ControlLabel>Effective Health Points:</ControlLabel>
-				        	<div>{this.state.effectiveHP || 0}</div>
+				        	<div>{this.props.defenseProps.effectiveHP || 0}</div>
 					        </Col>
 					        <Col xs={12} sm={6} className="form-col">
 							<ControlLabel>Effective Armor Class:</ControlLabel>
-				        	<div>{this.state.effectiveAC || 0}</div>
+				        	<div>{this.props.defenseProps.effectiveAC || 0}</div>
 					        </Col>
 					        <Col xs={12} className="form-col">
 					    	<Panel>

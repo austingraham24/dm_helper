@@ -30,7 +30,16 @@ class CreatureBuilder extends Component {
 			experience: null,
 			proficiencyBonus: 0,
 			challengeRating: null,
-			defenses: null,
+			defenses: {
+				defenseCR: 0,
+				hp: 0,
+				ac: 0,
+				effectiveHP: 0,
+				effectiveAC: 0,
+				immunities: null,
+				resistances: null,
+				vulnerabilities: null
+			},
 			offenses: null,
 			stats: null,
 			languages: null,
@@ -49,16 +58,31 @@ class CreatureBuilder extends Component {
 		if (!this.state.allowFieldOverrides) {
 			//this.setState({challengeRating: hpCR})
 		}
-		this.setState({...newDataObject});
+		this.precalculateFormChanges(newDataObject);
 		//console.log(this.calculateCR(event.target.name, event.target.value));
 	}
 
+	//method that will actually end up updating state; runs all calculations to get updated values before updating state
+	//ex: EffectiveHP and defesive CR is influenced by other parts of the form so this does a pre-screen before changing state
+	precalculateFormChanges(dataObject) {
+		let newState = dataObject;
+		newState.defenses = CalculationFunctions.calculateOverallDefensiveCR(newState);
+		this.setState({...newState});
+	}
+
 	updateDefensiveData(newDataObject) {
-		let newDefenseState = {defenseBlock: newDataObject}
-		this.setState({...newDefenseState});
+		let currentState = this.state;
+		//we will be storing calculated values in the defense block of state that don't exist in the component's state
+		//to make sure we dont overwrite that piece of state, get the current defensive state then adjust fields as necessary
+		let newDefenseState = this.state.defenses;
+		newDefenseState = {...newDefenseState,...newDataObject};
+		let newState = {...currentState, defenses: {...newDefenseState}};
+		//console.log(newState);
+		this.precalculateFormChanges(newState);
 	}
 
 	render() {
+		//console.log(this.state);
 		return (
 		  <div className="container">
 		  	<PageHeader>Creature Builder</PageHeader>
@@ -138,7 +162,7 @@ class CreatureBuilder extends Component {
 				</Row>
 		      	{/*Creature Defenses Panel*/}
 	        	<Row className="formRow">
-	        	<DefenseBlock handleChange={this.updateDefensiveData.bind(this)} hitDice={creatureSizes[this.state.size] || null} />
+	        	<DefenseBlock handleChange={this.updateDefensiveData.bind(this)} hitDice={creatureSizes[this.state.size] || null} defenseProps={this.state.defenses} />
 	        	<OffenseBlock />
 	        	</Row>
 		  	</form>

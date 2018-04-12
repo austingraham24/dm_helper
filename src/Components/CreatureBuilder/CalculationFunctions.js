@@ -44,8 +44,32 @@ function calculateCR(field, value, referenceCR = null) {
 
 //take into acount all defensive properties like armor, health, and modifiers
 function calculateOverallDefensiveCR(dataObject) {
-	let finalDefenseCR = 0;
-	return finalDefenseCR;
+	let finalCR;
+	let defenses = dataObject.defenses;
+	defenses = calculateEffectiveHP(dataObject);
+	defenses = calculateEffectiveAC(dataObject);
+	let hpCR = calculateCR("hp", defenses.effectiveHP);
+	let acCR = calculateCR("ac", defenses.effectiveAC || 0, hpCR);
+	console.log("HPCR:", hpCR, "ACCR:", acCR);
+	if (hpCR === acCR) {
+		finalCR = hpCR;
+	}
+	else {
+		let hpIndex = crKeys.indexOf(hpCR.toString());
+		let acIndex = crKeys.indexOf(acCR.toString());
+		let difference = Math.abs(hpIndex - acIndex);
+		//console.log(difference);
+		if (difference == 1) {
+			finalCR = eval(hpCR) < eval(acCR)? hpCR: acCR;
+		}
+		else {
+			let averagedCRIndex = Math.floor((hpIndex + acIndex)/2);
+			let averagedCR = crKeys[averagedCRIndex];
+			finalCR = averagedCR;
+		}
+	}
+	defenses["defenseCR"] = finalCR || 0;
+	return defenses;
 }
 
 //take into account all offensive properties like modifiers, damage, and saving throw difficulty
@@ -57,13 +81,13 @@ function calculateOverallOffensiveCR(dataObject) {
 //calculate "effective HP" -> hp plus any mods like immunities and resistances
 function calculateEffectiveHP(dataObject) {
 	//the input could be empty string ("") so reset it back to base 0
-	if (dataObject.hp === "") {
-		dataObject["hp"] = 0;
+	if (dataObject.defenses.hp === "") {
+		dataObject.defenses["hp"] = 0;
 	}
-	let baseHPCR = calculateCR("ac", dataObject.hp);
-	let effectiveHP = dataObject.hp
-	let immunitiesCount = dataObject.immunities.length;
-	let resistancesCount = dataObject.resistances.length;
+	let baseHPCR = calculateCR("ac", dataObject.defenses.hp);
+	let effectiveHP = dataObject.defenses.hp
+	let immunitiesCount = dataObject.defenses.immunities.length;
+	let resistancesCount = dataObject.defenses.resistances.length;
 	if (immunitiesCount + resistancesCount > 2) {
 		let multiplier = 1
 		let key = resistancesCount > immunitiesCount ? "resistance" : "immunity";
@@ -76,13 +100,14 @@ function calculateEffectiveHP(dataObject) {
 		effectiveHP = Math.ceil(effectiveHP * multiplier);
 	}
 	let updatedDataObject = {...dataObject}
-	updatedDataObject["effectiveHP"] = effectiveHP;
+	updatedDataObject.defenses["effectiveHP"] = effectiveHP;
 	return updatedDataObject
 }
 
 //calculate effective armor class, taking into account spells or traits that improve armor
 function calculateEffectiveAC(dataObject) {
-	return 0;
+	dataObject.defenses["effectiveAC"] = dataObject.defenses.ac;
+	return dataObject.defenses;
 }
 
 // *** end exported functions *** //
