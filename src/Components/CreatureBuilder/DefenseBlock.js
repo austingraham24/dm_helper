@@ -20,9 +20,6 @@ class DefenseBlock extends Component {
 		};
 	};
 
-	componentWillMount() {
-	}
-
 	componentDidUpdate(prevProps, prevState) {
 		if (prevState !== this.state) {
 			let currentState = this.state;
@@ -39,43 +36,6 @@ class DefenseBlock extends Component {
 			}
 		}
 		return mods;
-	}
-
-	calculateEffectiveAC(dataObject) {
-		//the input could be empty string ("") so reset it back to base 0
-		if (dataObject.ac === "") {
-			dataObject["ac"] = 0;
-		}
-		//console.log("effectiveAC:",dataObject.ac);
-		let effectiveAC = dataObject.ac
-		let updatedDataObject = {...dataObject}
-		updatedDataObject["effectiveAC"] = effectiveAC;
-		return updatedDataObject
-	}
-
-	calculateDefensiveCR(dataObject) {
-		let finalCR;
-		let hpCR = CalculationFunctions.calculateCR("hp", dataObject.effectiveHP || 0);
-		let acCR = CalculationFunctions.calculateCR("ac", dataObject.effectiveAC || 0, hpCR);
-		console.log("HPCR:", hpCR, "ACCR:", acCR);
-		if (hpCR === acCR) {
-			finalCR = hpCR;
-		}
-		else {
-			let hpIndex = CalculationFunctions.crKeys.indexOf(hpCR.toString());
-			let acIndex = CalculationFunctions.crKeys.indexOf(acCR.toString());
-			let difference = Math.abs(hpIndex - acIndex);
-			//console.log(difference);
-			if (difference == 1) {
-				finalCR=hpCR; //finalCR = eval(hpCR) > eval(acCR)? hpCR: acCR;
-			}
-			else {
-				let averagedCRIndex = Math.floor((hpIndex + acIndex)/2);
-				let averagedCR = CalculationFunctions.crKeys[averagedCRIndex];
-				finalCR = averagedCR;
-			}
-		}
-		return finalCR || 0;
 	}
 
 	updateDamageMod(name, values) {
@@ -160,7 +120,8 @@ DefenseBlock.propTypes = {
   handleChange: PropTypes.func.isRequired, //the method to call when the component's state has changed
 
   /*Optional*/
-  hitDice: PropTypes.string //the hit dice to use
+  hitDice: PropTypes.string, //the hit dice to use
+  defenseProps: PropTypes.object //the defense state of the parent, used for passing calculated values like effectiveHP
 }
 
 export default DefenseBlock;

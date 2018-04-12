@@ -106,8 +106,15 @@ function calculateEffectiveHP(dataObject) {
 
 //calculate effective armor class, taking into account spells or traits that improve armor
 function calculateEffectiveAC(dataObject) {
-	dataObject.defenses["effectiveAC"] = dataObject.defenses.ac;
-	return dataObject.defenses;
+	let defenses = dataObject.defenses
+	//the input could be empty string ("") so reset it back to base 0
+	if (!defenses.ac) {
+		defenses["ac"] = 0;
+	}
+	//console.log("effectiveAC:",dataObject.ac);
+	let effectiveAC = defenses.ac
+	defenses["effectiveAC"] = effectiveAC;
+	return defenses;
 }
 
 // *** end exported functions *** //
