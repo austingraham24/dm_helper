@@ -116,7 +116,7 @@ class DefenseBlock extends Component {
 	updateDamageMod(name, values) {
 		let dataObject = {...this.state, [name]:values};
 		//console.log(dataObject);
-		dataObject = this.calculateEffectiveHP(dataObject);
+		dataObject = CalculationFunctions.calculateEffectiveHP(dataObject); //this.calculateEffectiveHP(dataObject);
 		let calculatedCR = this.calculateDefensiveCR(dataObject);
 		dataObject["defensiveCR"] = calculatedCR;
 		this.setState({...dataObject})
@@ -127,7 +127,7 @@ class DefenseBlock extends Component {
 		let newValue = event.target.value
 		let newDataObject = {...this.state}
 		newDataObject[fieldName] = newValue;
-		newDataObject = this.calculateEffectiveHP(newDataObject);
+		newDataObject = CalculationFunctions.calculateEffectiveHP(newDataObject);
 		newDataObject = this.calculateEffectiveAC(newDataObject);
 		let calculatedCR = this.calculateDefensiveCR(newDataObject);
 		newDataObject["defensiveCR"] = calculatedCR;
@@ -150,11 +150,8 @@ class DefenseBlock extends Component {
 			<Col xs={12} md={5}>
 	        	<FormGroup controlId="deffenseBlock">
 	        		<Panel>
-	        			<Panel.Heading>Defense Block</Panel.Heading>
+	        			<Panel.Heading>Defense (CR: {this.state.defensiveCR || 0})</Panel.Heading>
 						<Panel.Body>
-							<Col xs={12} className="form-col">
-							<ControlLabel>Defensive CR: {this.state.defensiveCR || 0}</ControlLabel>
-							</Col>
 							<Col xs={12} sm={6} className="form-col">
 								<ControlLabel>Health Points: {this.getHitDice()}</ControlLabel>
 								<FormControl

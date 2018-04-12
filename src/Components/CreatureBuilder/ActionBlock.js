@@ -5,7 +5,6 @@ import CalculationFunctions from "./CalculationFunctions";
 class ActionBlock extends Component {
 	constructor(props) {
 		super(props);
-		console.log(CalculationFunctions.calculateCR("hp",100));
 		this.state = {
 			offensiveCR: 0,
 			saveDC: 0,

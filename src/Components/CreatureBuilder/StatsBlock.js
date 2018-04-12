@@ -17,10 +17,10 @@ class StatsBlock extends Component {
 			Strength: null,
 			Wisdom: null,
 			Dexterity: null,
-			Constitution: 10,
+			Constitution: null,
 			Intelligence: null,
 			Charisma: null,
-			statProficiencies: {"Strength": {"Saving Throw":true, "Athletics":false}, "Dexterity": {"Saving Throw":false, "Acrobatics":false, "Slight of Hand":false, "Stealth":false}, "Constitution": {"Saving Throw":false}, "Intelligence": {"Saving Throw":false, "Arcana":false, "History":false, "Investigation":false, "Investigation":false, "Nature":false, "Religion":false}, "Wisdom": {"Saving Throw":false, "Animal Handling": false, "Insight":false, "Medicine":false, "Perception":false, "Survival":false}, "Charisma": {"Saving Throw":false, "Deception":false, "Intimidation":false, "Performance":false, "Persuasion":false}}
+			statProficiencies: {"Strength": {"Saving Throw":false, "Athletics":false}, "Dexterity": {"Saving Throw":false, "Acrobatics":false, "Slight of Hand":false, "Stealth":false}, "Constitution": {"Saving Throw":false}, "Intelligence": {"Saving Throw":false, "Arcana":false, "History":false, "Investigation":false, "Investigation":false, "Nature":false, "Religion":false}, "Wisdom": {"Saving Throw":false, "Animal Handling": false, "Insight":false, "Medicine":false, "Perception":false, "Survival":false}, "Charisma": {"Saving Throw":false, "Deception":false, "Intimidation":false, "Performance":false, "Persuasion":false}}
 		};
 	}
 

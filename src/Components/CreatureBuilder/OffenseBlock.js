@@ -24,7 +24,7 @@ class OffenseBlock extends Component {
 		let attackIndex = CalculationFunctions.crKeys.indexOf(attackCR.toString());
 		let damageIndex = CalculationFunctions.crKeys.indexOf(damageCR.toString());
 
-		let averagedCRIndex = Math.ceil((saveIndex + attackIndex + damageIndex)/3);
+		let averagedCRIndex = Math.floor((saveIndex + attackIndex + damageIndex)/3);
 		let averagedCR = CalculationFunctions.crKeys[averagedCRIndex];
 		return averagedCR;
 	}
@@ -45,11 +45,8 @@ class OffenseBlock extends Component {
 	        	{/*Creature Offenses Panel*/}
 	        	<FormGroup controlId="offenseBlock">
 	        		<Panel>
-	        			<Panel.Heading>Offense Block</Panel.Heading>
+	        			<Panel.Heading>Offense (CR: {this.state.offensiveCR || 0})</Panel.Heading>
 						<Panel.Body>
-							<Col xs={12} className="form-col">
-								<ControlLabel>Offensive CR: {this.state.offensiveCR || 0}</ControlLabel>
-							</Col>
 							<Col xs={12} md={4} className="form-col">
 											<ControlLabel>Attack Bonus: <span className="form-help">(Number only)</span></ControlLabel>
 											<FormControl

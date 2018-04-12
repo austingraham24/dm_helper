@@ -10,36 +10,37 @@ import StatBlock from "./StatsBlock";
 import SelectField from "../SelectField.js"
 import DefenseBlock from "./DefenseBlock.js";
 import OffenseBlock from "./OffenseBlock.js";
+import CalculationFunctions from "./CalculationFunctions";
 import PropTypes from 'prop-types';
 
 class CreatureBuilder extends Component {
 	constructor(props) {
 		super(props);
-		//so since "1" is technically less than "1/2" we need to do some manual formatting for the special cases
-		let keys = Object.keys(CreatureStats).sort();
-		let sortedKeys = [keys[0], ...keys.slice(2,5).reverse(), keys[1], ...keys.slice(5)];
 		this.alignments = {"none":"Unaligned", "lg":"Lawful Good", "ng":"Neutral Good", "cg":"Chaotic Good", "ln":"Lawful Neutral", "n":"Neutral", "cn":"Chaotic Neutral", "le":"Lawful Evil", "ne":"Neutral Evil", "ce":"Chaotic Evil"}
-		this.damageTypes = ["Fire","Thunder","Radiant","Poison","Slashing","Piercing","Bludgeoning","Lightning", "Psychic", "Necrotic", "Cold", "Acid"]
 		this.state = {
-			crKeys: sortedKeys,
+			//form specific state vars
 			templateCR: null,
+			allowFieldOverrides: false,
+			//creature specific state vars
 			type:"",
 			name:"",
-			allowFieldOverrides: false
+			size: null,
+			classification: null,
+			alignment: "none",
+			experience: null,
+			proficiencyBonus: 0,
+			challengeRating: null,
+			defenses: null,
+			offenses: null,
+			stats: null,
+			languages: null,
+			proficiencies: null
 		};
 	};
 
 	setSelectedCrTemplate(event) {
 		let value = event.target.value || null
 		this.setState({templateCR: value});
-	}
-
-	getCRData() {
-		return this.state.templateCR ? CreatureStats[this.state.templateCR] : null
-	}
-
-	getHitDice() {
-		return this.state.size? creatureSizes[this.state.size] : null
 	}
 
 	handleChange(event) {
@@ -52,9 +53,9 @@ class CreatureBuilder extends Component {
 		//console.log(this.calculateCR(event.target.name, event.target.value));
 	}
 
-	updateDefensiveData(newData) {
-		let object = {defenseBlock: newData}
-		this.setState({...object});
+	updateDefensiveData(newDataObject) {
+		let newDefenseState = {defenseBlock: newDataObject}
+		this.setState({...newDefenseState});
 	}
 
 	render() {
@@ -66,8 +67,8 @@ class CreatureBuilder extends Component {
 			  	<FormGroup controlId="templateOptions">
 				  	<Col md={12}>
 			        	<ControlLabel>View Quick Stats for CR:</ControlLabel>
-			        	<TemplateSelect currentValue={this.state.templateCR} Options={this.state.crKeys} callback={this.setSelectedCrTemplate.bind(this)} />
-				      	<ReferenceStatTable CR={this.state.templateCR} crData={this.getCRData()} />
+			        	<TemplateSelect currentValue={this.state.templateCR} Options={CalculationFunctions.crKeys} callback={this.setSelectedCrTemplate.bind(this)} />
+				      	<ReferenceStatTable CR={this.state.templateCR} crData={CreatureStats[this.state.templateCR] || null} />
 				    </Col>
 		      	</FormGroup>
 		      </Row>
@@ -116,7 +117,7 @@ class CreatureBuilder extends Component {
 			        	</FormGroup>
 				        	<FormGroup controlId="creatureCore">
 					      		<Col xs={6} md={4} className="form-col">
-					      			<ControlLabel>Challenge Rating:</ControlLabel>
+					      			<ControlLabel>Challenge Rating (CR):</ControlLabel>
 							    	<div>{this.state.challengeRating || 0}</div>
 							    </Col>
 							    <Clearfix visibleXsBlock visibleSmBlock />
@@ -126,7 +127,7 @@ class CreatureBuilder extends Component {
 						    	</Col>
 						    	<Col xs={6} md={4} className="form-col">
 					      			<ControlLabel>Proficiency Bonus:</ControlLabel>
-							    	<div>+{this.state.profficiency || 0}</div>
+							    	<div>+{this.state.proficiencyBonus || 0}</div>
 						    	</Col>
 			      			</FormGroup>
 			        	</Col>
@@ -137,7 +138,7 @@ class CreatureBuilder extends Component {
 				</Row>
 		      	{/*Creature Defenses Panel*/}
 	        	<Row className="formRow">
-	        	<DefenseBlock damageTypes={this.state.damageTypes} handleChange={this.updateDefensiveData.bind(this)} hitDice={this.getHitDice()} />
+	        	<DefenseBlock handleChange={this.updateDefensiveData.bind(this)} hitDice={creatureSizes[this.state.size] || null} />
 	        	<OffenseBlock />
 	        	</Row>
 		  	</form>
