@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import "./style.css";
 import {Panel, FormGroup, FormControl, ControlLabel, Col, Glyphicon} from "react-bootstrap";
 import HealthMod from "./HealthMod/HealthMod.js"
+import PanelButtonToggle from "../PanelButtonToggle/PanelButtonToggle.js";
 import PropTypes from 'prop-types';
 import CalculationFunctions from "./CalculationFunctions";
 import _ from "lodash";
@@ -12,8 +13,6 @@ class DefenseBlock extends Component {
 
 		this.modifierMultipliers = [{lowerBoundCR: 17, resistance: 1, immunity: 1.25}, {lowerBoundCR: 11, resistance: 1.25, immunity: 1.5}, {lowerBoundCR: 5, resistance: 1.5, immunity: 2}, {lowerBoundCR: 0, resistance: 2, immunity: 2}];
 		this.state = {
-			panelOpen: true,
-			panelGlyph: "minus",
 			hp: 0,
 			ac: 0,
 			immunities: [],
@@ -64,16 +63,6 @@ class DefenseBlock extends Component {
 		);
 	}
 
-	togglePanel() {
-		let open = true;
-		let glyph = "minus";
-		if (this.state.panelOpen) {
-			open = false;
-			glyph = "plus";
-		}
-		this.setState({panelOpen: open, panelGlyph: glyph});
-	}
-
 	render() {
 		return (
 			<Col xs={12} md={5}>
@@ -110,16 +99,11 @@ class DefenseBlock extends Component {
 				        	<div>{this.props.defenseProps.effectiveAC || 0}</div>
 					        </Col>
 					        <Col xs={12} className="form-col">
-					    	<Panel expanded={this.state.panelOpen} onToggle={this.togglePanel.bind(this)}>
-					    		<Panel.Heading>Damage Modifiers
-					    			<Panel.Toggle componentClass="a" className="panel-toggle btn btn-default btn-xs"><Glyphicon glyph={this.state.panelGlyph} /></Panel.Toggle>
-					    		</Panel.Heading>
-								<Panel.Body collapsible>
-									<HealthMod name="Immunities" prefill={this.state.immunities} updateMods={this.updateDamageMod.bind(this)} exceptionMods={this.getExceptionMods("immunities")}/>
-									<HealthMod name="Resistances" prefill={this.state.resistances} updateMods={this.updateDamageMod.bind(this)} exceptionMods={this.getExceptionMods("resistances")} />
-									<HealthMod name="Vulnerabilities" prefill={this.state.vulnerabilities} updateMods={this.updateDamageMod.bind(this)} exceptionMods={this.getExceptionMods("vulnerabilities")} />
-								</Panel.Body>
-							</Panel>
+					        <PanelButtonToggle title="Damage Modifiers">
+					        	<HealthMod name="Immunities" prefill={this.state.immunities} updateMods={this.updateDamageMod.bind(this)} exceptionMods={this.getExceptionMods("immunities")}/>
+								<HealthMod name="Resistances" prefill={this.state.resistances} updateMods={this.updateDamageMod.bind(this)} exceptionMods={this.getExceptionMods("resistances")} />
+								<HealthMod name="Vulnerabilities" prefill={this.state.vulnerabilities} updateMods={this.updateDamageMod.bind(this)} exceptionMods={this.getExceptionMods("vulnerabilities")} />
+					        </PanelButtonToggle>
 					    </Col>
 						</Panel.Body>
 					</Panel>

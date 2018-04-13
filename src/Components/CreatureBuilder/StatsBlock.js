@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import "./style.css";
-import {Panel, Label, FormGroup, FormControl, ControlLabel, Checkbox, Col, Clearfix, Glyphicon} from "react-bootstrap";
+import {Label, FormGroup, FormControl, ControlLabel, Checkbox, Col, Clearfix} from "react-bootstrap";
 import TableTemplate from '../TableTemplate.js';
 import statsMods from "../../Inf/StatMods.json";
 import PanelButtonToggle from "../PanelButtonToggle/PanelButtonToggle.js";
@@ -14,8 +14,6 @@ class StatsBlock extends Component {
 		this.debounceChange = _.debounce(this.updateParent.bind(this),500);
 
 		this.state = {
-			panelOpen: true,
-			panelGlyph: "minus",
 			Strength: {"value":null,"mod":null},
 			Wisdom: {"value":null,"mod":null},
 			Dexterity: {"value":null,"mod":null},
@@ -74,16 +72,6 @@ class StatsBlock extends Component {
 		}
 		let mod = this.state[key].mod;
 		return mod > 0 ? "+"+mod : mod;
-	}
-
-	togglePanel() {
-		let open = true;
-		let glyph = "minus";
-		if (this.state.panelOpen) {
-			open = false;
-			glyph = "plus";
-		}
-		this.setState({panelOpen: open, panelGlyph: glyph});
 	}
 
 	statPanels() {
