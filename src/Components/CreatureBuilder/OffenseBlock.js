@@ -14,19 +14,11 @@ class OffenseBlock extends Component {
 		};
 	};
 
-	getAverageOffensiveCR(dataObject) {
-		//calculate the Challenge Ratings for each field
-		let saveCR = CalculationFunctions.calculateCR("saveDC", dataObject.saveDC);
-		let attackCR = CalculationFunctions.calculateCR("attackBonus", dataObject.attackBonus);
-		let damageCR = CalculationFunctions.calculateCR("dpr", dataObject.dpr);
-		//get the index for that CR; this is because the average of 2 and 1/8 isn't a real CR, but by using indexes we can get the proper CR
-		let saveIndex = CalculationFunctions.crKeys.indexOf(saveCR.toString());
-		let attackIndex = CalculationFunctions.crKeys.indexOf(attackCR.toString());
-		let damageIndex = CalculationFunctions.crKeys.indexOf(damageCR.toString());
-
-		let averagedCRIndex = Math.floor((saveIndex + attackIndex + damageIndex)/3);
-		let averagedCR = CalculationFunctions.crKeys[averagedCRIndex];
-		return averagedCR;
+	componentDidUpdate(prevProps, prevState) {
+		if (prevState !== this.state) {
+			let currentState = this.state;
+			this.props.handleChange(currentState);
+		}
 	}
 
 	handleChange(event) {
@@ -34,7 +26,6 @@ class OffenseBlock extends Component {
 		let newValue = event.target.value
 		let newDataObject = {...this.state}
 		newDataObject[fieldName] = newValue;
-		newDataObject["offensiveCR"] = this.getAverageOffensiveCR(newDataObject)
 		this.setState({...newDataObject});
 		return
 	}
@@ -45,7 +36,7 @@ class OffenseBlock extends Component {
 	        	{/*Creature Offenses Panel*/}
 	        	<FormGroup controlId="offenseBlock">
 	        		<Panel>
-	        			<Panel.Heading>Offense (CR: {this.state.offensiveCR || 0})</Panel.Heading>
+	        			<Panel.Heading>Offense (CR: {this.props.offenseProps.offenseCR || 0})</Panel.Heading>
 						<Panel.Body>
 							<Col xs={12} md={4} className="form-col">
 											<ControlLabel>Attack Bonus: <span className="form-help">(Number only)</span></ControlLabel>

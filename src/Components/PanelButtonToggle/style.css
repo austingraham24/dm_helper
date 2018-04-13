@@ -1,0 +1,8 @@
+.panel-toggle {
+	float: right;
+}
+
+a.panel-toggle {
+	text-decoration: none;
+	color: black;
+}

@@ -42,15 +42,35 @@ function calculateCR(field, value, referenceCR = null) {
 		return (cr);
 	}
 
+function calculateFinalCR(dataObject) {
+	var newState = dataObject;
+	newState.offenses = calculateOverallOffensiveCR(newState.offenses);
+	newState.defenses = calculateOverallDefensiveCR(newState.defenses);
+	let defenseCRIndex = crKeys.indexOf(newState.defenses.defenseCR.toString());
+	let offenseCRIndex = crKeys.indexOf(newState.offenses.offenseCR.toString());
+	let difference = Math.abs(defenseCRIndex - offenseCRIndex);
+	let CRIndex = defenseCRIndex < offenseCRIndex ? defenseCRIndex: offenseCRIndex;
+	if (difference >= 2) {
+		let adjustNum = 0
+		adjustNum += Math.floor(difference/2);
+		CRIndex += adjustNum;
+	}
+	let challengeRating = crKeys[CRIndex];
+	newState.challengeRating = challengeRating;
+	newState.proficiencyBonus = CreatureStats[challengeRating].proficiency || 0;
+	newState.experience = CreatureStats[challengeRating].xp || 0;
+	return newState;
+}
+
 //take into acount all defensive properties like armor, health, and modifiers
 function calculateOverallDefensiveCR(dataObject) {
 	let finalCR;
-	let defenses = dataObject.defenses;
-	defenses = calculateEffectiveHP(dataObject);
-	defenses = calculateEffectiveAC(dataObject);
+	let defenses = dataObject;
+	defenses.effectiveHP = calculateEffectiveHP(dataObject);
+	defenses.effectiveAC = calculateEffectiveAC(dataObject);
 	let hpCR = calculateCR("hp", defenses.effectiveHP);
 	let acCR = calculateCR("ac", defenses.effectiveAC || 0, hpCR);
-	console.log("HPCR:", hpCR, "ACCR:", acCR);
+	//console.log("HPCR:", hpCR, "ACCR:", acCR);
 	if (hpCR === acCR) {
 		finalCR = hpCR;
 	}
@@ -74,20 +94,35 @@ function calculateOverallDefensiveCR(dataObject) {
 
 //take into account all offensive properties like modifiers, damage, and saving throw difficulty
 function calculateOverallOffensiveCR(dataObject) {
+	let offenses = dataObject;
 	let finalOffenseCR = 0;
-	return finalOffenseCR;
+
+	//calculate the Challenge Ratings for each field
+	let saveCR = calculateCR("saveDC", offenses.saveDC);
+	let attackCR = calculateCR("attackBonus", offenses.attackBonus);
+	let damageCR = calculateCR("dpr", offenses.dpr);
+	//console.log("saveCR:",saveCR,"attackCR:",attackCR,"damageCR:",damageCR);
+	//get the index for that CR; this is because the average of 2 and 1/8 isn't a real CR, but by using indexes we can get the proper CR
+	let saveIndex = crKeys.indexOf(saveCR.toString());
+	let attackIndex = crKeys.indexOf(attackCR.toString());
+	let damageIndex = crKeys.indexOf(damageCR.toString());
+
+	let averagedCRIndex = Math.floor((saveIndex + attackIndex + damageIndex)/3);
+	finalOffenseCR = crKeys[averagedCRIndex];
+	offenses.offenseCR = finalOffenseCR;
+	return offenses;
 }
 
 //calculate "effective HP" -> hp plus any mods like immunities and resistances
 function calculateEffectiveHP(dataObject) {
 	//the input could be empty string ("") so reset it back to base 0
-	if (dataObject.defenses.hp === "") {
-		dataObject.defenses["hp"] = 0;
+	if (dataObject.hp === "") {
+		dataObject["hp"] = 0;
 	}
-	let baseHPCR = calculateCR("ac", dataObject.defenses.hp);
-	let effectiveHP = dataObject.defenses.hp
-	let immunitiesCount = dataObject.defenses.immunities.length;
-	let resistancesCount = dataObject.defenses.resistances.length;
+	let baseHPCR = calculateCR("ac", dataObject.hp);
+	let effectiveHP = dataObject.hp
+	let immunitiesCount = dataObject.immunities.length;
+	let resistancesCount = dataObject.resistances.length;
 	if (immunitiesCount + resistancesCount > 2) {
 		let multiplier = 1
 		let key = resistancesCount > immunitiesCount ? "resistance" : "immunity";
@@ -99,22 +134,19 @@ function calculateEffectiveHP(dataObject) {
 		}
 		effectiveHP = Math.ceil(effectiveHP * multiplier);
 	}
-	let updatedDataObject = {...dataObject}
-	updatedDataObject.defenses["effectiveHP"] = effectiveHP;
-	return updatedDataObject
+	return effectiveHP;
 }
 
 //calculate effective armor class, taking into account spells or traits that improve armor
 function calculateEffectiveAC(dataObject) {
-	let defenses = dataObject.defenses
+	let defenses = dataObject
 	//the input could be empty string ("") so reset it back to base 0
 	if (!defenses.ac) {
 		defenses["ac"] = 0;
 	}
 	//console.log("effectiveAC:",dataObject.ac);
 	let effectiveAC = defenses.ac
-	defenses["effectiveAC"] = effectiveAC;
-	return defenses;
+	return effectiveAC;
 }
 
 // *** end exported functions *** //
@@ -176,7 +208,7 @@ function crCompareValues(index, rating, crValue, value) {
 				cr = 0;
 			}
 		}
-		if (value === crValue) {
+		if (value == crValue) {
 			cr = rating;
 		}
 	}
@@ -191,5 +223,6 @@ export default {
 	calculateOverallDefensiveCR,
 	calculateOverallOffensiveCR,
 	calculateEffectiveHP,
-	calculateEffectiveAC
+	calculateEffectiveAC,
+	calculateFinalCR
 }

@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import "./style.css";
 import {Panel, Label, FormGroup, FormControl, ControlLabel, Checkbox, Col, Clearfix, Glyphicon} from "react-bootstrap";
 import TableTemplate from '../TableTemplate.js';
+import statsMods from "../../Inf/StatMods.json";
+import PanelButtonToggle from "../PanelButtonToggle/PanelButtonToggle.js";
 import PropTypes from 'prop-types';
 import _ from "lodash";
 
@@ -14,12 +16,12 @@ class StatsBlock extends Component {
 		this.state = {
 			panelOpen: true,
 			panelGlyph: "minus",
-			Strength: null,
-			Wisdom: null,
-			Dexterity: null,
-			Constitution: null,
-			Intelligence: null,
-			Charisma: null,
+			Strength: {"value":null,"mod":null},
+			Wisdom: {"value":null,"mod":null},
+			Dexterity: {"value":null,"mod":null},
+			Constitution: {"value":null,"mod":null},
+			Intelligence: {"value":null,"mod":null},
+			Charisma: {"value":null,"mod":null},
 			statProficiencies: {"Strength": {"Saving Throw":false, "Athletics":false}, "Dexterity": {"Saving Throw":false, "Acrobatics":false, "Slight of Hand":false, "Stealth":false}, "Constitution": {"Saving Throw":false}, "Intelligence": {"Saving Throw":false, "Arcana":false, "History":false, "Investigation":false, "Investigation":false, "Nature":false, "Religion":false}, "Wisdom": {"Saving Throw":false, "Animal Handling": false, "Insight":false, "Medicine":false, "Perception":false, "Survival":false}, "Charisma": {"Saving Throw":false, "Deception":false, "Intimidation":false, "Performance":false, "Persuasion":false}}
 		};
 	}
@@ -29,10 +31,22 @@ class StatsBlock extends Component {
 		
 	}
 
+	calcStatMod(value){
+		var mod = 0;
+		for (var index in statsMods) {
+			if (value <= statsMods[index].score) {
+				mod = statsMods[index].mod;
+				break;
+			}
+		}
+		return mod;
+	}
+
 	onChange(event) {
 		let name = event.target.name
 		let value = event.target.value
-		this.setState({...this.state, [name]: value});
+		let mod = this.calcStatMod(value);
+		this.setState({...this.state, [name]: {"value":value, "mod":mod}});
 		this.debounceChange(name, value);
 	}
 
@@ -54,6 +68,14 @@ class StatsBlock extends Component {
 		});
 	}
 
+	getModForStat(key) {
+		if (!this.state[key].mod && this.state[key].mod != 0) {
+			return null;
+		}
+		let mod = this.state[key].mod;
+		return mod > 0 ? "+"+mod : mod;
+	}
+
 	togglePanel() {
 		let open = true;
 		let glyph = "minus";
@@ -68,11 +90,11 @@ class StatsBlock extends Component {
 		return this.statKeys.map((key) => {
 			return (
 				<Col xs={4} sm={2} key={key} className="form-col">
-					<ControlLabel>{key}:</ControlLabel>
+					<ControlLabel>{key}: {this.getModForStat(key)}</ControlLabel>
 					<FormControl
 				        type="text"
 				        name = {key}
-				        value={this.state[key] || ""}
+				        value={this.state[key].value || ""}
 				        onChange = {this.onChange.bind(this)}
 			        />
 			        <FormGroup>
@@ -87,17 +109,9 @@ class StatsBlock extends Component {
 	render() {
 		return (
 			<Col xs={12}>
-				<Panel expanded={this.state.panelOpen} onToggle={this.togglePanel.bind(this)}>
-					<Panel.Heading>
-						Stats & Proficiencies
-						<Panel.Toggle componentClass="a" className="panel-toggle btn btn-default btn-xs"><Glyphicon glyph={this.state.panelGlyph} /></Panel.Toggle>
-					</Panel.Heading>
-					<Panel.Collapse>
-						<Panel.Body>
-							{this.statPanels()}
-						</Panel.Body>
-					</Panel.Collapse>
-				</Panel>
+				<PanelButtonToggle title="Stats & Proficiencies" defaultOpened>
+					{this.statPanels()}
+				</PanelButtonToggle>
 			</Col>
 		);
 	}
