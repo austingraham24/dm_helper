@@ -6,7 +6,7 @@ import CreatureClassificationArray from "../../Inf/CreatureClassification.json";
 import ReferenceStatTable from "./ReferenceStatTable/ReferenceStatTable.js";
 import {PageHeader, Panel, Clearfix, FormGroup, FormControl, ControlLabel, Row, Col} from "react-bootstrap";
 import TemplateSelect from "./TemplateSelect.js";
-import StatBlock from "./StatsBlock";
+import StatsPanel from "./StatsPanel/StatsPanel.js";
 import SelectField from "../SelectField.js"
 import DefenseBlock from "./DefenseBlock.js";
 import OffenseBlock from "./OffenseBlock.js";
@@ -175,7 +175,7 @@ class CreatureBuilder extends Component {
 					</Panel.Body>
 				</Panel>
 				<Row className="formRow">
-					<StatBlock />
+					<StatsPanel />
 				</Row>
 		      	{/*Creature Defenses Panel*/}
 	        	<Row className="formRow">

@@ -30,12 +30,3 @@
 .profLabel {
 	margin-top: 5px;
 }
-
-.panel-toggle {
-	float: right;
-}
-
-a.panel-toggle {
-	text-decoration: none;
-	color: black;
-}
