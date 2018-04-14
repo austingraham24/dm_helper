@@ -31,8 +31,17 @@ class StatsPanel extends Component {
 	}
 
 	//pass the stat and proficiency state to the index of the form
-	updateParent(name, value){
-		//console.log("UpdateParent",name, value);
+	updateParent(){
+		let stats = {};
+		Object.keys(this.state).map((key) => {
+			if (key === "statProficiencies") {
+				return
+			}
+			stats[key] = this.state[key];
+		});
+		let proficiencies = this.state.statProficiencies;
+		let dataObject = {"stats":stats, "proficiencies":proficiencies}
+		console.log(dataObject);
 	}
 
 	//called when user enables or disables proficiencies under stats
@@ -51,7 +60,7 @@ class StatsPanel extends Component {
 		let newStatState = this.state[statName];
 		newStatState.mod = mod;
 		this.setState({...this.state, [statName]: newStatState});
-		this.debounceUpdateParent(statName, statValue);
+		this.debounceUpdateParent();
 	}
 
 	//generates a statgroup component for each stat ("Strength", "Wsidom")

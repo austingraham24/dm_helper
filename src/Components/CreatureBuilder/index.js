@@ -46,9 +46,9 @@ class CreatureBuilder extends Component {
 				attackBonus: 0,
 				dpr: 0
 			},
-			stats: [],
+			stats: {},
 			languages: [],
-			proficiencies: []
+			proficiencies: {}
 		};
 	};
 
