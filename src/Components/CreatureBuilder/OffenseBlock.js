@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import {Panel, FormGroup, FormControl, ControlLabel, Col} from "react-bootstrap";
 import ActionBlock from "./ActionBlock";
+import PanelButtonToggle from "../PanelButtonToggle/PanelButtonToggle.js";
 import CalculationFunctions from "./CalculationFunctions";
 
 class OffenseBlock extends Component {
@@ -33,21 +34,18 @@ class OffenseBlock extends Component {
 	render() {
 		return (
 				<Col xs={12} md={7}>
-	        	{/*Creature Offenses Panel*/}
 	        	<FormGroup controlId="offenseBlock">
-	        		<Panel>
-	        			<Panel.Heading>Offense (CR: {this.props.offenseProps.offenseCR || 0})</Panel.Heading>
-						<Panel.Body>
-							<Col xs={12} md={4} className="form-col">
-											<ControlLabel>Attack Bonus: <span className="form-help">(Number only)</span></ControlLabel>
-											<FormControl
-												type="text"
-												name = "attackBonus"
-												value={this.state.attackBonus || ""}
-												onChange={this.handleChange.bind(this)}
-											/>
-										</Col>
-							<Col xs={12} md={4} className="form-col">
+					<PanelButtonToggle title={"Offense (CR: "+(this.props.offenseProps.offenseCR || 0)+")"} defaultOpened >
+						<Col xs={12} md={4} className="form-col">
+							<ControlLabel>Attack Bonus: <span className="form-help">(Number only)</span></ControlLabel>
+							<FormControl
+								type="text"
+								name = "attackBonus"
+								value={this.state.attackBonus || ""}
+								onChange={this.handleChange.bind(this)}
+							/>
+						</Col>
+						<Col xs={12} md={4} className="form-col">
 							<ControlLabel>Save DC:</ControlLabel>
 				        	<FormControl
 					            type="text"
@@ -66,8 +64,7 @@ class OffenseBlock extends Component {
 					          />
 					    </Col>
 					    <ActionBlock />
-						</Panel.Body>
-					</Panel>
+					</PanelButtonToggle>
 					</FormGroup>
 	        	</Col>
 		);

@@ -67,11 +67,9 @@ class DefenseBlock extends Component {
 		return (
 			<Col xs={12} md={5}>
 	        	<FormGroup controlId="deffenseBlock">
-	        		<Panel>
-	        			<Panel.Heading>Defense (CR: {this.props.defenseProps.defenseCR || 0})</Panel.Heading>
-						<Panel.Body>
-							<Col xs={12} sm={6} className="form-col">
-								<ControlLabel>Health Points: {this.getHitDice()}</ControlLabel>
+					<PanelButtonToggle title={"Defense (CR: "+(this.props.defenseProps.defenseCR || 0)+")"} defaultOpened >
+						<Col xs={12} sm={6} className="form-col">
+							<ControlLabel>Health Points: {this.getHitDice()}</ControlLabel>
 								<FormControl
 									type="text"
 									name = "hp"
@@ -79,34 +77,33 @@ class DefenseBlock extends Component {
 									placeholder="It's dead Jim."
 									onChange={this.handleChange.bind(this)}
 								/>
-							</Col>
-							<Col xs={12} sm={6} className="form-col">
-							<ControlLabel>Armor Class:</ControlLabel>
-				        	<FormControl
-					            type="text"
-					            name = "ac"
-					            value={this.state.ac || ""}
-					            placeholder="#GlassCannon"
-					            onChange={this.handleChange.bind(this)}
-					          />
-					        </Col>
-					        <Col xs={12} sm={6} className="form-col">
+						</Col>
+						<Col xs={12} sm={6} className="form-col">
+						<ControlLabel>Armor Class:</ControlLabel>
+						<FormControl
+							type="text"
+							name = "ac"
+							value={this.state.ac || ""}
+							placeholder="#GlassCannon"
+							onChange={this.handleChange.bind(this)}
+							/>
+						</Col>
+					    <Col xs={12} sm={6} className="form-col">
 							<ControlLabel>Effective Health Points:</ControlLabel>
 				        	<div>{this.props.defenseProps.effectiveHP || 0}</div>
-					        </Col>
-					        <Col xs={12} sm={6} className="form-col">
+					    </Col>
+					    <Col xs={12} sm={6} className="form-col">
 							<ControlLabel>Effective Armor Class:</ControlLabel>
 				        	<div>{this.props.defenseProps.effectiveAC || 0}</div>
-					        </Col>
-					        <Col xs={12} className="form-col">
+					    </Col>
+					    <Col xs={12} className="form-col">
 					        <PanelButtonToggle title="Damage Modifiers">
 					        	<HealthMod name="Immunities" prefill={this.state.immunities} updateMods={this.updateDamageMod.bind(this)} exceptionMods={this.getExceptionMods("immunities")}/>
 								<HealthMod name="Resistances" prefill={this.state.resistances} updateMods={this.updateDamageMod.bind(this)} exceptionMods={this.getExceptionMods("resistances")} />
 								<HealthMod name="Vulnerabilities" prefill={this.state.vulnerabilities} updateMods={this.updateDamageMod.bind(this)} exceptionMods={this.getExceptionMods("vulnerabilities")} />
 					        </PanelButtonToggle>
 					    </Col>
-						</Panel.Body>
-					</Panel>
+					</PanelButtonToggle>
 	        	</FormGroup>
 	        	</Col>
 		);

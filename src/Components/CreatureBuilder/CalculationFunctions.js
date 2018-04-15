@@ -44,6 +44,7 @@ function calculateCR(field, value, referenceCR = null) {
 
 function calculateFinalCR(dataObject) {
 	var newState = dataObject;
+	console.log("new state:",newState);
 	newState.offenses = calculateOverallOffensiveCR(newState.offenses);
 	newState.defenses = calculateOverallDefensiveCR(newState.defenses);
 	let defenseCRIndex = crKeys.indexOf(newState.defenses.defenseCR.toString());
@@ -95,6 +96,7 @@ function calculateOverallDefensiveCR(dataObject) {
 //take into account all offensive properties like modifiers, damage, and saving throw difficulty
 function calculateOverallOffensiveCR(dataObject) {
 	let offenses = dataObject;
+	console.log(offenses);
 	let finalOffenseCR = 0;
 
 	//calculate the Challenge Ratings for each field

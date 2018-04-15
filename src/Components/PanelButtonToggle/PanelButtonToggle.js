@@ -8,8 +8,13 @@ class PanelButtonToggle extends Component {
 		super(props);
 		let defaultOpened = this.props.defaultOpened || false;
 		let startingGlyph = defaultOpened? "minus" : "plus";
+		let title = this.props.title;
+		if (this.props.closedTitle && !defaultOpened) {
+			title = this.props.closedTitle;
+		}
 
 		this.state = {
+			title: title,
 			panelOpen: defaultOpened,
 			panelGlyph: startingGlyph
 		};
@@ -18,14 +23,20 @@ class PanelButtonToggle extends Component {
 	togglePanel() {
 		let open = !this.state.panelOpen;
 		let glyph = open ? "minus" : "plus";
-		this.setState({panelOpen: open, panelGlyph: glyph});
+		let title = this.props.title;
+		if (this.props.closedTitle || this.props.closedTitle === "") {
+			if (!open) {
+				title = this.props.closedTitle;
+			}
+		}
+		this.setState({panelOpen: open, panelGlyph: glyph, "title":title});
 	}
 
 	render() {
 		return (
 			<Panel expanded={this.state.panelOpen} onToggle={this.togglePanel.bind(this)}>
 				<Panel.Heading>
-					{this.props.title}
+					{this.state.title}
 					<Panel.Toggle componentClass="a" className="panel-toggle btn btn-default btn-xs"><Glyphicon glyph={this.state.panelGlyph} /></Panel.Toggle>
 				</Panel.Heading>
 				<Panel.Body collapsible>
@@ -41,7 +52,10 @@ PanelButtonToggle.propTypes = {
 	/*REQUIRED*/
 
 	/*Optional*/
-	title: PropTypes.string, //the string for the title of the the panel
+	title: PropTypes.oneOfType([
+		PropTypes.string,
+		PropTypes.element
+	  ]), //what should be the label of the panel; either a string or a react element
 	defaultOpened: PropTypes.bool //should the panel be open by default (if not provided the default is false)
 }
 

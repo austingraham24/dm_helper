@@ -1,8 +1,12 @@
+.panel > .panel-heading {
+	min-height: 41px;
+}
+
 .panel-toggle {
 	float: right;
 }
 
 a.panel-toggle {
 	text-decoration: none;
-	color: black;
+	/*color: black;*/
 }
