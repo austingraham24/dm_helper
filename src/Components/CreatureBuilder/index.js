@@ -11,6 +11,7 @@ import StatsPanel from "./StatsPanel/StatsPanel.js";
 import SelectField from "../SelectField.js"
 import DefenseBlock from "./DefenseBlock.js";
 import OffenseBlock from "./OffenseBlock.js";
+import MovementBlock from "./Movement/MovementBlock.js";
 import CalculationFunctions from "./CalculationFunctions";
 import PropTypes from 'prop-types';
 
@@ -176,23 +177,7 @@ class CreatureBuilder extends Component {
 							</Col>
 						</Row>
 						<Row className="formRow">
-							<FormGroup controlId="creatureMovement">
-								<Col sm={12} className="form-col">
-									<Col xs={12} md={5} className="form-col">
-										<ControlLabel>Movement:</ControlLabel>
-										<FormControl
-											type="text"
-											name = "movement"
-											value={this.state.movement}
-											placeholder="Creature Type (e.g. Skeleton)"
-											onChange={this.handleChange.bind(this)}
-										/>
-									</Col>
-									<Col xs={12} md={7} className="form-col">
-										<h1>In progress</h1>
-									</Col>
-								</Col>
-							</FormGroup>
+							<MovementBlock />
 						</Row>
 						<Row className="formRow">
 							<Col xs={12} md={5}>

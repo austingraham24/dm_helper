@@ -79,14 +79,14 @@ class DefenseBlock extends Component {
 								/>
 						</Col>
 						<Col xs={12} sm={6} className="form-col">
-						<ControlLabel>Armor Class:</ControlLabel>
-						<FormControl
-							type="text"
-							name = "ac"
-							value={this.state.ac || ""}
-							placeholder="#GlassCannon"
-							onChange={this.handleChange.bind(this)}
-							/>
+							<ControlLabel>Armor Class:</ControlLabel>
+							<FormControl
+								type="text"
+								name = "ac"
+								value={this.state.ac || ""}
+								placeholder="#GlassCannon"
+								onChange={this.handleChange.bind(this)}
+								/>
 						</Col>
 					    <Col xs={12} sm={6} className="form-col">
 							<ControlLabel>Effective Health Points:</ControlLabel>
@@ -98,9 +98,24 @@ class DefenseBlock extends Component {
 					    </Col>
 					    <Col xs={12} className="form-col">
 					        <PanelButtonToggle title="Damage Modifiers">
-					        	<HealthMod name="Immunities" prefill={this.state.immunities} updateMods={this.updateDamageMod.bind(this)} exceptionMods={this.getExceptionMods("immunities")}/>
-								<HealthMod name="Resistances" prefill={this.state.resistances} updateMods={this.updateDamageMod.bind(this)} exceptionMods={this.getExceptionMods("resistances")} />
-								<HealthMod name="Vulnerabilities" prefill={this.state.vulnerabilities} updateMods={this.updateDamageMod.bind(this)} exceptionMods={this.getExceptionMods("vulnerabilities")} />
+								<HealthMod 
+									name="Immunities" 
+									prefill={this.state.immunities} 
+									updateMods={this.updateDamageMod.bind(this)} 
+									exceptionMods={this.getExceptionMods("immunities")}
+								/>
+								<HealthMod 
+									name="Resistances" 
+									prefill={this.state.resistances} 
+									updateMods={this.updateDamageMod.bind(this)} 
+									exceptionMods={this.getExceptionMods("resistances")} 
+								/>
+								<HealthMod 
+									name="Vulnerabilities" 
+									prefill={this.state.vulnerabilities} 
+									updateMods={this.updateDamageMod.bind(this)} 
+									exceptionMods={this.getExceptionMods("vulnerabilities")} 
+								/>
 					        </PanelButtonToggle>
 					    </Col>
 					</PanelButtonToggle>
