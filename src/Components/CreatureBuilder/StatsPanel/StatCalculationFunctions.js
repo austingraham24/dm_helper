@@ -41,7 +41,7 @@ function getModForStat(statObject) {
         return null;
     }
     let mod = statObject.mod;
-    return mod > 0 ? "+"+mod : mod;
+    return mod >= 0 ? "+"+mod : mod;
 }
 
 //helper functions

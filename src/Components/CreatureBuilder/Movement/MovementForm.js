@@ -5,51 +5,64 @@ import "./style.css";
 class MovementForm extends Component {
     constructor(props) {
         super(props);
-
+        console.log(this.props.speed);
         this.state={
-            visible: false,
-            speed: "",
-            type: "",
-            onSubmit: this.props.onSubmit
+            speed: this.props.speed || "",
+            type: this.props.type || "",
+            hover: this.props.hover || false,
         };
+        console.log(this.state);
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        this.submitChanges()
+    }
+
+    onChange(event) {
+        let name = event.target.name;
+        let value = event.target.value;
+        if(name === "hover") {
+            value = event.target.checked;
+        }
+        this.setState({[name]:value});
+    }
+
+    submitChanges() {
+        let speed = this.state.speed;
+        let type = this.state.type;
+        let hover = this.state.hover;
+        if((speed || speed === "0") && type) {
+            this.props.submitChanges({"type":type, "speed":speed, "hover":hover});
+        }
     }
 
     render() {
         return (
-            <Col xs={12} className="form-col" className="movement-form">
-                <Form horizontal>
-                    <Col xs={4} className="movement-form-col">
-                        <FormGroup controlId="movement-type" validationState={null} className="movement">
-                        <FormControl
-                            type="text"
-                            name = "movement-form"
-                            value={this.state.name}
-                            placeholder="Walking"
-                            onChange={this.state.onSubmit.bind(this)}
-                            validationState=""
-                        />
-                        </FormGroup>
-                    </Col>
-                    <Col xs={2} className="movement-form-col">
-                        <FormGroup controlId="movement-speed" validationState={null} className="movement">
-                            <FormControl
-                                type="text"
-                                name = "movement-form"
-                                value={this.state.name}
-                                placeholder="30ft"
-                                onChange={this.state.onSubmit.bind(this)}
-                            />
-                        </FormGroup>
-                    </Col>
-                    <Col xs={2} className="movement-form-col">
-                        <FormGroup controlId="movement-hover" validationState={null} className="movement">
-                            <Checkbox checked={false} name="hover" onChange={()=>{}} bsClass="checkbox" className="movement-input">(Hover)</Checkbox>
-                        </FormGroup>
-                    </Col>
-                    <Col xs={4}>
-                        <Button><Glyphicon glyph="plus"/> Add</Button>
-                    </Col>
-                </Form>
+            <Col xs={12} className="form-col">
+                <Col xs={4} className="movement-form-col">
+                    <FormControl
+                        type="text"
+                        name = "type"
+                        value={this.state.type}
+                        placeholder="Walking"
+                        onChange={this.onChange.bind(this)}
+                    />
+                </Col>
+                <Col xs={2} className="movement-form-col">
+                    <FormControl
+                        type="text"
+                        name = "speed"
+                        value={this.state.speed}
+                        placeholder="30ft"
+                        onChange={this.onChange.bind(this)}
+                    />
+                </Col>
+                <Col xs={2} className="movement-form-col">
+                    <Checkbox checked={this.state.hover} name="hover" onChange={this.onChange.bind(this)} bsClass="checkbox" className="movement-input">(Hover)</Checkbox>
+                </Col>
+                <Col xs={4}>
+                    <Button>Save</Button>
+                </Col>
             </Col>
         );
     }

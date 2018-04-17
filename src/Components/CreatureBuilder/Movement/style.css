@@ -9,6 +9,19 @@
     margin:0px;
 }
 
-.movement-form .active{
+.movement-form{
     margin-top: 15px;
+}
+
+.panel.movement-panel{
+    border: none;
+    box-shadow: none;
+}
+
+.panel.movement-panel  .panel-body{
+    padding:0;
+}
+
+.btn.remove-button {
+    border-radius: 50%;
 }

@@ -5,13 +5,9 @@ import {Button} from 'react-bootstrap';
 
 const Landing  = () => {
 	return(
-		<div>
-		<Link to="/CreatureBuilder">
-			Create!
-		</Link>
-		<br />
+		<div className="container">
 		<LinkContainer to="/CreatureBuilder">
-			<Button bsStyle="primary">Primary</Button>
+			<Button bsStyle="primary">Build-A-Creature!</Button>
 		</LinkContainer>
 		</div>
 	);

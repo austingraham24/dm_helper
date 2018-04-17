@@ -41,7 +41,7 @@ class StatsPanel extends Component {
 		});
 		let proficiencies = this.state.statProficiencies;
 		let dataObject = {"stats":stats, "proficiencies":proficiencies}
-		console.log(dataObject);
+		//console.log(dataObject);
 	}
 
 	//called when user enables or disables proficiencies under stats

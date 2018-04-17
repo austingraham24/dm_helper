@@ -1,5 +1,5 @@
 import React from 'react';
-import {Col} from "react-bootstrap";
+import {Col, Button, Glyphicon} from "react-bootstrap";
 
 const MovementItem = (props) => {
     let movementType = props.type;
@@ -8,6 +8,7 @@ const MovementItem = (props) => {
     return (
         <Col xs={12}>
             {movementType}: {speed}
+            {/* <Button bsStyle="danger" bsSize="xsmall" className="remove-button"><Glyphicon glyph="minus"/></Button> */}
         </Col>
     );
 }

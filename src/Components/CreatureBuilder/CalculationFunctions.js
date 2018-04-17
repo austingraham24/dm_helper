@@ -44,7 +44,7 @@ function calculateCR(field, value, referenceCR = null) {
 
 function calculateFinalCR(dataObject) {
 	var newState = dataObject;
-	console.log("new state:",newState);
+	//console.log("new state:",newState);
 	newState.offenses = calculateOverallOffensiveCR(newState.offenses);
 	newState.defenses = calculateOverallDefensiveCR(newState.defenses);
 	let defenseCRIndex = crKeys.indexOf(newState.defenses.defenseCR.toString());

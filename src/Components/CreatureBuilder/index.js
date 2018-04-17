@@ -176,10 +176,10 @@ class CreatureBuilder extends Component {
 								</FormGroup>
 							</Col>
 						</Row>
-						<Row className="formRow">
+						{/* <Row className="formRow">
 							<MovementBlock />
-						</Row>
-						<Row className="formRow">
+						</Row> */}
+						{/* <Row className="formRow">
 							<Col xs={12} md={5}>
 								<PanelButtonToggle title="Languages and Senses" defaultOpened >
 									<h1>Test</h1>
@@ -190,7 +190,7 @@ class CreatureBuilder extends Component {
 									<h1>Test</h1>
 								</PanelButtonToggle>
 							</Col>
-						</Row>
+						</Row> */}
 					</Panel.Body>
 				</Panel>
 				<Row className="formRow">
