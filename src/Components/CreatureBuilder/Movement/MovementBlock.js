@@ -72,17 +72,16 @@ class MovementBlock extends Component {
     render() {
         return (
             <FormGroup controlId="creatureMovement">
-            <Col sm={12} className="form-col">
-                <Col xs={12} md={5} className="form-col">
+            <Col xs={12} md={6} className="form-col">
+                <Col xs={12}className="form-col">
                     <ControlLabel>Movement:</ControlLabel>
                     {this.setUpMovement()}
 
-                    <Col xs={12}>
-                        <Button bsStyle="primary" bsSize="xsmall" onClick={this.toggleFormVisible.bind(this)}>{this.state.toggleLabel}</Button>
-                    </Col>
-                </Col>
-                <Col xs={12} md={7} className="form-col">
-                    <h1>In progress</h1>
+                    <Row>
+                        <Col xs={12}>
+                            <Button bsStyle="primary" bsSize="xsmall" onClick={this.toggleFormVisible.bind(this)}>{this.state.toggleLabel}</Button>
+                        </Col>
+                    </Row>
                 </Col>
             </Col>
         </FormGroup>

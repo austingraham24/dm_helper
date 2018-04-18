@@ -69,8 +69,8 @@ class MovementForm extends Component {
 
     render() {
         return (
-            <Col xs={12} className="form-col">
-                <Col xs={4} className="movement-form-col">
+            <Row>
+                <Col xs={6} sm={4}>
                     <FormControl
                         type="text"
                         name = "type"
@@ -79,7 +79,7 @@ class MovementForm extends Component {
                         onChange={this.onChange.bind(this)}
                     />
                 </Col>
-                <Col xs={3} className="movement-form-col">
+                <Col xs={6} sm={3}>
                     <InputGroup>
                         <FormControl
                             type="text"
@@ -91,13 +91,13 @@ class MovementForm extends Component {
                         <InputGroup.Addon>ft</InputGroup.Addon>
                     </InputGroup>
                 </Col>
-                <Col xs={2} className="movement-form-col">
+                <Col xs={6} sm={2}>
                     <Checkbox checked={this.state.hover} name="hover" onChange={this.onChange.bind(this)} bsClass="checkbox" className="movement-input">(Hover)</Checkbox>
                 </Col>
-                <Col xs={3}>
+                <Col xs={6} sm={3}>
                     {this.getSubmitButton()}
                 </Col>
-            </Col>
+            </Row>
         );
     }
 }
