@@ -6,30 +6,65 @@ import MovementForm from './MovementForm';
 class MovementBlock extends Component {
     constructor(props) {
         super(props);
+        this.onSubmit = this.props.onSubmit || null
 
         this.state={
             isEditing: false,
-            movementItems:[{type:"Walking", speed: "30ft", hover:false}],//{type:"",speed:"", hover: bool}
-            onSubmit: this.props.onSubmit
+            movementItems: this.props.movement || [{type:"Walking", speed: "30ft", hover:false}],//{type:"",speed:"", hover: bool}
+            toggleLabel: "Edit Movment"
         };
     }
 
     toggleFormVisible(){
         let visible = !this.state.isEditing;
-        this.setState({"isEditing":visible});
+        let label = "Edit Movment";
+        if(visible) {
+            label = "Save Changes"
+        }
+        else {
+            if(this.onSubmit) {
+                this.onSubmit("movement", this.state.movementItems);
+            }
+        }
+        this.setState({...this.state, isEditing:visible, toggleLabel: label});
+    }
+
+    handleChange(action, index = null, newData = null) {
+        let newMovementItems = [...this.state.movementItems];
+        if(action === "delete" && index != null) {
+            newMovementItems.splice(index, 1);
+        }
+        else if(action === "add" && newData != null) {
+            newMovementItems.push(newData);
+        }
+        else if(action === "update" && index!=null && newData != null) {
+            newMovementItems.splice(index, 1, newData);
+        }
+        if(action === "update" || (newMovementItems.length !== this.state.movementItems.length)){
+            this.setState({movementItems:newMovementItems});
+        }
+    }
+
+    layoutExistingItemsForms() {
+        return (
+            this.state.movementItems.map((item, index) => {
+                return <MovementForm key={index} index={index} type={item.type} speed={item.speed} hover={item.hover} submitChanges={this.handleChange.bind(this)}/>
+            })
+        );
     }
 
     setUpMovement() {
         if(this.state.isEditing) {
             return (
-                this.state.movementItems.map((item) => {
-                    return <MovementForm type={item.type} speed={item.speed} hover={item.hover}/>
-                })
+                <React.Fragment>
+                    {this.layoutExistingItemsForms()}
+                    <MovementForm submitChanges={this.handleChange.bind(this)}/>
+                </React.Fragment>
             );
         }
         return (
             this.state.movementItems.map((item) => {
-                return <MovementItem type={item.type} speed={item.speed} hover={item.hover}/>
+                return <MovementItem key={item.type} type={item.type} speed={item.speed} hover={item.hover}/>
             })
         );
     }
@@ -41,8 +76,9 @@ class MovementBlock extends Component {
                 <Col xs={12} md={5} className="form-col">
                     <ControlLabel>Movement:</ControlLabel>
                     {this.setUpMovement()}
+
                     <Col xs={12}>
-                        <Button bsStyle="primary" bsSize="xsmall" onClick={this.toggleFormVisible.bind(this)}>Edit Movment</Button>
+                        <Button bsStyle="primary" bsSize="xsmall" onClick={this.toggleFormVisible.bind(this)}>{this.state.toggleLabel}</Button>
                     </Col>
                 </Col>
                 <Col xs={12} md={7} className="form-col">

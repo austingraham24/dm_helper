@@ -1,21 +1,23 @@
 import React, {Component} from 'react';
-import {Form, PageHeader, Panel, Clearfix, FormGroup, FormControl, ControlLabel, Row, Col, Checkbox, Button, Glyphicon} from "react-bootstrap";
+import {Form, PageHeader, Panel, Clearfix, InputGroup, FormGroup, FormControl, ControlLabel, Row, Col, Checkbox, Button, Glyphicon} from "react-bootstrap";
 import "./style.css";
+import _ from "lodash";
 
 class MovementForm extends Component {
     constructor(props) {
         super(props);
-        console.log(this.props.speed);
+
+        this.debouncedSubmit = _.debounce(this.submitChanges, 500);
+        
         this.state={
             speed: this.props.speed || "",
             type: this.props.type || "",
-            hover: this.props.hover || false,
+            hover: this.props.hover || false
         };
-        console.log(this.state);
     }
 
     componentDidUpdate(prevProps, prevState) {
-        this.submitChanges()
+        this.debouncedSubmit("update")
     }
 
     onChange(event) {
@@ -27,13 +29,42 @@ class MovementForm extends Component {
         this.setState({[name]:value});
     }
 
-    submitChanges() {
-        let speed = this.state.speed;
-        let type = this.state.type;
-        let hover = this.state.hover;
-        if((speed || speed === "0") && type) {
-            this.props.submitChanges({"type":type, "speed":speed, "hover":hover});
+    buttonClick(event) {
+        let action = event.target.name
+        if (action === "deleteButton") {
+            this.submitChanges("delete");
         }
+        else if(action === "addButton") {
+            this.submitChanges("add");
+        }
+    }
+
+    submitChanges(action) {
+        if (action === "delete") {
+            this.props.submitChanges("delete", this.props.index);
+        }
+        else {
+            let speed = this.state.speed;
+            let type = this.state.type;
+            let hover = this.state.hover;
+            if((speed || speed === "0") && type) {
+                this.props.submitChanges(action, this.props.index, {"type":type, "speed":speed, "hover":hover});
+                if(action === "add"){
+                    this.setState({
+                        speed: "",
+                        type: "",
+                        hover: false
+                    });
+                }
+            }
+        }
+    }
+
+    getSubmitButton() {
+        if(this.props.type) {
+            return <Button bsStyle="danger" onClick={this.buttonClick.bind(this)} name="deleteButton">Delete</Button>
+        }
+        return <Button bsStyle="default" onClick={this.buttonClick.bind(this)} name="addButton">Add</Button>
     }
 
     render() {
@@ -48,20 +79,23 @@ class MovementForm extends Component {
                         onChange={this.onChange.bind(this)}
                     />
                 </Col>
-                <Col xs={2} className="movement-form-col">
-                    <FormControl
-                        type="text"
-                        name = "speed"
-                        value={this.state.speed}
-                        placeholder="30ft"
-                        onChange={this.onChange.bind(this)}
-                    />
+                <Col xs={3} className="movement-form-col">
+                    <InputGroup>
+                        <FormControl
+                            type="text"
+                            name = "speed"
+                            value={this.state.speed}
+                            placeholder="30"
+                            onChange={this.onChange.bind(this)}
+                        />
+                        <InputGroup.Addon>ft</InputGroup.Addon>
+                    </InputGroup>
                 </Col>
                 <Col xs={2} className="movement-form-col">
                     <Checkbox checked={this.state.hover} name="hover" onChange={this.onChange.bind(this)} bsClass="checkbox" className="movement-input">(Hover)</Checkbox>
                 </Col>
-                <Col xs={4}>
-                    <Button>Save</Button>
+                <Col xs={3}>
+                    {this.getSubmitButton()}
                 </Col>
             </Col>
         );

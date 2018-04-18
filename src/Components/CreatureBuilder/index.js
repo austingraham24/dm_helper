@@ -50,7 +50,8 @@ class CreatureBuilder extends Component {
 			},
 			stats: {},
 			languages: [],
-			proficiencies: {}
+			proficiencies: {},
+			movement: []
 		};
 	};
 
@@ -67,6 +68,10 @@ class CreatureBuilder extends Component {
 		}
 		this.precalculateFormChanges(newDataObject);
 		//console.log(this.calculateCR(event.target.name, event.target.value));
+	}
+
+	updateNonCalculatedProperties(propName, data) {
+		this.setState({[propName]: data});
 	}
 
 	//method that will actually end up updating state; runs all calculations to get updated values before updating state
@@ -101,7 +106,6 @@ class CreatureBuilder extends Component {
 	}
 
 	render() {
-		//console.log(this.state);
 		return (
 		  <div className="container">
 		  	<PageHeader>Creature Builder</PageHeader>
@@ -176,9 +180,9 @@ class CreatureBuilder extends Component {
 								</FormGroup>
 							</Col>
 						</Row>
-						{/* <Row className="formRow">
-							<MovementBlock />
-						</Row> */}
+						<Row className="formRow">
+							<MovementBlock onSubmit={this.updateNonCalculatedProperties.bind(this)} movement={this.state.movement}/>
+						</Row>
 						{/* <Row className="formRow">
 							<Col xs={12} md={5}>
 								<PanelButtonToggle title="Languages and Senses" defaultOpened >
