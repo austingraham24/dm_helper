@@ -96,7 +96,6 @@ function calculateOverallDefensiveCR(dataObject) {
 //take into account all offensive properties like modifiers, damage, and saving throw difficulty
 function calculateOverallOffensiveCR(dataObject) {
 	let offenses = dataObject;
-	console.log(offenses);
 	let finalOffenseCR = 0;
 
 	//calculate the Challenge Ratings for each field

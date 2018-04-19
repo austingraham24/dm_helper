@@ -67,7 +67,7 @@ class DefenseBlock extends Component {
 		return (
 			<Col xs={12} md={5}>
 	        	<FormGroup controlId="deffenseBlock">
-					<PanelButtonToggle title={"Defense (CR: "+(this.props.defenseProps.defenseCR || 0)+")"} defaultOpened >
+					<PanelButtonToggle title={"Defense (CR: "+(this.props.defenseProps.defenseCR)+")"} defaultOpened >
 						<Col xs={12} sm={6} className="form-col">
 							<ControlLabel>Health Points: {this.getHitDice()}</ControlLabel>
 								<FormControl

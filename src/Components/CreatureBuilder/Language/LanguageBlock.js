@@ -1,17 +1,17 @@
 import React, {Component} from 'react';
 import {PageHeader, Panel, Clearfix, FormGroup, FormControl, ControlLabel, Row, Col, Button, Glyphicon} from "react-bootstrap";
-import MovementItem from "./MovementItem";
-import MovementForm from './MovementForm';
+//import MovementItem from "./MovementItem";
+//import MovementForm from './MovementForm';
 
-class MovementBlock extends Component {
+class LanguageBlock extends Component {
     constructor(props) {
         super(props);
         this.onSubmit = this.props.onSubmit || null
 
         this.state={
             isEditing: false,
-            movementItems: this.props.movement || [{type:"Walking", speed: "30ft", hover:false}],//{type:"",speed:"", hover: bool}
-            toggleLabel: "Edit Movment"
+            languages: this.props.languages || [],
+            toggleLabel: "Edit Languages"
         };
     }
 
@@ -47,26 +47,31 @@ class MovementBlock extends Component {
 
     layoutExistingItemsForms() {
         return (
-            this.state.movementItems.map((item, index) => {
-                return <MovementForm key={index} index={index} type={item.type} speed={item.speed} hover={item.hover} submitChanges={this.handleChange.bind(this)}/>
+            this.state.languages.map((item, index) => {
+                return null;//return <MovementForm key={index} index={index} type={item.type} speed={item.speed} hover={item.hover} submitChanges={this.handleChange.bind(this)}/>
             })
         );
     }
 
-    setUpMovement() {
+    setUpLanguages() {
         if(this.state.isEditing) {
             return (
                 <React.Fragment>
                     {this.layoutExistingItemsForms()}
-                    <MovementForm submitChanges={this.handleChange.bind(this)}/>
+                    {/* <MovementForm submitChanges={this.handleChange.bind(this)}/> */}
                 </React.Fragment>
             );
         }
-        return (
-            this.state.movementItems.map((item) => {
-                return <MovementItem key={item.type} type={item.type} speed={item.speed} hover={item.hover}/>
+        let languageString = "";
+            this.state.languages.map((item, index) => {
+                if(index === 0) {
+                    languageString += item;
+                }
+                else {
+                    languageString += ", "+item;
+                }
             })
-        );
+        return <div>{languageString}</div>
     }
 
     render() {
@@ -74,8 +79,8 @@ class MovementBlock extends Component {
             <Col xs={12} md={6} className="form-col">
                 <FormGroup controlId="creatureMovement">
                     <Col xs={12}className="form-col">
-                        <ControlLabel>Movement:</ControlLabel>
-                        {this.setUpMovement()}
+                        <ControlLabel>Language:</ControlLabel>
+                        {this.setUpLanguages()}
 
                         <Row>
                             <Col xs={12}>
@@ -89,4 +94,4 @@ class MovementBlock extends Component {
     }
 }
 
-export default MovementBlock;
+export default LanguageBlock;

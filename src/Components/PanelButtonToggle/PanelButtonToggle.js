@@ -14,7 +14,6 @@ class PanelButtonToggle extends Component {
 		}
 
 		this.state = {
-			title: title,
 			panelOpen: defaultOpened,
 			panelGlyph: startingGlyph
 		};
@@ -29,14 +28,25 @@ class PanelButtonToggle extends Component {
 				title = this.props.closedTitle;
 			}
 		}
-		this.setState({panelOpen: open, panelGlyph: glyph, "title":title});
+		this.setState({panelOpen: open, panelGlyph: glyph});
+	}
+
+	getTitle() {
+		let open = this.state.panelOpen;
+		let title = this.props.title;
+		if (this.props.closedTitle || this.props.closedTitle === "") {
+			if (!open) {
+				title = this.props.closedTitle;
+			}
+		}
+		return title;
 	}
 
 	render() {
 		return (
 			<Panel expanded={this.state.panelOpen} onToggle={this.togglePanel.bind(this)}>
 				<Panel.Heading>
-					{this.state.title}
+					{this.getTitle.bind(this)()}
 					<Panel.Toggle componentClass="a" className="panel-toggle btn btn-default btn-xs"><Glyphicon glyph={this.state.panelGlyph} /></Panel.Toggle>
 				</Panel.Heading>
 				<Panel.Body collapsible>

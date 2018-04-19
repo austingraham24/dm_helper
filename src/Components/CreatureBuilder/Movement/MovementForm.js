@@ -62,9 +62,9 @@ class MovementForm extends Component {
 
     getSubmitButton() {
         if(this.props.type) {
-            return <Button bsStyle="danger" onClick={this.buttonClick.bind(this)} name="deleteButton">Delete</Button>
+            return <Button bsSize="small" bsStyle="danger" onClick={this.buttonClick.bind(this)} name="deleteButton">Delete</Button>
         }
-        return <Button bsStyle="default" onClick={this.buttonClick.bind(this)} name="addButton">Add</Button>
+        return <Button bsSize="small" bsStyle="default" onClick={this.buttonClick.bind(this)} name="addButton">Add</Button>
     }
 
     render() {
@@ -77,10 +77,11 @@ class MovementForm extends Component {
                         value={this.state.type}
                         placeholder="Walking"
                         onChange={this.onChange.bind(this)}
+                        bsSize="small"
                     />
                 </Col>
                 <Col xs={6} sm={3}>
-                    <InputGroup>
+                    <InputGroup bsSize="small">
                         <FormControl
                             type="text"
                             name = "speed"
@@ -92,7 +93,7 @@ class MovementForm extends Component {
                     </InputGroup>
                 </Col>
                 <Col xs={6} sm={2}>
-                    <Checkbox checked={this.state.hover} name="hover" onChange={this.onChange.bind(this)} bsClass="checkbox" className="movement-input">(Hover)</Checkbox>
+                    <Checkbox bsSize="small" checked={this.state.hover} name="hover" onChange={this.onChange.bind(this)} bsClass="checkbox" className="movement-input">(Hover)</Checkbox>
                 </Col>
                 <Col xs={6} sm={3}>
                     {this.getSubmitButton()}

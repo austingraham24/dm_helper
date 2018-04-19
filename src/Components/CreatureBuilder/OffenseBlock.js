@@ -20,6 +20,9 @@ class OffenseBlock extends Component {
 			let currentState = this.state;
 			this.props.handleChange(currentState);
 		}
+		if(prevProps.offenseProps.offenseCR !== this.props.offenseProps.offenseCR) {
+			this.render();
+		}
 	}
 
 	handleChange(event) {

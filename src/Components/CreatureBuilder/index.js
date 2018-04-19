@@ -12,6 +12,7 @@ import SelectField from "../SelectField.js"
 import DefenseBlock from "./DefenseBlock.js";
 import OffenseBlock from "./OffenseBlock.js";
 import MovementBlock from "./Movement/MovementBlock.js";
+import LanguageBlock from "./Language/LanguageBlock.js";
 import CalculationFunctions from "./CalculationFunctions";
 import PropTypes from 'prop-types';
 
@@ -49,7 +50,7 @@ class CreatureBuilder extends Component {
 				dpr: 0
 			},
 			stats: {},
-			languages: [],
+			languages: ["Common","Draconic"],
 			proficiencies: {},
 			movement: []
 		};
@@ -182,6 +183,7 @@ class CreatureBuilder extends Component {
 						</Row>
 						<Row className="formRow">
 							<MovementBlock onSubmit={this.updateNonCalculatedProperties.bind(this)} movement={this.state.movement}/>
+							<LanguageBlock languages={this.state.languages} onSubmit={this.updateNonCalculatedProperties.bind(this)} />
 						</Row>
 						{/* <Row className="formRow">
 							<Col xs={12} md={5}>
