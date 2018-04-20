@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
-import {PageHeader, Panel, Clearfix, FormGroup, FormControl, ControlLabel, Row, Col, Button, Glyphicon} from "react-bootstrap";
+import {PageHeader, Panel, Clearfix, FormGroup, FormControl, ControlLabel, Row, Col, ButtonGroup, Button, Glyphicon} from "react-bootstrap";
 //import MovementItem from "./MovementItem";
-//import MovementForm from './MovementForm';
+import LanguageForm from './LanguageForm.js';
 
 class LanguageBlock extends Component {
     constructor(props) {
@@ -30,25 +30,30 @@ class LanguageBlock extends Component {
     }
 
     handleChange(action, index = null, newData = null) {
-        let newMovementItems = [...this.state.movementItems];
+        let newLanguages = [...this.state.languages];
         if(action === "delete" && index != null) {
-            newMovementItems.splice(index, 1);
+            newLanguages.splice(index, 1);
         }
         else if(action === "add" && newData != null) {
-            newMovementItems.push(newData);
+            newLanguages.push(newData);
         }
         else if(action === "update" && index!=null && newData != null) {
-            newMovementItems.splice(index, 1, newData);
+            newLanguages.splice(index, 1, newData);
         }
-        if(action === "update" || (newMovementItems.length !== this.state.movementItems.length)){
-            this.setState({movementItems:newMovementItems});
+        if(action === "update" || (newLanguages.length !== this.state.languages.length)){
+            this.setState({languages:newLanguages});
         }
     }
 
     layoutExistingItemsForms() {
         return (
             this.state.languages.map((item, index) => {
-                return null;//return <MovementForm key={index} index={index} type={item.type} speed={item.speed} hover={item.hover} submitChanges={this.handleChange.bind(this)}/>
+                return (
+                    <ButtonGroup key={index} bsSize="xsmall">
+                        <Button>{item}</Button>
+                        <Button bsStyle="danger" onClick={(event) => {this.handleChange("delete", index)}}><Glyphicon glyph="minus"/></Button>
+                    </ButtonGroup>
+                );
             })
         );
     }
@@ -57,8 +62,8 @@ class LanguageBlock extends Component {
         if(this.state.isEditing) {
             return (
                 <React.Fragment>
-                    {this.layoutExistingItemsForms()}
-                    {/* <MovementForm submitChanges={this.handleChange.bind(this)}/> */}
+                    <div>{this.layoutExistingItemsForms()}</div>
+                    <LanguageForm submitChanges={this.handleChange.bind(this)}/>
                 </React.Fragment>
             );
         }

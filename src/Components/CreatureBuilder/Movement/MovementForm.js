@@ -17,7 +17,9 @@ class MovementForm extends Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        this.debouncedSubmit("update")
+        if(prevState!= this.state) {
+            this.debouncedSubmit("update")
+        }
     }
 
     onChange(event) {
@@ -64,13 +66,13 @@ class MovementForm extends Component {
         if(this.props.type) {
             return <Button bsSize="small" bsStyle="danger" onClick={this.buttonClick.bind(this)} name="deleteButton">Delete</Button>
         }
-        return <Button bsSize="small" bsStyle="default" onClick={this.buttonClick.bind(this)} name="addButton">Add</Button>
+        return <Button bsSize="small" bsStyle="success" onClick={this.buttonClick.bind(this)} name="addButton">Add</Button>
     }
 
     render() {
         return (
             <Row>
-                <Col xs={6} sm={4}>
+                <Col xs={6} sm={3}>
                     <FormControl
                         type="text"
                         name = "type"

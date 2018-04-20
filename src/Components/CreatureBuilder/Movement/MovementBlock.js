@@ -71,7 +71,7 @@ class MovementBlock extends Component {
 
     render() {
         return (
-            <Col xs={12} md={6} className="form-col">
+            <Col xs={12} md={5} className="form-col">
                 <FormGroup controlId="creatureMovement">
                     <Col xs={12}className="form-col">
                         <ControlLabel>Movement:</ControlLabel>

@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {Form, PageHeader, Panel, Clearfix, InputGroup, FormGroup, FormControl, ControlLabel, Row, Col, Checkbox, Button, Glyphicon} from "react-bootstrap";
-import "./style.css";
 import _ from "lodash";
 
 class LanguageForm extends Component {
@@ -12,10 +11,6 @@ class LanguageForm extends Component {
         this.state={
             value: null
         };
-    }
-
-    componentDidUpdate(prevProps, prevState) {
-        this.debouncedSubmit("update")
     }
 
     onChange(event) {
@@ -59,22 +54,20 @@ class LanguageForm extends Component {
     render() {
         return (
             <Row>
-                <Col xs={4} sm={3}>
+                <Col xs={6}>
                     <InputGroup>
                         <FormControl
+                            bsSize="small"
                             type="text"
                             name = "language"
-                            value={this.state.value}
+                            value={this.state.value || ""}
                             placeholder="Common"
                             onChange={this.onChange.bind(this)}
                         />
                         <InputGroup.Button>
-                            <Button bsStyle="danger">Delete</Button>
+                            <Button bsSize="sm" bsStyle="success" onClick={this.buttonClick.bind(this)} name="addButton">Add</Button>
                         </InputGroup.Button>
                     </InputGroup>
-                </Col>
-                <Col xs={6} sm={3}>
-                    {this.getSubmitButton()}
                 </Col>
             </Row>
         );
