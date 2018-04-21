@@ -17,7 +17,7 @@ class LanguageBlock extends Component {
 
     toggleFormVisible(){
         let visible = !this.state.isEditing;
-        let label = "Edit Movment";
+        let label = "Edit Languages";
         if(visible) {
             label = "Save Changes"
         }
