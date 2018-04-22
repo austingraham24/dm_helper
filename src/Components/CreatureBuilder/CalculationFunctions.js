@@ -42,6 +42,10 @@ function calculateCR(field, value, referenceCR = null) {
 		return (cr);
 	}
 
+function getOffsetCRIndex(a,b) {
+	//put the code for the difference then offset every 2
+}
+
 function calculateFinalCR(dataObject) {
 	var newState = dataObject;
 	//console.log("new state:",newState);
