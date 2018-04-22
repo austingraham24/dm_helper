@@ -31,16 +31,6 @@ class MovementForm extends Component {
         this.setState({[name]:value});
     }
 
-    buttonClick(event) {
-        let action = event.target.name
-        if (action === "deleteButton") {
-            this.submitChanges("delete");
-        }
-        else if(action === "addButton") {
-            this.submitChanges("add");
-        }
-    }
-
     submitChanges(action) {
         if (action === "delete") {
             this.props.submitChanges("delete", this.props.index);
@@ -64,44 +54,74 @@ class MovementForm extends Component {
 
     getSubmitButton() {
         if(this.props.type) {
-            return <Button bsSize="small" bsStyle="danger" onClick={this.buttonClick.bind(this)} name="deleteButton">Delete</Button>
+            return <Button bsSize="small" bsStyle="danger" onClick={()=>{this.submitChanges("delete")}} name="deleteButton"><Glyphicon glyph="remove"/></Button>
         }
-        return <Button bsSize="small" bsStyle="success" onClick={this.buttonClick.bind(this)} name="addButton">Add</Button>
+        return <Button bsSize="small" bsStyle="success" onClick={()=>{this.submitChanges("add")}} name="addButton"><Glyphicon glyph="plus"/></Button>
+    }
+
+    getForm() {
+        return (
+            <InputGroup bsSize="small">
+                <FormControl
+                    type="text"
+                    name = "type"
+                    value={this.state.type}
+                    placeholder="Walking"
+                    onChange={this.onChange.bind(this)}
+                    className="movement-type-field"
+                />
+                <FormControl
+                    type="text"
+                    name = "speed"
+                    value={this.state.speed}
+                    placeholder="30"
+                    onChange={this.onChange.bind(this)}
+                    className="movement-speed-field"
+                />
+                <InputGroup.Addon>
+                    <input type="checkbox" checked={this.state.hover} name="hover" onChange={this.onChange.bind(this)} /> Hover
+                </InputGroup.Addon>
+                <InputGroup.Button>
+                    {this.getSubmitButton()}
+                </InputGroup.Button>
+            </InputGroup>
+        );
     }
 
     render() {
-        return (
-            <Row>
-                <Col xs={6} sm={3}>
-                    <FormControl
-                        type="text"
-                        name = "type"
-                        value={this.state.type}
-                        placeholder="Walking"
-                        onChange={this.onChange.bind(this)}
-                        bsSize="small"
-                    />
-                </Col>
-                <Col xs={6} sm={3}>
-                    <InputGroup bsSize="small">
-                        <FormControl
-                            type="text"
-                            name = "speed"
-                            value={this.state.speed}
-                            placeholder="30"
-                            onChange={this.onChange.bind(this)}
-                        />
-                        <InputGroup.Addon>ft</InputGroup.Addon>
-                    </InputGroup>
-                </Col>
-                <Col xs={6} sm={2}>
-                    <Checkbox bsSize="small" checked={this.state.hover} name="hover" onChange={this.onChange.bind(this)} bsClass="checkbox" className="movement-input">(Hover)</Checkbox>
-                </Col>
-                <Col xs={6} sm={3}>
-                    {this.getSubmitButton()}
-                </Col>
-            </Row>
-        );
+        return this.getForm()
+        // return (
+        //     <Row>
+        //         <Col xs={6} sm={3}>
+        //             <FormControl
+        //                 type="text"
+        //                 name = "type"
+        //                 value={this.state.type}
+        //                 placeholder="Walking"
+        //                 onChange={this.onChange.bind(this)}
+        //                 bsSize="small"
+        //             />
+        //         </Col>
+        //         <Col xs={6} sm={3}>
+        //             <InputGroup bsSize="small">
+        //                 <FormControl
+        //                     type="text"
+        //                     name = "speed"
+        //                     value={this.state.speed}
+        //                     placeholder="30"
+        //                     onChange={this.onChange.bind(this)}
+        //                 />
+        //                 <InputGroup.Addon>ft</InputGroup.Addon>
+        //             </InputGroup>
+        //         </Col>
+        //         <Col xs={6} sm={2}>
+        //             <Checkbox bsSize="small" checked={this.state.hover} name="hover" onChange={this.onChange.bind(this)} bsClass="checkbox" className="movement-input">(Hover)</Checkbox>
+        //         </Col>
+        //         <Col xs={6} sm={3}>
+        //             {this.getSubmitButton()}
+        //         </Col>
+        //     </Row>
+        // );
     }
 }
 

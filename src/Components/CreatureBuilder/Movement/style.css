@@ -25,3 +25,17 @@
 .btn.remove-button {
     border-radius: 50%;
 }
+
+.addon-checkbox {
+    margin: 0px;
+}
+
+.form-control.movement-type-field {
+    width: 60%;
+    border-right-width: 1px;
+}
+.form-control.movement-speed-field {
+    width: 40%;
+    border-right-width: 1px;
+    border-radius: 0px;
+}

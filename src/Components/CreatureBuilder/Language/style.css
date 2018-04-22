@@ -1,0 +1,10 @@
+.languageButton.btn.btn-default[disabled] {
+    opacity: 1;
+    cursor: default;
+    background-image: linear-gradient(to bottom,#fff 0,#e0e0e0 100%);
+}
+
+.languageButton.btn.btn-default:hover[disabled] {
+    background-image: linear-gradient(to bottom,#fff 0,#e0e0e0 100%);
+    background-position: 0 0;
+}

@@ -6,27 +6,31 @@ import MovementForm from './MovementForm';
 class MovementBlock extends Component {
     constructor(props) {
         super(props);
-        this.onSubmit = this.props.onSubmit || null
+        this.onSubmit = (this.props.onSubmit || null);
+        this.validSizes = {"editing": 4, "default":2};
 
         this.state={
             isEditing: false,
             movementItems: this.props.movement || [{type:"Walking", speed: "30ft", hover:false}],//{type:"",speed:"", hover: bool}
-            toggleLabel: "Edit Movment"
+            toggleLabel: "Edit Movment",
+            activeSize: this.validSizes.default
         };
     }
 
     toggleFormVisible(){
         let visible = !this.state.isEditing;
         let label = "Edit Movment";
+        let size = this.validSizes.default;
         if(visible) {
             label = "Save Changes"
+            size = this.validSizes.editing;
         }
         else {
             if(this.onSubmit) {
                 this.onSubmit("movement", this.state.movementItems);
             }
         }
-        this.setState({...this.state, isEditing:visible, toggleLabel: label});
+        this.setState({...this.state, isEditing:visible, toggleLabel: label, activeSize: size});
     }
 
     handleChange(action, index = null, newData = null) {
@@ -71,7 +75,7 @@ class MovementBlock extends Component {
 
     render() {
         return (
-            <Col xs={12} md={5} className="form-col">
+            <Col xs={12} md={this.state.activeSize} className="form-col">
                 <FormGroup controlId="creatureMovement">
                     <Col xs={12}className="form-col">
                         <ControlLabel>Movement:</ControlLabel>

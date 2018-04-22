@@ -47,14 +47,14 @@ class LanguageForm extends Component {
 
     getSubmitButton() {
         if(!this.props.language) {
-            return <Button bsStyle="default" onClick={this.buttonClick.bind(this)} name="addButton">Add</Button>
+            return <Button bsStyle="default" onClick={()=>{this.submitChanges("add")}} name="addButton">Add</Button>
         }
     }
 
     render() {
         return (
             <Row>
-                <Col xs={6}>
+                <Col xs={12} sm={8}>
                     <InputGroup>
                         <FormControl
                             bsSize="small"

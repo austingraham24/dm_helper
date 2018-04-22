@@ -1,32 +1,36 @@
 import React, {Component} from 'react';
 import {PageHeader, Panel, Clearfix, FormGroup, FormControl, ControlLabel, Row, Col, ButtonGroup, Button, Glyphicon} from "react-bootstrap";
-//import MovementItem from "./MovementItem";
+import './style.css';
 import LanguageForm from './LanguageForm.js';
 
 class LanguageBlock extends Component {
     constructor(props) {
         super(props);
         this.onSubmit = this.props.onSubmit || null
+        this.validSizes = {"editing": 4, "default":3}
 
         this.state={
             isEditing: false,
             languages: this.props.languages || [],
-            toggleLabel: "Edit Languages"
+            toggleLabel: "Edit Languages",
+            activeSize: this.validSizes.default
         };
     }
 
     toggleFormVisible(){
         let visible = !this.state.isEditing;
         let label = "Edit Languages";
+        let size = this.validSizes.default;
         if(visible) {
             label = "Save Changes"
+            size = this.validSizes.editing
         }
         else {
             if(this.onSubmit) {
                 this.onSubmit("movement", this.state.movementItems);
             }
         }
-        this.setState({...this.state, isEditing:visible, toggleLabel: label});
+        this.setState({...this.state, isEditing:visible, toggleLabel: label, activeSize:size});
     }
 
     handleChange(action, index = null, newData = null) {
@@ -50,7 +54,7 @@ class LanguageBlock extends Component {
             this.state.languages.map((item, index) => {
                 return (
                     <ButtonGroup key={index} bsSize="xsmall">
-                        <Button>{item}</Button>
+                        <Button className="languageButton" disabled>{item}</Button>
                         <Button bsStyle="danger" onClick={(event) => {this.handleChange("delete", index)}}><Glyphicon glyph="minus"/></Button>
                     </ButtonGroup>
                 );
@@ -80,18 +84,17 @@ class LanguageBlock extends Component {
     }
 
     render() {
+        console.log(this.state);
         return (
-            <Col xs={12} md={6} className="form-col">
+            <Col xs={12} md={this.state.activeSize} className="form-col">
                 <FormGroup controlId="creatureMovement">
                     <Col xs={12}className="form-col">
                         <ControlLabel>Language:</ControlLabel>
                         {this.setUpLanguages()}
 
-                        <Row>
-                            <Col xs={12}>
-                                <Button bsStyle="primary" bsSize="xsmall" onClick={this.toggleFormVisible.bind(this)}>{this.state.toggleLabel}</Button>
-                            </Col>
-                        </Row>
+                        <div>
+                            <Button bsStyle="primary" bsSize="xsmall" onClick={this.toggleFormVisible.bind(this)}>{this.state.toggleLabel}</Button>
+                        </div>
                     </Col>
                 </FormGroup>
             </Col>
