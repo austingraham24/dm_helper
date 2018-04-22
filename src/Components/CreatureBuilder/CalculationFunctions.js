@@ -156,10 +156,28 @@ function calculateEffectiveAC(dataObject) {
 
 //correctly order challenge ratings -> 0, 1/8, 1/4, 1/2, 1, 2, etc
 function calculateCRKeys() {
-	//so since "1" is technically less than "1/2" we need to do some manual formatting for the special cases
-	let keys = Object.keys(CreatureStats).sort();
-	let sortedKeys = [keys[0], ...keys.slice(2,5).reverse(), keys[1], ...keys.slice(5)];
-	return sortedKeys;
+	let keys = Object.keys(CreatureStats).sort(sortCRKeys);
+	return keys;
+}
+
+function sortCRKeys(a,b) {
+	return (convertToNumber(a) - convertToNumber(b));
+}
+
+//since the keys are strings like "1/2", to accuartely sort we have to convert them to number values
+function convertToNumber(key) {
+	let numArray = key.split('/');
+	if(numArray.length === 1) {
+		return Number(key);
+	}
+	else {
+		//divide by 0 check; better safe than sorry
+		if (numArray[1] === 0) {
+			return 0
+		}
+		let decimal = numArray[0]/numArray[1];
+		return decimal;
+	}
 }
 
 //compares the current value at a given field to a referenced cr by looking up that fields value at the reference

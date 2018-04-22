@@ -61,5 +61,158 @@
 		"dpr": "21-26",
 		"saveDC": 13,
 		"xp":700
+	},
+	"4": {
+		"proficiency": 2,
+		"ac": 14,
+		"hp":"116-130",
+		"attackBonus": 5,
+		"dpr": "27-32",
+		"saveDC": 14,
+		"xp":1100
+	},
+	"5": {
+		"proficiency": 3,
+		"ac": 15,
+		"hp":"131-145",
+		"attackBonus": 6,
+		"dpr": "33-38",
+		"saveDC": 15,
+		"xp":1800
+	},
+	"6": {
+		"proficiency": 3,
+		"ac": 15,
+		"hp":"146-160",
+		"attackBonus": 6,
+		"dpr": "39-44",
+		"saveDC": 15,
+		"xp":2300
+	},
+	"7": {
+		"proficiency": 3,
+		"ac": 15,
+		"hp":"161-175",
+		"attackBonus": 6,
+		"dpr": "45-50",
+		"saveDC": 15,
+		"xp":2900
+	},
+	"8": {
+		"proficiency": 3,
+		"ac": 16,
+		"hp":"176-190",
+		"attackBonus": 7,
+		"dpr": "51-56",
+		"saveDC": 16,
+		"xp":3900
+	},
+	"9": {
+		"proficiency": 4,
+		"ac": 16,
+		"hp":"191-205",
+		"attackBonus": 7,
+		"dpr": "57-62",
+		"saveDC": 16,
+		"xp":5000
+	},
+	"10": {
+		"proficiency": 4,
+		"ac": 17,
+		"hp":"206-220",
+		"attackBonus": 7,
+		"dpr": "63-68",
+		"saveDC": 16,
+		"xp":5900
+	},
+	"11": {
+		"proficiency": 4,
+		"ac": 17,
+		"hp":"221-235",
+		"attackBonus": 8,
+		"dpr": "69-74",
+		"saveDC": 17,
+		"xp":7200
+	},
+	"12": {
+		"proficiency": 4,
+		"ac": 17,
+		"hp":"236-250",
+		"attackBonus": 8,
+		"dpr": "75-80",
+		"saveDC": 17,
+		"xp":8400
+	},
+	"13": {
+		"proficiency": 5,
+		"ac": 18,
+		"hp":"251-265",
+		"attackBonus": 8,
+		"dpr": "81-86",
+		"saveDC": 18,
+		"xp":10000
+	},
+	"14": {
+		"proficiency": 5,
+		"ac": 18,
+		"hp":"266-280",
+		"attackBonus": 8,
+		"dpr": "87-92",
+		"saveDC": 18,
+		"xp":11500
+	},
+	"15": {
+		"proficiency": 5,
+		"ac": 18,
+		"hp":"281-295",
+		"attackBonus": 8,
+		"dpr": "93-98",
+		"saveDC": 18,
+		"xp":13000
+	},
+	"16": {
+		"proficiency": 5,
+		"ac": 18,
+		"hp":"296-310",
+		"attackBonus": 9,
+		"dpr": "99-104",
+		"saveDC": 18,
+		"xp":15000
+	},
+	"17": {
+		"proficiency": 6,
+		"ac": 19,
+		"hp":"311-325",
+		"attackBonus": 10,
+		"dpr": "105-110",
+		"saveDC": 19,
+		"xp":18000
+	},
+	"18": {
+		"proficiency": 6,
+		"ac": 19,
+		"hp":"326-340",
+		"attackBonus": 10,
+		"dpr": "111-116",
+		"saveDC": 19,
+		"xp":20000
+	},
+	"19": {
+		"proficiency": 6,
+		"ac": 19,
+		"hp":"341-355",
+		"attackBonus": 10,
+		"dpr": "117-122",
+		"saveDC": 19,
+		"xp":22000
+	},
+	"20": {
+		"proficiency": 6,
+		"ac": 19,
+		"hp":"356-400",
+		"attackBonus": 10,
+		"dpr": "123-140",
+		"saveDC": 19,
+		"xp":25000
 	}
 }
