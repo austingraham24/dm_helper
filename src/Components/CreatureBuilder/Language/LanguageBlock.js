@@ -12,17 +12,14 @@ class LanguageBlock extends Component {
         this.state={
             isEditing: false,
             languages: this.props.languages || [],
-            toggleLabel: "Edit Languages",
             activeSize: this.validSizes.default
         };
     }
 
     toggleFormVisible(){
         let visible = !this.state.isEditing;
-        let label = "Edit Languages";
         let size = this.validSizes.default;
         if(visible) {
-            label = "Save Changes"
             size = this.validSizes.editing
         }
         else {
@@ -30,7 +27,7 @@ class LanguageBlock extends Component {
                 this.onSubmit("movement", this.state.movementItems);
             }
         }
-        this.setState({...this.state, isEditing:visible, toggleLabel: label, activeSize:size});
+        this.setState({...this.state, isEditing:visible, activeSize:size});
     }
 
     handleChange(action, index = null, newData = null) {
@@ -83,16 +80,34 @@ class LanguageBlock extends Component {
         return <div>{languageString}</div>
     }
 
+    getEditButton() {
+        let style = "primary";
+        let glyph = "wrench"
+        if(this.state.isEditing) {
+            style = "success";
+            glyph = "floppy-save";
+        }
+        return (
+            <Button 
+                bsSize="xs" 
+                bsStyle={style} 
+                style={{"marginLeft":"5px"}}
+                onClick={this.toggleFormVisible.bind(this)}
+            >
+                <Glyphicon glyph={glyph}/>
+            </Button>
+        );
+    }
+
     render() {
         return (
             <Col xs={12} sm={6} md={this.state.activeSize} className="form-col">
                 <FormGroup controlId="creatureMovement">
-                    <ControlLabel>Language:</ControlLabel>
+                    <ControlLabel>
+                        Language: 
+                        {this.getEditButton()}
+                    </ControlLabel>
                     {this.setUpLanguages()}
-
-                    <div>
-                        <Button bsStyle="primary" bsSize="xsmall" onClick={this.toggleFormVisible.bind(this)}>{this.state.toggleLabel}</Button>
-                    </div>
                 </FormGroup>
             </Col>
         );

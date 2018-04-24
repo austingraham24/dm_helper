@@ -14,8 +14,7 @@ class MovementBlock extends Component {
 
         this.state={
             isEditing: false,
-            movementItems: this.props.movement || [{type:"Walking", speed: "30ft", hover:false}],//{type:"",speed:"", hover: bool}
-            toggleLabel: "Edit Movment",
+            movementItems: this.props.movement,//[{type:"",speed:"", hover: bool}]
             activeMediumSize: this.validSizes.md.default,
             activeSmallSize: this.validSizes.sm.default
         };
@@ -23,11 +22,9 @@ class MovementBlock extends Component {
 
     toggleFormVisible(){
         let visible = !this.state.isEditing;
-        let label = "Edit Movment";
         let sizeM = this.validSizes.md.default;
         let sizeS = this.validSizes.sm.default;
         if(visible) {
-            label = "Save Changes"
             sizeM = this.validSizes.md.editing;
             sizeS = this.validSizes.sm.editing;
         }
@@ -36,7 +33,7 @@ class MovementBlock extends Component {
                 this.onSubmit("movement", this.state.movementItems);
             }
         }
-        this.setState({...this.state, isEditing:visible, toggleLabel: label, activeMediumSize: sizeM, activeSmallSize: sizeS});
+        this.setState({...this.state, isEditing:visible, activeMediumSize: sizeM, activeSmallSize: sizeS});
     }
 
     handleChange(action, index = null, newData = null) {
@@ -79,15 +76,31 @@ class MovementBlock extends Component {
         );
     }
 
+    getEditButton() {
+        let style = "primary";
+        let glyph = "wrench"
+        if(this.state.isEditing) {
+            style = "success";
+            glyph = "floppy-save";
+        }
+        return (
+            <Button 
+                bsSize="xs" 
+                bsStyle={style} 
+                style={{"marginLeft":"5px"}}
+                onClick={this.toggleFormVisible.bind(this)}
+            >
+                <Glyphicon glyph={glyph}/>
+            </Button>
+        );
+    }
+
     render() {
         return (
             <Col xs={12} sm={this.state.activeSmallSize} md={this.state.activeMediumSize} className="form-col">
                 <FormGroup controlId="creatureMovement">
-                        <ControlLabel>Movement:</ControlLabel>
-                        {this.setUpMovement()}
-                        <div>
-                            <Button bsStyle="primary" bsSize="xsmall" onClick={this.toggleFormVisible.bind(this)}>{this.state.toggleLabel}</Button>
-                        </div>
+                    <ControlLabel>Movement: {this.getEditButton()}</ControlLabel>
+                    {this.setUpMovement()}
                 </FormGroup>
             </Col>
         );

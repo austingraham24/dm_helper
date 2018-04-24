@@ -47,7 +47,7 @@ class PanelButtonToggle extends Component {
 			<Panel style={this.props.style} expanded={this.state.panelOpen} onToggle={this.togglePanel.bind(this)}>
 				<Panel.Heading>
 					{this.getTitle.bind(this)()}
-					<Panel.Toggle componentClass="a" className="panel-toggle btn btn-primary btn-xs"><Glyphicon glyph={this.state.panelGlyph} /></Panel.Toggle>
+					<Panel.Toggle componentClass="a" className="panel-toggle btn btn-default btn-xs"><Glyphicon glyph={this.state.panelGlyph} /></Panel.Toggle>
 				</Panel.Heading>
 				<Panel.Body collapsible>
 					{this.props.children}

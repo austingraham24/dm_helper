@@ -183,6 +183,7 @@ class CreatureBuilder extends Component {
 						<Row className="formRow">
 							<MovementBlock onSubmit={this.updateNonCalculatedProperties.bind(this)} movement={this.state.movement}/>
 							<LanguageBlock languages={this.state.languages} onSubmit={this.updateNonCalculatedProperties.bind(this)} />
+							{/*new abilities panel*/}
 						</Row>
 						{/* <Row className="formRow">
 							<Col xs={12} md={5}>
