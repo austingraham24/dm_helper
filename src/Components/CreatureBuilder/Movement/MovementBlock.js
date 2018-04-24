@@ -7,30 +7,36 @@ class MovementBlock extends Component {
     constructor(props) {
         super(props);
         this.onSubmit = (this.props.onSubmit || null);
-        this.validSizes = {"editing": 4, "default":2};
+        this.validSizes = {
+            "md":{"editing": 4, "default":2},
+            "sm":{"editing": 6, "default":3}
+        };
 
         this.state={
             isEditing: false,
             movementItems: this.props.movement || [{type:"Walking", speed: "30ft", hover:false}],//{type:"",speed:"", hover: bool}
             toggleLabel: "Edit Movment",
-            activeSize: this.validSizes.default
+            activeMediumSize: this.validSizes.md.default,
+            activeSmallSize: this.validSizes.sm.default
         };
     }
 
     toggleFormVisible(){
         let visible = !this.state.isEditing;
         let label = "Edit Movment";
-        let size = this.validSizes.default;
+        let sizeM = this.validSizes.md.default;
+        let sizeS = this.validSizes.sm.default;
         if(visible) {
             label = "Save Changes"
-            size = this.validSizes.editing;
+            sizeM = this.validSizes.md.editing;
+            sizeS = this.validSizes.sm.editing;
         }
         else {
             if(this.onSubmit) {
                 this.onSubmit("movement", this.state.movementItems);
             }
         }
-        this.setState({...this.state, isEditing:visible, toggleLabel: label, activeSize: size});
+        this.setState({...this.state, isEditing:visible, toggleLabel: label, activeMediumSize: sizeM, activeSmallSize: sizeS});
     }
 
     handleChange(action, index = null, newData = null) {
@@ -75,18 +81,13 @@ class MovementBlock extends Component {
 
     render() {
         return (
-            <Col xs={12} md={this.state.activeSize} className="form-col">
+            <Col xs={12} sm={this.state.activeSmallSize} md={this.state.activeMediumSize} className="form-col">
                 <FormGroup controlId="creatureMovement">
-                    <Col xs={12}className="form-col">
                         <ControlLabel>Movement:</ControlLabel>
                         {this.setUpMovement()}
-
-                        <Row>
-                            <Col xs={12}>
-                                <Button bsStyle="primary" bsSize="xsmall" onClick={this.toggleFormVisible.bind(this)}>{this.state.toggleLabel}</Button>
-                            </Col>
-                        </Row>
-                    </Col>
+                        <div>
+                            <Button bsStyle="primary" bsSize="xsmall" onClick={this.toggleFormVisible.bind(this)}>{this.state.toggleLabel}</Button>
+                        </div>
                 </FormGroup>
             </Col>
         );

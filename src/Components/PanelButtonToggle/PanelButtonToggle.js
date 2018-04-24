@@ -44,10 +44,10 @@ class PanelButtonToggle extends Component {
 
 	render() {
 		return (
-			<Panel expanded={this.state.panelOpen} onToggle={this.togglePanel.bind(this)}>
+			<Panel style={this.props.style} expanded={this.state.panelOpen} onToggle={this.togglePanel.bind(this)}>
 				<Panel.Heading>
 					{this.getTitle.bind(this)()}
-					<Panel.Toggle componentClass="a" className="panel-toggle btn btn-default btn-xs"><Glyphicon glyph={this.state.panelGlyph} /></Panel.Toggle>
+					<Panel.Toggle componentClass="a" className="panel-toggle btn btn-primary btn-xs"><Glyphicon glyph={this.state.panelGlyph} /></Panel.Toggle>
 				</Panel.Heading>
 				<Panel.Body collapsible>
 					{this.props.children}
@@ -62,6 +62,7 @@ PanelButtonToggle.propTypes = {
 	/*REQUIRED*/
 
 	/*Optional*/
+	style: PropTypes.object, //optional styling to apply to the form
 	title: PropTypes.oneOfType([
 		PropTypes.string,
 		PropTypes.element

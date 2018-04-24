@@ -110,7 +110,6 @@ class CreatureBuilder extends Component {
 		return (
 		  <div className="container">
 		  	<PageHeader>Creature Builder</PageHeader>
-		  	<form>
 		  		<Row className="formRow">
 			  	<FormGroup controlId="templateOptions">
 				  	<Col md={12}>
@@ -199,7 +198,7 @@ class CreatureBuilder extends Component {
 						</Row> */}
 					</Panel.Body>
 				</Panel>
-				<Row className="formRow">
+				<Row className="formRow" style={{"padding":"0px"}}>
 					<StatsPanel />
 				</Row>
 	        	<Row className="formRow">
@@ -208,7 +207,6 @@ class CreatureBuilder extends Component {
 	        	{/*Creature Offenses Panel*/}
 				<OffenseBlock handleChange = {this.updateOffenseData.bind(this)} offenseProps={this.state.offenses}/>
 	        	</Row>
-		  	</form>
 		  </div>
 		);
 	}

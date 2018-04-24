@@ -84,18 +84,15 @@ class LanguageBlock extends Component {
     }
 
     render() {
-        console.log(this.state);
         return (
-            <Col xs={12} md={this.state.activeSize} className="form-col">
+            <Col xs={12} sm={6} md={this.state.activeSize} className="form-col">
                 <FormGroup controlId="creatureMovement">
-                    <Col xs={12}className="form-col">
-                        <ControlLabel>Language:</ControlLabel>
-                        {this.setUpLanguages()}
+                    <ControlLabel>Language:</ControlLabel>
+                    {this.setUpLanguages()}
 
-                        <div>
-                            <Button bsStyle="primary" bsSize="xsmall" onClick={this.toggleFormVisible.bind(this)}>{this.state.toggleLabel}</Button>
-                        </div>
-                    </Col>
+                    <div>
+                        <Button bsStyle="primary" bsSize="xsmall" onClick={this.toggleFormVisible.bind(this)}>{this.state.toggleLabel}</Button>
+                    </div>
                 </FormGroup>
             </Col>
         );

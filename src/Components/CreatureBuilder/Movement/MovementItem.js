@@ -14,9 +14,9 @@ const MovementItem = (props) => {
     }
 
     return (
-        <Col xs={12}>
+        <div>
             {movementType}: {speed}ft {getHover()}
-        </Col>
+        </div>
     );
 }
 

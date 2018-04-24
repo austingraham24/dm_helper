@@ -74,7 +74,9 @@ class StatsPanel extends Component {
 	render() {
 		return (
 			<Col xs={12}>
-				<PanelButtonToggle title="Stats & Proficiencies" defaultOpened>
+				<PanelButtonToggle 
+					title="Stats & Proficiencies" 
+					defaultOpened>
 					{this.statGroups()}
 				</PanelButtonToggle>
 			</Col>

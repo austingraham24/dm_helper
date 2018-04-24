@@ -61,30 +61,37 @@ class MovementForm extends Component {
 
     getForm() {
         return (
-            <InputGroup bsSize="small">
-                <FormControl
-                    type="text"
-                    name = "type"
-                    value={this.state.type}
-                    placeholder="Walking"
-                    onChange={this.onChange.bind(this)}
-                    className="movement-type-field"
-                />
-                <FormControl
-                    type="text"
-                    name = "speed"
-                    value={this.state.speed}
-                    placeholder="30"
-                    onChange={this.onChange.bind(this)}
-                    className="movement-speed-field"
-                />
-                <InputGroup.Addon>
-                    <input type="checkbox" checked={this.state.hover} name="hover" onChange={this.onChange.bind(this)} /> Hover
-                </InputGroup.Addon>
-                <InputGroup.Button>
-                    {this.getSubmitButton()}
-                </InputGroup.Button>
-            </InputGroup>
+            <Form horizontal>
+                <InputGroup bsSize="small">
+                    <FormControl
+                        type="text"
+                        name = "type"
+                        value={this.state.type}
+                        placeholder="Walking"
+                        onChange={this.onChange.bind(this)}
+                    />
+                    <InputGroup.Addon 
+                        style={
+                            {"width":"0px",
+                            "padding":"0px",
+                            "border":"0px"
+                            }
+                        }></InputGroup.Addon>
+                    <FormControl
+                        type="text"
+                        name = "speed"
+                        value={this.state.speed}
+                        placeholder="30"
+                        onChange={this.onChange.bind(this)}
+                    />
+                    <InputGroup.Addon>
+                        <input type="checkbox" checked={this.state.hover} name="hover" onChange={this.onChange.bind(this)} /> Hover
+                    </InputGroup.Addon>
+                    <InputGroup.Button>
+                        {this.getSubmitButton()}
+                    </InputGroup.Button>
+                </InputGroup>
+            </Form>
         );
     }
 
