@@ -1,13 +1,14 @@
 import React, {Component} from 'react';
 import {PageHeader, Panel, Clearfix, FormGroup, FormControl, ControlLabel, Row, Col, ButtonGroup, Button, Glyphicon} from "react-bootstrap";
 import './style.css';
+import PanelButtonToggle from "../../PanelButtonToggle/PanelButtonToggle.js";
 import LanguageForm from './LanguageForm.js';
 
 class LanguageBlock extends Component {
     constructor(props) {
         super(props);
         this.onSubmit = this.props.onSubmit || null
-        this.validSizes = {"editing": 4, "default":3}
+        this.validSizes = {"editing": 3, "default":3}
 
         this.state={
             isEditing: false,
@@ -91,7 +92,6 @@ class LanguageBlock extends Component {
             <Button 
                 bsSize="xs" 
                 bsStyle={style} 
-                style={{"marginLeft":"5px"}}
                 onClick={this.toggleFormVisible.bind(this)}
             >
                 <Glyphicon glyph={glyph}/>
@@ -101,14 +101,15 @@ class LanguageBlock extends Component {
 
     render() {
         return (
-            <Col xs={12} sm={6} md={this.state.activeSize} className="form-col">
-                <FormGroup controlId="creatureMovement">
-                    <ControlLabel>
-                        Language: 
+            <Col xs={12} sm={6} md={this.state.activeSize}>
+                <PanelButtonToggle title={"Languages"} defaultOpened>
+                    <FormGroup controlId="creatureLanguages">
                         {this.getEditButton()}
-                    </ControlLabel>
-                    {this.setUpLanguages()}
-                </FormGroup>
+                        <div style={{marginTop:"5px"}}>
+                            {this.setUpLanguages()}
+                        </div>
+                    </FormGroup>
+                </PanelButtonToggle>
             </Col>
         );
     }

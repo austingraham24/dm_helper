@@ -53,23 +53,19 @@ class LanguageForm extends Component {
 
     render() {
         return (
-            <Row>
-                <Col xs={12} sm={8}>
-                    <InputGroup>
-                        <FormControl
-                            bsSize="small"
-                            type="text"
-                            name = "language"
-                            value={this.state.value || ""}
-                            placeholder="Common"
-                            onChange={this.onChange.bind(this)}
-                        />
-                        <InputGroup.Button>
-                            <Button bsSize="sm" bsStyle="success" onClick={this.buttonClick.bind(this)} name="addButton">Add</Button>
-                        </InputGroup.Button>
-                    </InputGroup>
-                </Col>
-            </Row>
+            <InputGroup>
+                <FormControl
+                    bsSize="small"
+                    type="text"
+                    name = "language"
+                    value={this.state.value || ""}
+                    placeholder="Common"
+                    onChange={this.onChange.bind(this)}
+                />
+                <InputGroup.Button>
+                    <Button bsSize="sm" bsStyle="success" onClick={this.buttonClick.bind(this)} name="addButton">Add</Button>
+                </InputGroup.Button>
+            </InputGroup>
         );
     }
 }

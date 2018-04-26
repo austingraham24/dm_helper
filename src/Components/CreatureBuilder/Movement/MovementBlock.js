@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {PageHeader, Panel, Clearfix, FormGroup, FormControl, ControlLabel, Row, Col, Button, Glyphicon} from "react-bootstrap";
+import PanelButtonToggle from "../../PanelButtonToggle/PanelButtonToggle.js";
 import MovementItem from "./MovementItem";
 import MovementForm from './MovementForm';
 
@@ -8,7 +9,7 @@ class MovementBlock extends Component {
         super(props);
         this.onSubmit = (this.props.onSubmit || null);
         this.validSizes = {
-            "md":{"editing": 4, "default":2},
+            "md":{"editing": 4, "default":3},
             "sm":{"editing": 6, "default":3}
         };
 
@@ -69,6 +70,9 @@ class MovementBlock extends Component {
                 </React.Fragment>
             );
         }
+        if(!this.state.movementItems || this.state.movementItems.length === 0) {
+            return "There is nothing here yet..."
+        }
         return (
             this.state.movementItems.map((item) => {
                 return <MovementItem key={item.type} type={item.type} speed={item.speed} hover={item.hover}/>
@@ -87,7 +91,6 @@ class MovementBlock extends Component {
             <Button 
                 bsSize="xs" 
                 bsStyle={style} 
-                style={{"marginLeft":"5px"}}
                 onClick={this.toggleFormVisible.bind(this)}
             >
                 <Glyphicon glyph={glyph}/>
@@ -97,11 +100,15 @@ class MovementBlock extends Component {
 
     render() {
         return (
-            <Col xs={12} sm={this.state.activeSmallSize} md={this.state.activeMediumSize} className="form-col">
-                <FormGroup controlId="creatureMovement">
-                    <ControlLabel>Movement: {this.getEditButton()}</ControlLabel>
-                    {this.setUpMovement()}
-                </FormGroup>
+            <Col xs={12} sm={this.state.activeSmallSize} md={this.state.activeMediumSize}>
+                <PanelButtonToggle title={"Movement"} defaultOpened>
+                    <FormGroup controlId="creatureMovement">
+                        {this.getEditButton()}
+                        <div style={{marginTop: "5px"}}>
+                            {this.setUpMovement()}
+                        </div>
+                    </FormGroup>
+                </PanelButtonToggle>
             </Col>
         );
     }

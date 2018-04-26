@@ -181,11 +181,6 @@ class CreatureBuilder extends Component {
 								</FormGroup>
 							</Col>
 						</Row>
-						<Row className="formRow">
-							<MovementBlock onSubmit={this.updateNonCalculatedProperties.bind(this)} movement={this.state.movement}/>
-							<LanguageBlock languages={this.state.languages} onSubmit={this.updateNonCalculatedProperties.bind(this)} />
-							<AbilitiesBlock />
-						</Row>
 						{/* <Row className="formRow">
 							<Col xs={12} md={5}>
 								<PanelButtonToggle title="Languages and Senses" defaultOpened >
@@ -204,6 +199,10 @@ class CreatureBuilder extends Component {
 					<StatsPanel />
 				</Row>
 	        	<Row className="formRow">
+				<AbilitiesBlock />
+				<MovementBlock onSubmit={this.updateNonCalculatedProperties.bind(this)} movement={this.state.movement}/>
+				<LanguageBlock languages={this.state.languages} onSubmit={this.updateNonCalculatedProperties.bind(this)} />
+				{/* <Clearfix /> */}
 				{/*Creature Defenses Panel*/}
 	        	<DefenseBlock handleChange={this.updateDefensiveData.bind(this)} hitDice={creatureSizes[this.state.size] || null} defenseProps={this.state.defenses} />
 	        	{/*Creature Offenses Panel*/}
