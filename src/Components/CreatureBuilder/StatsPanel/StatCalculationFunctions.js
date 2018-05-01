@@ -21,6 +21,7 @@ const defaultStatState = {
 }
 
 const statKeys = ["Strength", "Dexterity", "Constitution", "Intelligence", "Wisdom", "Charisma"];
+const shortKeys = ["STR", "DXT", "CONST", "INT", "WIS", "CHAR"];
 
 //exported functions
 function calcStatMod(value){
@@ -44,11 +45,17 @@ function getModForStat(statObject) {
     return mod >= 0 ? "+"+mod : mod;
 }
 
+function getShortStatKey(stat) {
+    let index = statKeys.indexOf(stat);
+    return shortKeys[index];
+}
+
 //helper functions
 
 export default {
     defaultStatState,
     statKeys,
     calcStatMod,
-    getModForStat
+    getModForStat,
+    getShortStatKey
 }

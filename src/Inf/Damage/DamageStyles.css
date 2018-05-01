@@ -1,0 +1,228 @@
+.hidden {
+	display: none;
+}
+
+.typeList {
+	margin-bottom: 10px;
+}
+
+.labelRow .label {
+	margin-bottom: 0px;
+}
+
+.type-segment{
+	margin-left: 0px;
+	margin-right: 5px;
+	margin-bottom: 5px;
+}
+
+button.btn.damageType-token, button.btn.damageType-token:hover, button.btn.damageType-token:focus, button.btn.damageType-token:active, button.btn.damageType-token:active:hover, button.btn.damageType-token.active, .open {
+	color: white;
+	background-position: 0 0;
+	cursor: default;
+	/*font-weight: 700;*/
+	text-shadow: none;
+	border-color: #616161;
+}
+
+/*Styles for different damage types*/
+
+/*Fire*/
+fire.dropdown-toggle.button.btn, button.btn.fire, fire.dropdown-toggle.button.btn:focus, button.btn.fire:focus {
+	background-image: linear-gradient(to bottom,#F08030 0,#9C531F 100%);/*fire reg:F08030 / dark:9C531F / light:F5AC78*/
+	background-color: #F08030;
+}
+
+button.btn.editing.fire:hover {
+	background-image: linear-gradient(to bottom,#F5AC78 0,#F08030 100%);
+}
+
+button.btn.editing.fire:active, button.btn.editing.fire:active:hover, button.btn.editing.fire.active, .open {
+	background-color: #9C531F;
+	background-image: none;
+}
+
+/*Thunder*/
+button.btn.thunder, button.btn.editing.thunder, button.btn.thunder:focus, button.btn.thunder:hover{
+	color: white;
+	background-image: linear-gradient(to bottom,#B8B8D0 0,#787887 100%); /*steel reg:B8B8D0 / dark:787887 / light:D1D1E0 */
+}
+
+button.btn.editing.thunder:hover {
+	color: white;
+	background-image: linear-gradient(to bottom,#D1D1E0 0,#B8B8D0 100%);
+}
+
+button.btn.editing.thunder:active, button.btn.editing.thunder:active:hover, button.btn.editing.thunder.active, .open {
+	background-color: #787887;
+	background-image: none;
+}
+
+/*Radiant*/
+button.btn.radiant, .radiant:hover{
+	background-image: linear-gradient(to bottom,#A890F0 0,#6D5E9C 100%); /*flying reg:A890F0 / dark:6D5E9C / light:C6B7F5 */
+}
+
+
+button.btn.editing.radiant:hover {
+	background-image: linear-gradient(to bottom,#C6B7F5 0,#A890F0 100%);
+}
+
+button.btn.editing.radiant:active, button.btn.editing.radiant:active:hover, button.btn.editing.radiant.active, .open {
+	background-color: #6D5E9C;
+	background-image: none;
+}
+
+/*Poison*/
+button.btn.poison, .poison:hover{
+	color: white;
+	background-image: linear-gradient(to bottom,#A040A0 0,#682A68 100%);/*poison reg:A040A0 / dark:682A68 / light:C183C1 */
+}
+
+button.btn.editing.poison:hover {
+	background-image: linear-gradient(to bottom,#C183C1 0,#A040A0 100%);
+}
+
+button.btn.editing.poison:active, button.btn.editing.poison:active:hover, button.btn.editing.poison.active, .open {
+	background-color: #682A68;
+	background-image: none;
+}
+
+/*Slashing*/
+button.btn.slashing, .slashing:hover{
+	background-image: linear-gradient(to bottom,#6890F0 0,#445E9C 100%); /*water reg:6890F0 / dark:445E9C / light:9DB7F5 */
+}
+
+button.btn.editing.slashing:hover {
+	background-image: linear-gradient(to bottom,#9DB7F5 0,#6890F0 100%);
+}
+
+button.btn.editing.slashing:active, button.btn.editing.slashing:active:hover, button.btn.editing.slashing.active, .open {
+	background-color: #445E9C;
+	background-image: none;
+}
+
+/*Piercing*/
+button.btn.piercing, .piercing:hover{
+	color: white;
+	background-image: linear-gradient(to bottom,#705848 0,#49392F 100%); /*dark reg:705848 / dark:49392F / light:A29288 */
+}
+
+button.btn.editing.piercing:hover {
+	background-image: linear-gradient(to bottom,#A29288 0,#705848 100%);
+}
+
+button.btn.editing.piercing:active, button.btn.editing.piercing:active:hover, button.btn.editing.piercing.active, .open {
+	background-color: #49392F;
+	background-image: none;
+}
+
+/*Bludgeoning*/
+button.btn.bludgeoning, .bludgeoning:hover{
+	background-image: linear-gradient(to bottom,#C03028 0,#7D1F1A 100%); /*fighting reg:C03028 / dark:7D1F1A / light:D67873 */
+}
+
+button.btn.editing.bludgeoning:hover {
+	background-image: linear-gradient(to bottom,#D67873 0,#C03028 100%);
+}
+
+button.btn.editing.bludgeoning:active, button.btn.editing.bludgeoning:active:hover, button.btn.editing.bludgeoning.active, .open {
+	background-color: #7D1F1A;
+	background-image: none;
+}
+
+/*Lightning*/
+button.btn.lightning, button.btn.lightning:hover, button.btn.lightning:focus {
+	color: white;
+	background-image: linear-gradient(to bottom,#F8D030 0,#A1871F 100%); /*electric reg:F8D030 / dark:A1871F / light:FAE078 */
+}
+
+button.btn.editing.lightning:hover {
+	color: white;
+	background-image: linear-gradient(to bottom,#FAE078 0,#F8D030 100%);
+}
+
+button.btn.editing.lightning:active, button.btn.editing.lightning:active:hover, button.btn.editing.lightning.active, .open {
+	color:white;
+	background-color: #A1871F;
+	background-image: none;
+}
+
+/*Psychic*/
+button.btn.psychic, .psychic:hover{
+	background-image: linear-gradient(to bottom,#F85888 0,#A13959 100%);/*psychic reg:F85888 / dark:A13959 / light:FA92B2 */
+}
+
+button.btn.editing.psychic:hover {
+	background-image: linear-gradient(to bottom,#FA92B2 0,#F85888 100%);
+}
+
+button.btn.editing.psychic:active, button.btn.editing.psychic:active:hover, button.btn.editing.psychic.active, .open {
+	background-color: #A13959;
+	background-image: none;
+}
+
+/*Necrotic*/
+button.btn.necrotic, .necrotic:hover{
+	color: white;
+	background-image: linear-gradient(to bottom,#705898 0,#493963 100%); /*ghost reg:705898 / dark:493963 / light:A292BC */
+}
+
+button.btn.editing.necrotic:hover {
+	background-image: linear-gradient(to bottom,#A292BC 0,#705898 100%);
+}
+
+button.btn.editing.necrotic:active, button.btn.editing.necrotic:active:hover, button.btn.editing.necrotic.active, .open {
+	background-color: #493963;
+	background-image: none;
+}
+
+/*Cold*/
+button.btn.cold, button.btn.cold:hover, button.btn.cold:focus{
+	color: white;
+	background-image: linear-gradient(to bottom,#BCE6E6 0,#638D8D 100%);/*ice reg:98D8D8 / dark:638D8D / light:BCE6E6 */
+}
+
+button.btn.editing.cold:hover {
+	color: white;
+	background-image: linear-gradient(to bottom,#BCE6E6 0,#98D8D8 100%);
+}
+
+button.btn.editing.cold:active, button.btn.editing.cold:active:hover, button.btn.editing.cold.active, .open {
+	color: white;
+	background-color: #638D8D;
+	background-image: none;
+}
+
+/*Acid*/
+button.btn.acid, button.btn.acid:hover{
+	background-image: linear-gradient(to bottom,#A8B820 0,#6D7815 100%);/*bug reg:A8B820 / dark:6D7815 / light:C6D16E */
+}
+
+button.btn.editing.acid:hover {
+	background-image: linear-gradient(to bottom,#C6D16E 0,#A8B820 100%);
+}
+
+button.btn.editing.acid:active, button.btn.editing.acid:active:hover, button.btn.editing.acid.active, .open {
+	background-color: #6D7815;
+	background-image: none;
+}
+
+/*Force*/
+button.btn.force, button.btn.force:hover{
+	color: white;
+	background-image: linear-gradient(to bottom,#A8A878 0,#6D6D4E 100%);/*normal reg:A8A878 / dark:6D6D4E / light:C6C6A7 */
+}
+
+button.btn.editing.force:hover {
+	background-image: linear-gradient(to bottom,#C6C6A7 0,#A8A878 100%);
+}
+
+button.btn.editing.force:active, button.btn.editing.force:active:hover, button.btn.editing.force.active, .open {
+	background-color: #6D6D4E;
+	background-image: none;
+}
+
+/*misc*/
+/*background-image: linear-gradient(to bottom,#A890F0 0,#6D5E9C 100%); /*flying*/
+/*background-image: linear-gradient(to bottom,#E0C068 0,#927D44 100%); /*ground*/

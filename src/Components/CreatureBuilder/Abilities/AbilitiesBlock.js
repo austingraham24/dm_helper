@@ -1,8 +1,9 @@
-import React, {Component} from 'react';
+import React, {Component, Fragment} from 'react';
 import {PageHeader, Panel, Clearfix, FormGroup, FormControl, ControlLabel, Row, Col, Button, Glyphicon} from "react-bootstrap";
 import PanelButtonToggle from "../../PanelButtonToggle/PanelButtonToggle.js";
 import AbilityForm from "./AbilityForm.js";
 import AbilityItem from "./AbilityItem.js";
+import "./style.css";
 
 class AbilitiesBlock extends Component {
     constructor(props) {
@@ -67,7 +68,9 @@ class AbilitiesBlock extends Component {
     layoutPanelBody() {
         if (this.state.isEditing) {
             return this.state.abilityObjects.map((ability) => {
-                return <AbilityForm key={ability.name} name={ability.name} desc={ability.desc}/>
+                return (
+                    <AbilityForm key={ability.name} name={ability.name} desc={ability.desc}/>
+                );
             });
         }
         else {

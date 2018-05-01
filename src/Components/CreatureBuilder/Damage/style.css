@@ -1,0 +1,6 @@
+#damage-dropdown-addon {
+    border-radius: 0px;
+    max-width: 75px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

@@ -67,7 +67,7 @@ class StatsPanel extends Component {
 	//each group has the stat value field and sub-component for proficiencies
 	statGroups() {
 		return StatCalculationFunctions.statKeys.map((key) => {
-			return <StatGroup key={key} statName={key} stat={this.state[key]} statProficiencies={this.state.statProficiencies[key]} onChange={this.onChange.bind(this)} changeProfficiency={this.updateProficiencies.bind(this)} />
+			return <StatGroup key={key} statName={key} statObject={this.state[key]} statProficiencies={this.state.statProficiencies[key]} onChange={this.onChange.bind(this)} changeProfficiency={this.updateProficiencies.bind(this)} />
 		});
 	}
 

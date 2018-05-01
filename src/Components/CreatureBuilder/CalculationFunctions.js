@@ -1,10 +1,12 @@
 import CreatureStats from "../../Inf/CreatureStatChart.json";
 import creatureSizes from "../../Inf/CreatureSize.json";
+import DamageTypes from "../../Inf/Damage/DamageTypes.json";
 import CreatureClassificationArray from "../../Inf/CreatureClassification.json";
 import ReferenceStatTable from "./ReferenceStatTable/ReferenceStatTable.js";
 
 // *** exported consts *** //
 const crKeys = calculateCRKeys();
+const damageTypes = DamageTypes;
 // *** end exported consts *** //
 
 // *** non-exported consts *** //
@@ -242,6 +244,7 @@ function crCompareValues(index, rating, crValue, value) {
 
 export default {
 	crKeys,
+	damageTypes,
 	calculateCR,
 	calculateOverallDefensiveCR,
 	calculateOverallOffensiveCR,

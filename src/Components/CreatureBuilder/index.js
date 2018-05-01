@@ -202,7 +202,7 @@ class CreatureBuilder extends Component {
 				<AbilitiesBlock />
 				<MovementBlock onSubmit={this.updateNonCalculatedProperties.bind(this)} movement={this.state.movement}/>
 				<LanguageBlock languages={this.state.languages} onSubmit={this.updateNonCalculatedProperties.bind(this)} />
-				{/* <Clearfix /> */}
+				<Clearfix />
 				{/*Creature Defenses Panel*/}
 	        	<DefenseBlock handleChange={this.updateDefensiveData.bind(this)} hitDice={creatureSizes[this.state.size] || null} defenseProps={this.state.defenses} />
 	        	{/*Creature Offenses Panel*/}
