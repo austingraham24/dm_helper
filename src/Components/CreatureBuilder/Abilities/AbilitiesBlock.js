@@ -36,19 +36,22 @@ class AbilitiesBlock extends Component {
     }
 
     getEditButton() {
-        let style = this.defaultButtonStyle;
+        let bsStyle = this.defaultButtonStyle;
         let glyph = this.defaultGlyph
         let label = this.defaultLabel;
+        let style;
         if(this.state.isEditing) {
-            style = this.editingButtonStyle;
+            bsStyle = this.editingButtonStyle;
             glyph = this.editingGlyph;
             label = this.editingLabel;
+            style = {marginBottom:"10px"}
         }
         return (
             <Button 
                 bsSize="xs" 
-                bsStyle={style} 
+                bsStyle={bsStyle} 
                 onClick={this.toggleFormVisible.bind(this)}
+                style={ style || null }
             >
                 <Glyphicon glyph={glyph}/>{" " + label}
             </Button>
@@ -69,7 +72,10 @@ class AbilitiesBlock extends Component {
         if (this.state.isEditing) {
             return this.state.abilityObjects.map((ability) => {
                 return (
-                    <AbilityForm key={ability.name} name={ability.name} desc={ability.desc}/>
+                    <Fragment>
+                        <AbilityForm key={ability.name} name={ability.name} desc={ability.desc}/>
+                        <hr/>
+                    </Fragment>
                 );
             });
         }

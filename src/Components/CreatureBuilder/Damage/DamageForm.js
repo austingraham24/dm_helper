@@ -1,5 +1,5 @@
 import React, {Component, Fragment} from 'react';
-import {Form, PageHeader, Panel, Clearfix, InputGroup, FormGroup, FormControl, ControlLabel, Row, Col, Checkbox, Button, Glyphicon} from "react-bootstrap";
+import {Form, ButtonGroup, PageHeader, Panel, Clearfix, InputGroup, FormGroup, FormControl, ControlLabel, Row, Col, Checkbox, Button, Glyphicon} from "react-bootstrap";
 import _ from "lodash";
 import DiceForm from "./DiceForm.js";
 import "./style.css";
@@ -30,7 +30,9 @@ class DamageForm extends Component {
     render() {
         return (
             <Fragment>
-                <DiceForm />
+                <div>
+                    <DiceForm />
+                </div>
             </Fragment>
         );
     }

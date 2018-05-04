@@ -56,7 +56,7 @@ class MovementBlock extends Component {
     layoutExistingItemsForms() {
         return (
             this.state.movementItems.map((item, index) => {
-                return <MovementForm key={index} index={index} type={item.type} speed={item.speed} hover={item.hover} submitChanges={this.handleChange.bind(this)}/>
+                return <MovementForm key={item.type || "Form"} index={index} type={item.type} speed={item.speed} hover={item.hover} submitChanges={this.handleChange.bind(this)}/>
             })
         );
     }
