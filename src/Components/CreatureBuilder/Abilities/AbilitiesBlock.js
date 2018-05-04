@@ -72,10 +72,7 @@ class AbilitiesBlock extends Component {
         if (this.state.isEditing) {
             return this.state.abilityObjects.map((ability) => {
                 return (
-                    <Fragment>
-                        <AbilityForm key={ability.name} name={ability.name} desc={ability.desc}/>
-                        <hr/>
-                    </Fragment>
+                    <AbilityForm key={ability.name} name={ability.name} desc={ability.desc}/>
                 );
             });
         }
