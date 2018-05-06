@@ -63,7 +63,7 @@ class PanelButtonToggle extends Component {
 
 	render() {
 		return (
-			<Panel style={this.props.style} expanded={this.state.panelOpen} onToggle={this.togglePanel.bind(this)}>
+			<Panel bsStyle={this.props.bsStyle || "default"} style={this.props.style} expanded={this.state.panelOpen} onToggle={this.togglePanel.bind(this)}>
 				<Panel.Heading>
 					{this.getTitle.bind(this)()}
 					<Panel.Toggle componentClass="a" className="panel-toggle btn btn-default btn-xs"><Glyphicon glyph={this.state.panelGlyph} /></Panel.Toggle>
@@ -82,11 +82,9 @@ PanelButtonToggle.propTypes = {
 	/*REQUIRED*/
 
 	/*Optional*/
+	bsStyle: PropTypes.string, //bootstrap styling *see react-bootstrap documentation*
 	style: PropTypes.object, //optional styling to apply to the form
-	title: PropTypes.oneOfType([
-		PropTypes.string,
-		PropTypes.element
-	  ]), //what should be the label of the panel; either a string or a react element
+	title: PropTypes.string, //what should be the label of the panel; either a string or a react element
 	defaultOpened: PropTypes.bool, //should the panel be open by default (if not provided the default is false)
 	toolbar: PropTypes.arrayOf(PropTypes.element) //additional buttons/elements to be displayed next to the toggle that act as a toolbar
 	/*

@@ -7,6 +7,7 @@ Current work is focusing entirely on the creature builder. It still has a long w
 
 - [What's New](#what's-new)
 - [Getting Started](#setup-and-getting-started)
+- [Using the Application](#using-the-application)
 - [Authors](#authors)
 - [Built Using](#built-using)
 - [Acknowledgments](#acknowledgments)
@@ -16,9 +17,12 @@ Current work is focusing entirely on the creature builder. It still has a long w
 The creature builder is almost online. Damage forms have been added and given a dice expression can calculate avg damage. Also, given flat damage and a dice type, the form can auto calculate a dice expression.
 
 ## Setup and Getting Started
-Before getting started you will need to install Node.js(https://nodejs.org/en/download/).
+Before getting started you will need to install [Node.js](https://nodejs.org/en/download/).
 Navigate to the project folder and run `npm install`. Once that is done run `npm start`.
 This will open a web browser window at localhost:3000
+
+## Using the Application
+Coming Soon!
 
 ## Authors
 * **Austin Graham** - *Initial Creator* - [austingraham24](https://github.com/austingraham24)
