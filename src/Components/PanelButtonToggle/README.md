@@ -16,7 +16,7 @@ Here is an example of using the component:
     {/*Panel Content*/}
 </PanelButtonToggle> 
 ```
-**Parameters:**
+**Parameters:**<br>
 Name | Type | Default | Required | Description
 - | - | - | - | -
 title | string | | false | the string to be used as the panel title
