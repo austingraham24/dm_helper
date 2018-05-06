@@ -1,6 +1,6 @@
 ## DM Helper <br>
 This is a small side project done using React-Redux to help me generate content for my D&D campaigns!<br>
-The primary goal was helping out with all of the calculations and manual work that goes into creating or adjusting creatures, bosses, and items.<br>
+The primary goal was helping out with all of the calculations and manual work that goes into creating or adjusting creatures, bosses, and items.<br><br>
 Current work is focusing entirely on the creature builder. It still has a long way to go before it helps anyone, but I believe, it can change the world!
 
 ## Table of Contents
@@ -17,14 +17,7 @@ The creature builder is almost online. Damage forms have been added and given a 
 
 ## Setup and Getting Started
 Before getting started you will need to install Node.js(https://nodejs.org/en/download/).
-Navigate to the project folder and run
-```
-npm install
-```
-Once that finishes run
-```
-npm start
-```
+Navigate to the project folder and run `npm install`. Once that is done run `npm start`.
 This will open a web browser window at localhost:3000
 
 ## Authors
