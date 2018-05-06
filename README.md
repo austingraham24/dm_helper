@@ -27,6 +27,7 @@ This will open a web browser window at localhost:3000
 * [Create React App](https://github.com/facebookincubator/create-react-app)
 * Notable NPM Modules:
     * [React-Bootstrap](https://react-bootstrap.github.io/)
-    * [React-Bootstrap-Router](https://github.com/react-bootstrap/react-router-bootstrap) //this allows the use of bootstrap compnents with react-router
+    * [React-Bootstrap-Router](https://github.com/react-bootstrap/react-router-bootstrap) (this allows the use of bootstrap compnents with react-router links)
 
 ## Acknowledgments
+* [kpwahn](https://github.com/kpwahn) and [jeffski13](https://github.com/jeffski13) for debating Javascript and React issues and coming up with innovative solutions.
