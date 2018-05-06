@@ -9,12 +9,13 @@ class AbilityForm extends Component {
         super(props);
 
         this.debouncedSubmit = _.debounce(this.submitChanges, 500);
+        let damage = this.props.damage || [{flatDamage:"15", diceExpression:"2d12+2", dmgType:"Fire"}]
         
         this.state={
             name: this.props.name || "",
             desc: this.props.desc || "",
-            damage: this.props.damage || [{flatDamage:"15", diceExpression:"2d12+2", dmgType:"Fire"}],
-            dealsDamage: this.props.damage ? true : false
+            damage: damage,
+            dealsDamage: damage ? true : false
         };
     }
 
@@ -67,14 +68,7 @@ class AbilityForm extends Component {
         }
         else {
             return (
-                <Button 
-                    bsSize="xsmall"
-                    onClick={() => {
-                        this.setState({dealsDamage:true})
-                    }}
-                >
-                    Add Damage
-                </Button>
+                <Button bsSize="xsmall" onClick={() => {this.setState({dealsDamage:true})}}>Add Damage</Button>
             );
         }
     }
@@ -84,32 +78,30 @@ class AbilityForm extends Component {
         return (
             <div style={{marginBottom:"15px"}}>
                 <label className="has-float-label">
-                <FormControl
-                    bsSize="small"
-                    type="text"
-                    name = "name"
-                    value={this.state.name || ""}
-                    className="form-label-group ability-input"
-                    placeholder="Put a cool name here..."
-                    onChange={this.onChange.bind(this)}
-                />
-                <span>Ability Name</span>
+                    <FormControl
+                        bsSize="small"
+                        type="text"
+                        name = "name"
+                        value={this.state.name || ""}
+                        className="form-label-group ability-input"
+                        placeholder="Put a cool name here..."
+                        onChange={this.onChange.bind(this)}
+                    />
+                    <span>Ability Name</span>
                 </label>
                 <label className="has-float-label">
-                <FormControl
-                    bsSize="small"
-                    componentClass="textarea"
-                    className = "ability-description ability-input"
-                    name = "desc"
-                    value={this.state.desc || ""}
-                    placeholder="What does it do?"
-                    onChange={this.onChange.bind(this)}
-                />
-                <span>Ability Description</span>
+                    <FormControl
+                        bsSize="small"
+                        componentClass="textarea"
+                        className = "ability-description ability-input"
+                        name = "desc"
+                        value={this.state.desc || ""}
+                        placeholder="What does it do?"
+                        onChange={this.onChange.bind(this)}
+                    />
+                    <span>Ability Description</span>
                 </label>
-                {/* <PanelButtonToggle> */}
-                    {this.getDamage()}
-                {/* </PanelButtonToggle> */}
+                {this.getDamage()}
             </div>
         );
     }

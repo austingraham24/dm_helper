@@ -52,8 +52,12 @@ class PanelButtonToggle extends Component {
 			return
 		}
 
+		if(!this.state.panelOpen) {
+			return
+		}
+
 		return this.props.toolbar.map((element) => {
-			return element;
+			return <span className="panel-toggle">{element}</span>;
 		});
 	}
 

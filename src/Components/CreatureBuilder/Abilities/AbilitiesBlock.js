@@ -35,25 +35,23 @@ class AbilitiesBlock extends Component {
         };
     }
 
+    getToolbar() {
+        let toolbar = [];
+        toolbar.push(this.getEditButton());
+        return toolbar;
+    }
+
     getEditButton() {
-        let bsStyle = this.defaultButtonStyle;
-        let glyph = this.defaultGlyph
-        let label = this.defaultLabel;
-        let style;
         if(this.state.isEditing) {
-            bsStyle = this.editingButtonStyle;
-            glyph = this.editingGlyph;
-            label = this.editingLabel;
-            style = {marginBottom:"10px"}
+            return (
+                <Button bsSize="xs" bsStyle={this.editingButtonStyle} onClick={this.toggleFormVisible.bind(this)}>
+                    <Glyphicon glyph={this.editingGlyph}/>{" "+this.editingLabel}
+                </Button>
+            );
         }
         return (
-            <Button 
-                bsSize="xs" 
-                bsStyle={bsStyle} 
-                onClick={this.toggleFormVisible.bind(this)}
-                style={ style || null }
-            >
-                <Glyphicon glyph={glyph}/>{" " + label}
+            <Button bsSize="xs" bsStyle={this.defaultButtonStyle} onClick={this.toggleFormVisible.bind(this)}>
+                <Glyphicon glyph={this.defaultGlyph}/>{" " + this.defaultLabel}
             </Button>
         );
     }
@@ -87,8 +85,7 @@ class AbilitiesBlock extends Component {
         return (
             <Col xs={12} sm={6}>
 	        	<FormGroup controlId="abilities">
-					<PanelButtonToggle title={"Traits and Abilities"} defaultOpened >
-                        {this.getEditButton()}
+					<PanelButtonToggle title={"Traits and Abilities"} toolbar={this.getToolbar()} defaultOpened >
                         <div style={{marginTop:"5px"}}>
                             {this.layoutPanelBody()}
                         </div>

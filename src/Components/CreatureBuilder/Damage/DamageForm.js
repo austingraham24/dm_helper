@@ -108,6 +108,13 @@ class DiceForm extends Component {
                 </Tooltip>
             );
         }
+        else if(type == "avg") {
+            return (    
+                <Tooltip id="diceExpressionToolTip">
+                    changing this value recalculates the dice expression with the current die. To change die type, delete the expression and enter a valid die type (ex: d12).
+                </Tooltip>
+            );
+        }
         else {
             return
         }
@@ -132,7 +139,7 @@ class DiceForm extends Component {
                         placement="top"
                         delayShow={300}
                         delayHide={150}
-                        >
+                    >
                         <label className="has-float-label">
                             <FormControl
                                 bsSize="small"
@@ -148,17 +155,24 @@ class DiceForm extends Component {
                     <InputGroup.Addon>
                         or
                     </InputGroup.Addon>
-                    <label className="has-float-label">
-                        <FormControl
-                            bsSize="small"
-                            type="text"
-                            name = "flatDamage"
-                            value={this.state.flatDamage}
-                            placeholder="2"
-                            onChange={this.onChange.bind(this)}
-                        />
-                        <span>Average DMG</span>
-                    </label>    
+                    <OverlayTrigger
+                        overlay={this.getTooltip("avg")}
+                        placement="top"
+                        delayShow={300}
+                        delayHide={150}
+                    >
+                        <label className="has-float-label">
+                            <FormControl
+                                bsSize="small"
+                                type="text"
+                                name = "flatDamage"
+                                value={this.state.flatDamage}
+                                placeholder="2"
+                                onChange={this.onChange.bind(this)}
+                            />
+                            <span>Average DMG</span>
+                        </label>  
+                    </OverlayTrigger>  
                     <DropdownButton
                         componentClass={InputGroup.Button}
                         id="damage-dropdown-addon"
