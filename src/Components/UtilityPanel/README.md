@@ -1,5 +1,5 @@
-## PanelButtonToggle
-This component utilizes the Panel component of React-Bootstrap and further enhances it. Using the collabsilbe aspect of the panel component, the PanelButtonToggle provides a panel with a button in the header to toggle if the panel is shown or not.
+## UtilityPanel
+This component utilizes the Panel component of React-Bootstrap and further enhances it. Using the collabsilbe aspect of the panel component, the UtilityPanel provides a panel with a button in the header to toggle if the panel is shown or not.
 
 - [What's New](#what's-new)
 - [Using the Component](#using-the-component)
@@ -12,44 +12,57 @@ Looking into fully incorporating a toolbar feature into the panel header that is
 ## Using the Component
 Here is an example of using the component:
 ```
-<PanelButtonToggle title={"Traits and Abilities"} defaultOpened>
+<UtilityPanel title={"Traits and Abilities"} defaultOpened>
     {/*Panel Content*/}
-</PanelButtonToggle> 
+</UtilityPanel> 
 ```
 **Parameters:**<br>
 
 | Name | Type | Default | Required | Description |
 | ----- | ----- | ----- | ----- | ----- |
+| collapsible | bool | false | false | can this panel collapse? a toggle button is provided if true |
+
+
 | title | string | | false | the string to be used as the panel title |
 | bsStyle | string | "default" | false | bootstrap styling of panel as seen in react-bootstrap [panel documentation](https://react-bootstrap.github.io/components/panel/) |
 | style | object | | false | a custom style object to further manipulate/customize the panel |
 | defaultOpened | bool | false | false | does the panel mount in the expanded state? |
 | toolbar | array [react elements] | | false | an array of items to render for additional functionality on the panel |
 
+bsStyle: PropTypes.string, //bootstrap styling *see react-bootstrap documentation*
+	collapsible: PropTypes.bool, //can the panel collapse
+	closedTitle: PropTypes.string, //a unique title to show when the panel is closed
+	defaultOpened: PropTypes.bool, //should the panel be open by default (if not provided the default is false)
+	deletable: PropTypes.bool, //should the panel show a delete button (red button with "X")
+	deleteFunction: PropTypes.func, /*function to call when the delete button is called; not providing one to a deletable panel will do nothing when clicking delete*/
+	style: PropTypes.object, //optional styling to apply to the form
+	title: PropTypes.string, //what should be the label of the panel; either a string or a react element
+	toolbar: PropTypes.arrayOf(PropTypes.element) //additional buttons/elements to be displayed next to the toggle that act as a toolbar
+
 ## Examples and Notes
 **No Props**<br>
 Using the component without providing any props creates a panel with no title and is collapsed by default.
 ```
-<PanelButtonToggle>
+<UtilityPanel>
     Hello!
-</PanelButtonToggle>
+</UtilityPanel>
 ```
 ![Blank Props Panel](https://i.imgur.com/tPP6fxy.png)
 
 **DefaultOpened**<br>
 Providing the default opened prop will mount the panel in its expanded state
 ```
-<PanelButtonToogle defaultOpened>
+<UtilityPanel defaultOpened>
     This panel is expanded by default
-</PanelButtonToogle>
+</UtilityPanel>
 ```
 ![Default Expanded](https://i.imgur.com/0ShUpd9.png)
 
 **Providing a Title**<br>
 ```
-<PanelButtonToogle title="This is the panel title" defaultOpened>
+<UtilityPanel title="This is the panel title" defaultOpened>
     This panel is expanded by default
-</PanelButtonToogle>
+</UtilityPanel>
 ```
 ![Panel with Title](https://i.imgur.com/rJeMvQ2.png)
 
@@ -69,19 +82,19 @@ let toolbar2 = [<Button bsSize="xsmall" bsStyle="primary">Edit</Button>, <Button
 
 return (
     //expanded panel with first toolbar
-    <PanelButtonToogle title="Title" defaultOpened toolbar={toolbar}>
+    <UtilityPanel title="Title" defaultOpened toolbar={toolbar}>
         This panel is expanded by default
-    </PanelButtonToogle>
+    </UtilityPanel>
 
     //expanded panel with second toolbar
-    <PanelButtonToogle title="Title" defaultOpened toolbar={toolbar2}>
+    <UtilityPanel title="Title" defaultOpened toolbar={toolbar2}>
         This panel is expanded by default
-    </PanelButtonToogle>
+    </UtilityPanel>
 
     //same as first toolbar but collapsed
-    <PanelButtonToogle title="Title" toolbar={toolbar}>
+    <UtilityPanel title="Title" toolbar={toolbar}>
         This panel is expanded by default
-    </PanelButtonToogle>
+    </UtilityPanel>
 );
 ```
 ![Panel with Toolbar](https://i.imgur.com/vLhArkn.png)

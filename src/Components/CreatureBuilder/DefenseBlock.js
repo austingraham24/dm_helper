@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import "./style.css";
 import {Panel, FormGroup, FormControl, ControlLabel, Col, Glyphicon} from "react-bootstrap";
 import HealthMod from "./HealthMod/HealthMod.js"
-import PanelButtonToggle from "../PanelButtonToggle/PanelButtonToggle.js";
+import UtilityPanel from "../UtilityPanel";
 import PropTypes from 'prop-types';
 import CalculationFunctions from "./CalculationFunctions";
 import _ from "lodash";
@@ -67,7 +67,7 @@ class DefenseBlock extends Component {
 		return (
 			<Col xs={12} md={5}>
 	        	<FormGroup controlId="deffenseBlock">
-					<PanelButtonToggle title={"Defense (CR: "+(this.props.defenseProps.defenseCR)+")"} defaultOpened >
+					<UtilityPanel title={"Defense (CR: "+(this.props.defenseProps.defenseCR)+")"} defaultOpened collapsible>
 						<Col xs={12} sm={6} className="form-col">
 							<ControlLabel>Health Points: {this.getHitDice()}</ControlLabel>
 								<FormControl
@@ -97,7 +97,7 @@ class DefenseBlock extends Component {
 				        	<div>{this.props.defenseProps.effectiveAC || 0}</div>
 					    </Col>
 					    <Col xs={12} className="form-col">
-					        <PanelButtonToggle title="Damage Modifiers">
+					        <UtilityPanel title="Damage Modifiers" collapsible>
 								<HealthMod 
 									name="Immunities" 
 									prefill={this.state.immunities} 
@@ -116,9 +116,9 @@ class DefenseBlock extends Component {
 									updateMods={this.updateDamageMod.bind(this)} 
 									exceptionMods={this.getExceptionMods("vulnerabilities")} 
 								/>
-					        </PanelButtonToggle>
+					        </UtilityPanel>
 					    </Col>
-					</PanelButtonToggle>
+					</UtilityPanel>
 	        	</FormGroup>
 	        	</Col>
 		);

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {PageHeader, Panel, Clearfix, FormGroup, FormControl, ControlLabel, Row, Col, Button, Glyphicon} from "react-bootstrap";
-import PanelButtonToggle from "../../PanelButtonToggle/PanelButtonToggle.js";
+import UtilityPanel from "../../UtilityPanel";
 import MovementItem from "./MovementItem";
 import MovementForm from './MovementForm';
 
@@ -101,14 +101,14 @@ class MovementBlock extends Component {
     render() {
         return (
             <Col xs={12} sm={this.state.activeSmallSize} md={this.state.activeMediumSize}>
-                <PanelButtonToggle title={"Movement"} defaultOpened>
+                <UtilityPanel title={"Movement"} defaultOpened collapsible>
                     <FormGroup controlId="creatureMovement">
                         {this.getEditButton()}
                         <div style={{marginTop: "5px"}}>
                             {this.setUpMovement()}
                         </div>
                     </FormGroup>
-                </PanelButtonToggle>
+                </UtilityPanel>
             </Col>
         );
     }

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import "../style.css";
 import {Label, FormGroup, FormControl, ControlLabel, Checkbox, Col, Clearfix} from "react-bootstrap";
-import PanelButtonToggle from "../../PanelButtonToggle/PanelButtonToggle.js";
+import UtilityPanel from "../../UtilityPanel";
 import StatCalculationFunctions from "./StatCalculationFunctions.js";
 import StatGroup from "./StatGroup.js";
 import ProficiencyList from "./ProficiencyList.js";
@@ -74,11 +74,12 @@ class StatsPanel extends Component {
 	render() {
 		return (
 			<Col xs={12}>
-				<PanelButtonToggle 
+				<UtilityPanel 
 					title="Stats & Proficiencies" 
-					defaultOpened>
+					defaultOpened
+					collapsible>
 					{this.statGroups()}
-				</PanelButtonToggle>
+				</UtilityPanel>
 			</Col>
 		);
 	}

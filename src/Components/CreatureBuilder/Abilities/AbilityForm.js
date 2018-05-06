@@ -2,7 +2,6 @@ import React, {Component, Fragment} from 'react';
 import {Form, PageHeader, Panel, Clearfix, InputGroup, FormGroup, FormControl, ControlLabel, Row, Col, Checkbox, Button, Glyphicon} from "react-bootstrap";
 import _ from "lodash";
 import DamageForm from '../Damage/DamageForm';
-import PanelButtonToggle from "../../PanelButtonToggle/PanelButtonToggle.js";
 
 class AbilityForm extends Component {
     constructor(props) {

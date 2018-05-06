@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import {Panel, FormGroup, FormControl, ControlLabel, Col} from "react-bootstrap";
 import ActionBlock from "./ActionBlock";
-import PanelButtonToggle from "../PanelButtonToggle/PanelButtonToggle.js";
+import UtilityPanel from "../UtilityPanel";
 import CalculationFunctions from "./CalculationFunctions";
 
 class OffenseBlock extends Component {
@@ -38,7 +38,7 @@ class OffenseBlock extends Component {
 		return (
 				<Col xs={12} md={7}>
 	        	<FormGroup controlId="offenseBlock">
-					<PanelButtonToggle title={"Offense (CR: "+(this.props.offenseProps.offenseCR || 0)+")"} defaultOpened >
+					<UtilityPanel title={"Offense (CR: "+(this.props.offenseProps.offenseCR || 0)+")"} defaultOpened collapsible>
 						<Col xs={12} md={4} className="form-col">
 							<ControlLabel>Attack Bonus: <span className="form-help">(Number only)</span></ControlLabel>
 							<FormControl
@@ -67,7 +67,7 @@ class OffenseBlock extends Component {
 					          />
 					    </Col>
 					    <ActionBlock />
-					</PanelButtonToggle>
+					</UtilityPanel>
 					</FormGroup>
 	        	</Col>
 		);

@@ -1,6 +1,6 @@
 import React, {Component, Fragment} from 'react';
 import {PageHeader, Panel, Clearfix, FormGroup, FormControl, ControlLabel, Row, Col, Button, Glyphicon} from "react-bootstrap";
-import PanelButtonToggle from "../../PanelButtonToggle/PanelButtonToggle.js";
+import UtilityPanel from "../../UtilityPanel";
 import AbilityForm from "./AbilityForm.js";
 import AbilityItem from "./AbilityItem.js";
 import "./style.css";
@@ -85,11 +85,11 @@ class AbilitiesBlock extends Component {
         return (
             <Col xs={12} sm={6}>
 	        	<FormGroup controlId="abilities">
-					<PanelButtonToggle title={"Traits and Abilities"} toolbar={this.getToolbar()} defaultOpened >
+					<UtilityPanel title={"Traits and Abilities"} toolbar={this.getToolbar()} defaultOpened collapsible>
                         <div style={{marginTop:"5px"}}>
                             {this.layoutPanelBody()}
                         </div>
-                    </PanelButtonToggle>  
+                    </UtilityPanel>
                 </FormGroup>
             </Col>
         );

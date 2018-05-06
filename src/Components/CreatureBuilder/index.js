@@ -5,7 +5,6 @@ import creatureSizes from "../../Inf/CreatureSize.json";
 import CreatureClassificationArray from "../../Inf/CreatureClassification.json";
 import ReferenceStatTable from "./ReferenceStatTable/ReferenceStatTable.js";
 import {PageHeader, Panel, Clearfix, FormGroup, FormControl, ControlLabel, Row, Col} from "react-bootstrap";
-import PanelButtonToggle from "../PanelButtonToggle/PanelButtonToggle.js";
 import TemplateSelect from "./TemplateSelect.js";
 import StatsPanel from "./StatsPanel/StatsPanel.js";
 import SelectField from "../SelectField.js"
@@ -181,18 +180,6 @@ class CreatureBuilder extends Component {
 								</FormGroup>
 							</Col>
 						</Row>
-						{/* <Row className="formRow">
-							<Col xs={12} md={5}>
-								<PanelButtonToggle title="Languages and Senses" defaultOpened >
-									<h1>Test</h1>
-								</PanelButtonToggle>
-							</Col>
-							<Col xs={12} md={7}>
-								<PanelButtonToggle title="Abilities and Condition Immunities" defaultOpened >
-									<h1>Test</h1>
-								</PanelButtonToggle>
-							</Col>
-						</Row> */}
 					</Panel.Body>
 				</Panel>
 				<Row className="formRow" style={{"padding":"0px"}}>

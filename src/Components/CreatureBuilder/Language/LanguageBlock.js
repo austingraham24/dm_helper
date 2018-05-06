@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {PageHeader, Panel, Clearfix, FormGroup, FormControl, ControlLabel, Row, Col, ButtonGroup, Button, Glyphicon} from "react-bootstrap";
 import './style.css';
-import PanelButtonToggle from "../../PanelButtonToggle/PanelButtonToggle.js";
+import UtilityPanel from "../../UtilityPanel";
 import LanguageForm from './LanguageForm.js';
 
 class LanguageBlock extends Component {
@@ -102,14 +102,14 @@ class LanguageBlock extends Component {
     render() {
         return (
             <Col xs={12} sm={6} md={this.state.activeSize}>
-                <PanelButtonToggle title={"Languages"} defaultOpened>
+                <UtilityPanel title={"Languages"} defaultOpened collapsible>
                     <FormGroup controlId="creatureLanguages">
                         {this.getEditButton()}
                         <div style={{marginTop:"5px"}}>
                             {this.setUpLanguages()}
                         </div>
                     </FormGroup>
-                </PanelButtonToggle>
+                </UtilityPanel>
             </Col>
         );
     }
