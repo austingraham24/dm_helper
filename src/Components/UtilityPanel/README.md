@@ -20,24 +20,17 @@ Here is an example of using the component:
 
 | Name | Type | Default | Required | Description |
 | ----- | ----- | ----- | ----- | ----- |
-| collapsible | bool | false | false | can this panel collapse? a toggle button is provided if true |
-
-
-| title | string | | false | the string to be used as the panel title |
 | bsStyle | string | "default" | false | bootstrap styling of panel as seen in react-bootstrap [panel documentation](https://react-bootstrap.github.io/components/panel/) |
-| style | object | | false | a custom style object to further manipulate/customize the panel |
+| collapsible | bool | false | false | can this panel collapse? a toggle button is provided if true |
+| closedTitle | string | | false | a unique string to be used when the panel is collapsed. Think of it as a special override to the title. If this prop is not provided, the title prop is used in both states. |
 | defaultOpened | bool | false | false | does the panel mount in the expanded state? |
+| deletable | bool | false | false | does this panel need to provide a way to delete it? Provides an xsmall red delete button if true (see next prop) |
+| deleteFunction | func | | false* | the function to pass to the delete button's onClick listener. If deletable is false, passing this prop does nothing.
+| style | object | | false | a custom style object to further manipulate/customize the panel |
+| title | string | | false | the string to be used as the panel title |
 | toolbar | array [react elements] | | false | an array of items to render for additional functionality on the panel |
 
-bsStyle: PropTypes.string, //bootstrap styling *see react-bootstrap documentation*
-	collapsible: PropTypes.bool, //can the panel collapse
-	closedTitle: PropTypes.string, //a unique title to show when the panel is closed
-	defaultOpened: PropTypes.bool, //should the panel be open by default (if not provided the default is false)
-	deletable: PropTypes.bool, //should the panel show a delete button (red button with "X")
-	deleteFunction: PropTypes.func, /*function to call when the delete button is called; not providing one to a deletable panel will do nothing when clicking delete*/
-	style: PropTypes.object, //optional styling to apply to the form
-	title: PropTypes.string, //what should be the label of the panel; either a string or a react element
-	toolbar: PropTypes.arrayOf(PropTypes.element) //additional buttons/elements to be displayed next to the toggle that act as a toolbar
+\*passing deletable as true but providing no deleteFunction means clicking the provided delete button will do nothing.
 
 ## Examples and Notes
 **No Props**<br>
