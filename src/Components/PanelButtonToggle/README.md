@@ -18,7 +18,7 @@ Here is an example of using the component:
 ```
 **Parameters:**<br>
 Name | Type | Default | Required | Description
-- | - | - | - | -
+--- | --- | --- | --- | ---
 title | string | | false | the string to be used as the panel title
 bsStyle | string | "default" | false | bootstrap styling of panel as seen in react-bootstrap [panel documentation](https://react-bootstrap.github.io/components/panel/)
 style | object | | false | a custom style object to further manipulate/customize the panel
