@@ -4,6 +4,7 @@
 
 .panel-toggle {
 	float: right;
+	margin-left: 5px;
 }
 
 a.panel-toggle {

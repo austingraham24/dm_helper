@@ -1,7 +1,12 @@
 import React, {Component} from 'react';
 import "./style.css";
-import {Panel, Glyphicon} from "react-bootstrap";
+import {Panel, Glyphicon, Button} from "react-bootstrap";
 import PropTypes from 'prop-types';
+
+/*
+Notes to self:
+- consider changing code later to use a reverse of the toolbar prop for expected a more layout. Get user feedback on the expected behavior.
+*/
 
 class PanelButtonToggle extends Component {
 	constructor(props) {
@@ -42,12 +47,23 @@ class PanelButtonToggle extends Component {
 		return title;
 	}
 
+	setUpToolbar() {
+		if(!Array.isArray(this.props.toolbar) || !this.props.toolbar.length){
+			return
+		}
+
+		return this.props.toolbar.map((element) => {
+			return element;
+		});
+	}
+
 	render() {
 		return (
 			<Panel style={this.props.style} expanded={this.state.panelOpen} onToggle={this.togglePanel.bind(this)}>
 				<Panel.Heading>
 					{this.getTitle.bind(this)()}
 					<Panel.Toggle componentClass="a" className="panel-toggle btn btn-default btn-xs"><Glyphicon glyph={this.state.panelGlyph} /></Panel.Toggle>
+					{this.setUpToolbar()}
 				</Panel.Heading>
 				<Panel.Body collapsible>
 					{this.props.children}
@@ -67,7 +83,12 @@ PanelButtonToggle.propTypes = {
 		PropTypes.string,
 		PropTypes.element
 	  ]), //what should be the label of the panel; either a string or a react element
-	defaultOpened: PropTypes.bool //should the panel be open by default (if not provided the default is false)
+	defaultOpened: PropTypes.bool, //should the panel be open by default (if not provided the default is false)
+	toolbar: PropTypes.arrayOf(PropTypes.element) //additional buttons/elements to be displayed next to the toggle that act as a toolbar
+	/*
+	a special note about the toolbar: since the elements float right, the last item in the array will be on the leftmost side and
+	therefore the first item in the toolbar
+	*/
 }
 
 export default PanelButtonToggle;
