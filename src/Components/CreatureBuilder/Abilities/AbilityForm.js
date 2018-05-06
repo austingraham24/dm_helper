@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, Fragment} from 'react';
 import {Form, PageHeader, Panel, Clearfix, InputGroup, FormGroup, FormControl, ControlLabel, Row, Col, Checkbox, Button, Glyphicon} from "react-bootstrap";
 import _ from "lodash";
 import DamageForm from '../Damage/DamageForm';
@@ -13,7 +13,8 @@ class AbilityForm extends Component {
         this.state={
             name: this.props.name || "",
             desc: this.props.desc || "",
-            damage: this.props.damage || []
+            damage: this.props.damage || [{flatDamage:"15", diceExpression:"2d12+2", dmgType:"Fire"}],
+            dealsDamage: this.props.damage ? true : false
         };
     }
 
@@ -45,7 +46,41 @@ class AbilityForm extends Component {
         //this.debouncedSubmit("update")
     }
 
+    getDamage() {
+        if(this.state.dealsDamage){
+            return (
+                <Fragment>
+                    {this.state.damage.map(
+                        (damageItem) => {
+                            return (
+                                <DamageForm 
+                                flatDamage = {damageItem.flatDamage}
+                                diceExpression = {damageItem.diceExpression}
+                                dmgType = {damageItem.dmgType}
+                                />
+                            );
+                        }
+                    )}
+                    <DamageForm defaultEmpty/>
+                </Fragment>
+            );
+        }
+        else {
+            return (
+                <Button 
+                    bsSize="xsmall"
+                    onClick={() => {
+                        this.setState({dealsDamage:true})
+                    }}
+                >
+                    Add Damage
+                </Button>
+            );
+        }
+    }
+
     render() {
+        console.log(this.state);
         return (
             <div style={{marginBottom:"15px"}}>
                 <label className="has-float-label">
@@ -73,7 +108,7 @@ class AbilityForm extends Component {
                 <span>Ability Description</span>
                 </label>
                 {/* <PanelButtonToggle> */}
-                    <DamageForm />
+                    {this.getDamage()}
                 {/* </PanelButtonToggle> */}
             </div>
         );
