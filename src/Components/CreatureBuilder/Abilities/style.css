@@ -1,6 +1,7 @@
 
 .ability-description {
     resize: vertical;
+    min-height: 40px;
 }
 
 .ability-input {

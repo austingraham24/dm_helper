@@ -9,7 +9,7 @@ body {
   overflow-x:hidden;
   text-overflow: ellipsis;
   max-width: calc(100% - 10px);
-  height: calc(100% + 10px);
+  height: 100%;/*calc(100% + 10px);*/
   top: 0.8em;
 }
 
