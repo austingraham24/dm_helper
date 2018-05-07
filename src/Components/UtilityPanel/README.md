@@ -1,12 +1,7 @@
 ## UtilityPanel
 This component utilizes the Panel component of React-Bootstrap and further enhances it. Using the collabsilbe aspect of the panel component, the UtilityPanel provides a panel with a button in the header to toggle if the panel is shown or not.
 
-- [What's New](#what's-new)
-- [Using the Component](#using-the-component)
-- [Examples and notes](#examples-and-notes)
-
-
-## What's New
+**What's New:**<br>
 Looking into fully incorporating a toolbar feature into the panel header that is fully customizeable
 
 ## Using the Component
@@ -16,24 +11,23 @@ Here is an example of using the component:
     {/*Panel Content*/}
 </UtilityPanel> 
 ```
-**Parameters:**<br>
+## Parameters:
 
 | Name | Type | Default | Required | Description |
 | ----- | ----- | ----- | ----- | ----- |
 | bsStyle | string | "default" | false | bootstrap styling of panel as seen in react-bootstrap [panel documentation](https://react-bootstrap.github.io/components/panel/) |
 | collapsible | bool | false | false | can this panel collapse? a toggle button is provided if true |
-| closedTitle | string | | false | a unique string to be used when the panel is collapsed. Think of it as a special override to the title. If this prop is not provided, the title prop is used in both states. |
-| defaultOpened | bool | false | false | does the panel mount in the expanded state? |
-| deletable | bool | false | false | does this panel need to provide a way to delete it? Provides an xsmall red delete button if true (see next prop) |
-| deleteFunction | func | | false* | the function to pass to the delete button's onClick listener. If deletable is false, passing this prop does nothing.
+| [closedTitle](#providing-titles) | string | | false | a unique string to be used when the panel is collapsed. Think of it as a special override to the title. If this prop is not provided, the title prop is used in both states. |
+| [defaultOpened](#defaultopened) | bool | false | false | does the panel mount in the expanded state? |
+| [deletable](#deletable) | bool | false | false | does this panel need to provide a way to delete it? Provides an xsmall red delete button if true (see next prop) |
+| [deleteFunction](#deletable) | func | | false* | the function to pass to the delete button's onClick listener. If deletable is false, passing this prop does nothing.
 | style | object | | false | a custom style object to further manipulate/customize the panel |
-| title | string | | false | the string to be used as the panel title |
-| toolbar | array [react elements] | | false | an array of items to render for additional functionality on the panel |
+| [title](#providing-titles) | string | | false | the string to be used as the panel title |
+| [toolbar](#providing-a-toolbar) | array [react elements] | | false | an array of items to render for additional functionality on the panel |
 
 \*passing deletable as true but providing no deleteFunction means clicking the provided delete button will do nothing.
 
-## Examples and Notes
-**No Props**<br>
+## No Props
 Using the component without providing any props creates a panel with no title and is collapsed by default.
 ```
 <UtilityPanel>
@@ -42,24 +36,37 @@ Using the component without providing any props creates a panel with no title an
 ```
 ![Blank Props Panel](https://i.imgur.com/tPP6fxy.png)
 
-**DefaultOpened**<br>
+## DefaultOpened
 Providing the default opened prop will mount the panel in its expanded state
 ```
 <UtilityPanel defaultOpened>
     This panel is expanded by default
 </UtilityPanel>
 ```
-![Default Expanded](https://i.imgur.com/0ShUpd9.png)
+![Default Expanded](https://i.imgur.com/0ShUpd9.png)<br>
+[Back to Parameters](#parameters)
 
-**Providing a Title**<br>
+## Providing Titles
+the title prop will show in the panel heading in both the open and closed states
 ```
 <UtilityPanel title="This is the panel title" defaultOpened>
     This panel is expanded by default
 </UtilityPanel>
 ```
 ![Panel with Title](https://i.imgur.com/rJeMvQ2.png)
+<br><br>alternatively, you can provide a title for the open state and one for the closed state
+```
+<UtilityPanel 
+    title="Open Title" 
+    closedTitle="Closed Title" 
+    defaultOpened
+>
+    This panel is expanded by default
+</UtilityPanel>
+```
+[Back to Parameters](#parameters)
 
-**Deletable**<br>
+## Deletable
 Should you want to be able to delete a panel, pass the deletable prop and a function to call when it is done.
 ```
 deleteFunction() {
@@ -78,15 +85,12 @@ render() {
     );
 }
 ```
-![Deletable Panel](https://i.imgur.com/8J2mHHi.png)
+![Deletable Panel](https://i.imgur.com/8J2mHHi.png)<br>
+[Back to Parameters](#parameters)
 
-**Providing a Toolbar**<br>
+## Providing a Toolbar
 The toolbar feature is experimental. Pass in an array of react elements that will be rendered next to the toggle button.<br><br>
-The toolbar renders each element with the style of 'float: right'. The most logical element is a button given an onclick function as a prop.<br><br>
-**Special Notes:**<br>
-* Currently, due to the nature of float behavior, the last item in the toolbar props array with be the first (left-most) item of the toolbar. Discussions of taking the prop and reversing it to render for a more expected layout (as in in order of the array given) are underway.
-
-* Current behavior hides the toolbar when the panel is collapsed.
+The toolbar renders each element with the style of 'float: right'. The most logical element is a button given an onclick function as a prop.
 ```
 //toolbar with 1 item
 let toolbar = [<Button bsSize="xsmall" bsStyle="primary" onClick={() => {this.toggleEditing()}}>Edit</Button>]
@@ -111,4 +115,10 @@ return (
     </UtilityPanel>
 );
 ```
-![Panel with Toolbar](https://i.imgur.com/vLhArkn.png)
+![Panel with Toolbar](https://i.imgur.com/vLhArkn.png)<br><br>
+**Special Notes:**<br>
+* Currently, due to the nature of float behavior, the last item in the toolbar props array with be the first (left-most) item of the toolbar. Discussions of taking the prop and reversing it to render for a more expected layout (as in in order of the array given) are underway.
+
+* Current behavior hides the toolbar when the panel is collapsed.
+
+[Back to Parameters](#parameters)
