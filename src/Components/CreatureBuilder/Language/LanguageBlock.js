@@ -3,6 +3,7 @@ import {PageHeader, Panel, Clearfix, FormGroup, FormControl, ControlLabel, Row, 
 import './style.css';
 import UtilityPanel from "../../UtilityPanel";
 import LanguageForm from './LanguageForm.js';
+import GenericButton from "../../GenericButton.js";
 
 class LanguageBlock extends Component {
     constructor(props) {
@@ -82,29 +83,15 @@ class LanguageBlock extends Component {
     }
 
     getEditButton() {
-        let style = "primary";
-        let glyph = "wrench"
-        if(this.state.isEditing) {
-            style = "success";
-            glyph = "floppy-save";
-        }
-        return (
-            <Button 
-                bsSize="xs" 
-                bsStyle={style} 
-                onClick={this.toggleFormVisible.bind(this)}
-            >
-                <Glyphicon glyph={glyph}/>
-            </Button>
-        );
+        let type = this.state.isEditing? "save" : "edit";
+        return <GenericButton type={type} onClick={this.toggleFormVisible.bind(this)}/>
     }
 
     render() {
         return (
             <Col xs={12} sm={6} md={this.state.activeSize}>
-                <UtilityPanel title={"Languages"} defaultOpened collapsible>
+                <UtilityPanel title={"Languages"} toolbar={[this.getEditButton()]} defaultOpened collapsible>
                     <FormGroup controlId="creatureLanguages">
-                        {this.getEditButton()}
                         <div style={{marginTop:"5px"}}>
                             {this.setUpLanguages()}
                         </div>

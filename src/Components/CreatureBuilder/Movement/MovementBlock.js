@@ -3,6 +3,7 @@ import {PageHeader, Panel, Clearfix, FormGroup, FormControl, ControlLabel, Row, 
 import UtilityPanel from "../../UtilityPanel";
 import MovementItem from "./MovementItem";
 import MovementForm from './MovementForm';
+import GenericButton from "../../GenericButton.js";
 
 class MovementBlock extends Component {
     constructor(props) {
@@ -81,30 +82,16 @@ class MovementBlock extends Component {
     }
 
     getEditButton() {
-        let style = "primary";
-        let glyph = "wrench"
-        if(this.state.isEditing) {
-            style = "success";
-            glyph = "floppy-save";
-        }
-        return (
-            <Button 
-                bsSize="xs" 
-                bsStyle={style} 
-                onClick={this.toggleFormVisible.bind(this)}
-            >
-                <Glyphicon glyph={glyph}/>
-            </Button>
-        );
+        let type = this.state.isEditing? "save" : "edit";
+        return <GenericButton type={type} onClick={this.toggleFormVisible.bind(this)}/>
     }
 
     render() {
         return (
             <Col xs={12} sm={this.state.activeSmallSize} md={this.state.activeMediumSize}>
-                <UtilityPanel title={"Movement"} defaultOpened collapsible>
+                <UtilityPanel title={"Movement"} toolbar={[this.getEditButton()]} defaultOpened collapsible>
                     <FormGroup controlId="creatureMovement">
-                        {this.getEditButton()}
-                        <div style={{marginTop: "5px"}}>
+                        <div>
                             {this.setUpMovement()}
                         </div>
                     </FormGroup>

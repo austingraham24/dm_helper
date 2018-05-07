@@ -3,6 +3,7 @@ import {PageHeader, Panel, Clearfix, FormGroup, FormControl, ControlLabel, Row, 
 import UtilityPanel from "../../UtilityPanel";
 import AbilityForm from "./AbilityForm.js";
 import AbilityItem from "./AbilityItem.js";
+import GenericButton from "../../GenericButton.js";
 import "./style.css";
 
 class AbilitiesBlock extends Component {
@@ -42,18 +43,8 @@ class AbilitiesBlock extends Component {
     }
 
     getEditButton() {
-        if(this.state.isEditing) {
-            return (
-                <Button bsSize="xs" bsStyle={this.editingButtonStyle} onClick={this.toggleFormVisible.bind(this)}>
-                    <Glyphicon glyph={this.editingGlyph}/>{" "+this.editingLabel}
-                </Button>
-            );
-        }
-        return (
-            <Button bsSize="xs" bsStyle={this.defaultButtonStyle} onClick={this.toggleFormVisible.bind(this)}>
-                <Glyphicon glyph={this.defaultGlyph}/>{" " + this.defaultLabel}
-            </Button>
-        );
+        let type = this.state.isEditing? "save" : "edit";
+        return <GenericButton type={type} onClick={this.toggleFormVisible.bind(this)}/>
     }
 
     toggleFormVisible(){
