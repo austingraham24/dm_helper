@@ -59,6 +59,27 @@ Providing the default opened prop will mount the panel in its expanded state
 ```
 ![Panel with Title](https://i.imgur.com/rJeMvQ2.png)
 
+**Deletable**<br>
+Should you want to be able to delete a panel, pass the deletable prop and a function to call when it is done.
+```
+deleteFunction() {
+    {/* delete code goes here */}
+}
+
+render() {
+    return (
+        <UtilityPanel 
+            title="Deletable Panel"
+            deleteFunction={this.deleteFunction.bind(this)}
+            deletable
+        >
+            This panel is deletable
+        </UtilityPanel>
+    );
+}
+```
+![Deletable Panel](https://i.imgur.com/8J2mHHi.png)
+
 **Providing a Toolbar**<br>
 The toolbar feature is experimental. Pass in an array of react elements that will be rendered next to the toggle button.<br><br>
 The toolbar renders each element with the style of 'float: right'. The most logical element is a button given an onclick function as a prop.<br><br>
