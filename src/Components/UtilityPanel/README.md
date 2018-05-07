@@ -16,7 +16,7 @@ Here is an example of using the component:
 | Name | Type | Default | Required | Description |
 | ----- | ----- | ----- | ----- | ----- |
 | bsStyle | string | "default" | false | bootstrap styling of panel as seen in react-bootstrap [panel documentation](https://react-bootstrap.github.io/components/panel/) |
-| collapsible | bool | false | false | can this panel collapse? a toggle button is provided if true |
+| [collapsible](#collapsible) | bool | false | false | can this panel collapse? a toggle button is provided if true |
 | [closedTitle](#providing-titles) | string | | false | a unique string to be used when the panel is collapsed. Think of it as a special override to the title. If this prop is not provided, the title prop is used in both states. |
 | [defaultOpened](#defaultopened) | bool | false | false | does the panel mount in the expanded state? |
 | [deletable](#deletable) | bool | false | false | does this panel need to provide a way to delete it? Provides an xsmall red delete button if true (see next prop) |
@@ -28,18 +28,30 @@ Here is an example of using the component:
 \*passing deletable as true but providing no deleteFunction means clicking the provided delete button will do nothing.
 
 ## No Props
-Using the component without providing any props creates a panel with no title and is collapsed by default.
+Using the component without providing any props creates a panel with no title.
 ```
-<UtilityPanel>
+<UtilityPanel>Hello World!</UtilityPanel>
+```
+![NoPropsPanel](https://i.imgur.com/9d5ZznJ.png)
+
+## Collapsible
+Providing the collapsible prop creates a collapsible panel and provided default open and close controlls.
+```
+<UtilityPanel collapsible>
     Hello!
 </UtilityPanel>
 ```
 ![Blank Props Panel](https://i.imgur.com/tPP6fxy.png)
 
 ## DefaultOpened
-Providing the default opened prop will mount the panel in its expanded state
+Providing the default opened prop will mount the panel in its expanded state.<br>
+_If this prop is provided it is assumed you are using a collapsible panel, so providing the collapsible prop is not required but is helpful for streamlined readability._
 ```
 <UtilityPanel defaultOpened>
+    This panel is expanded by default
+</UtilityPanel>
+
+<UtilityPanel collapsible defaultOpened>
     This panel is expanded by default
 </UtilityPanel>
 ```
@@ -57,13 +69,14 @@ the title prop will show in the panel heading in both the open and closed states
 <br><br>alternatively, you can provide a title for the open state and one for the closed state
 ```
 <UtilityPanel 
-    title="Open Title" 
+    title="OpenTitle" 
     closedTitle="Closed Title" 
     defaultOpened
 >
     This panel is expanded by default
 </UtilityPanel>
 ```
+![Panel with delete title](https://i.imgur.com/z5OOXpO.png)
 [Back to Parameters](#parameters)
 
 ## Deletable

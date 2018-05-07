@@ -11,8 +11,11 @@ Notes to self:
 class UtilityPanel extends Component {
 	constructor(props) {
 		super(props);
+
+		let panelOpen = (this.props.defaultOpened || !this.props.collapsible)? true : false;
+
 		this.state = {
-			panelOpen: this.props.defaultOpened || false,
+			panelOpen: panelOpen,
 			panelGlyph: this.props.defaultOpened? "minus" : "plus"
 		};
 	}
@@ -58,7 +61,7 @@ class UtilityPanel extends Component {
 	}
 
 	getToggleButton() {
-		if(!this.props.collapsible) {
+		if(!this.props.collapsible && !this.props.defaultOpened) {
 			return
 		}
 		return <Panel.Toggle componentClass="a" className="panel-toggle btn btn-default btn-xs"><Glyphicon glyph={this.state.panelGlyph} /></Panel.Toggle>
