@@ -76,7 +76,7 @@ the title prop will show in the panel heading in both the open and closed states
     This panel is expanded by default
 </UtilityPanel>
 ```
-![Panel with delete title](https://i.imgur.com/z5OOXpO.png)
+![Panel with delete title](https://i.imgur.com/z5OOXpO.png)<br>
 [Back to Parameters](#parameters)
 
 ## Deletable
