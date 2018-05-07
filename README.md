@@ -18,7 +18,8 @@ The creature builder is almost online. Damage forms have been added and given a 
 
 ## Setup and Getting Started
 Before getting started you will need to install [Node.js](https://nodejs.org/en/download/).
-Navigate to the project folder and run `npm install`. Once that is done run `npm start`.
+
+Clone or download the project and then navigate to the project folder. Run `npm install`. Once that is done run `npm start`.
 This will open a web browser window at localhost:3000
 
 ## Using the Application

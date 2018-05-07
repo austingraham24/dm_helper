@@ -1,5 +1,5 @@
 ## UtilityPanel
-This component utilizes the Panel component of React-Bootstrap and further enhances it. Using the collabsilbe aspect of the panel component, the UtilityPanel provides a panel with a button in the header to toggle if the panel is shown or not.
+This component utilizes the Panel component of React-Bootstrap and further enhances it. Using the collapsible aspect of the panel component, the UtilityPanel provides a panel with a button in the header to toggle if the panel is shown or not.
 
 **What's New:**<br>
 Looking into fully incorporating a toolbar feature into the panel header that is fully customizeable
@@ -16,7 +16,7 @@ Here is an example of using the component:
 | Name | Type | Default | Required | Description |
 | ----- | ----- | ----- | ----- | ----- |
 | bsStyle | string | "default" | false | bootstrap styling of panel as seen in react-bootstrap [panel documentation](https://react-bootstrap.github.io/components/panel/) |
-| [collapsible](#collapsible) | bool | false | false | can this panel collapse? a toggle button is provided if true |
+| [collapsible](#collapsible) | bool | false | false | can this panel collapse? a toggle button is provided if true. |
 | [closedTitle](#providing-titles) | string | | false | a unique string to be used when the panel is collapsed. Think of it as a special override to the title. If this prop is not provided, the title prop is used in both states. |
 | [defaultOpened](#defaultopened) | bool | false | false | does the panel mount in the expanded state? |
 | [deletable](#deletable) | bool | false | false | does this panel need to provide a way to delete it? Provides an xsmall red delete button if true (see next prop) |
