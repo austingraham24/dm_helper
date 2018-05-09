@@ -75,8 +75,7 @@ class StatsPanel extends Component {
 		return (
 			<Col xs={12}>
 				<UtilityPanel 
-					title="Stats & Proficiencies" 
-					defaultOpened
+					title="Stats & Proficiencies"
 					collapsible>
 					{this.statGroups()}
 				</UtilityPanel>

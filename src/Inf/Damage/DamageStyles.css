@@ -28,7 +28,7 @@ button.btn.damageType-token, button.btn.damageType-token:hover, button.btn.damag
 /*Styles for different damage types*/
 
 /*Fire*/
-fire.dropdown-toggle.button.btn, button.btn.fire, fire.dropdown-toggle.button.btn:focus, button.btn.fire:focus {
+button.btn.fire, button.btn.fire:focus {
 	background-image: linear-gradient(to bottom,#F08030 0,#9C531F 100%);/*fire reg:F08030 / dark:9C531F / light:F5AC78*/
 	background-color: #F08030;
 }
@@ -49,7 +49,7 @@ button.btn.thunder, button.btn.editing.thunder, button.btn.thunder:focus, button
 }
 
 button.btn.editing.thunder:hover {
-	color: white;
+	color: black;
 	background-image: linear-gradient(to bottom,#D1D1E0 0,#B8B8D0 100%);
 }
 
@@ -134,11 +134,11 @@ button.btn.editing.bludgeoning:active, button.btn.editing.bludgeoning:active:hov
 /*Lightning*/
 button.btn.lightning, button.btn.lightning:hover, button.btn.lightning:focus {
 	color: white;
-	background-image: linear-gradient(to bottom,#F8D030 0,#A1871F 100%); /*electric reg:F8D030 / dark:A1871F / light:FAE078 */
+	background-image: linear-gradient(to bottom,#F8D030 0,#A1871F 70%); /*electric reg:F8D030 / dark:A1871F / light:FAE078 */
 }
 
 button.btn.editing.lightning:hover {
-	color: white;
+	color: black;
 	background-image: linear-gradient(to bottom,#FAE078 0,#F8D030 100%);
 }
 
@@ -180,11 +180,11 @@ button.btn.editing.necrotic:active, button.btn.editing.necrotic:active:hover, bu
 /*Cold*/
 button.btn.cold, button.btn.cold:hover, button.btn.cold:focus{
 	color: white;
-	background-image: linear-gradient(to bottom,#BCE6E6 0,#638D8D 100%);/*ice reg:98D8D8 / dark:638D8D / light:BCE6E6 */
+	background-image: linear-gradient(to bottom,#BCE6E6 0,#638D8D 70%);/*ice reg:98D8D8 / dark:638D8D / light:BCE6E6 */
 }
 
 button.btn.editing.cold:hover {
-	color: white;
+	color: black;
 	background-image: linear-gradient(to bottom,#BCE6E6 0,#98D8D8 100%);
 }
 
