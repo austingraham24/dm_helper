@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { PageHeader, Panel, Clearfix, FormGroup, FormControl, ControlLabel, Row, Col, Button, Glyphicon } from "react-bootstrap";
 import UtilityPanel from "../../UtilityPanel";
 import AbilityForm from "./AbilityForm.js";
-import AbilityItem from "./AbilityItem.js";
+import AbilityWrapper from "./AbilityWrapper.js";
 import GenericButton from "../../GenericButton.js";
 import "./style.css";
 import "../../../Inf/Damage/DamageStyles.css";
@@ -67,9 +67,7 @@ class AbilitiesBlock extends Component {
       });
     }
     else {
-      return this.state.abilityObjects.map((ability) => {
-        return <AbilityItem key={ability.name} name={ability.name} desc={ability.desc} damage={ability.damage} />
-      });
+      return
     }
   }
 
@@ -78,9 +76,7 @@ class AbilitiesBlock extends Component {
       <Col xs={12} sm={6}>
         <FormGroup controlId="abilities">
           <UtilityPanel title={"Traits and Abilities"} toolbar={this.getToolbar()} defaultOpened collapsible>
-            <div style={{ marginTop: "5px" }}>
-              {this.layoutPanelBody()}
-            </div>
+            <AbilityWrapper abilities={this.state.abilityObjects} />
           </UtilityPanel>
         </FormGroup>
       </Col>
