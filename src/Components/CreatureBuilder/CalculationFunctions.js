@@ -125,8 +125,8 @@ function calculateEffectiveHP(dataObject) {
 	//the input could be empty string ("") so reset it back to base 0
 	if (dataObject.hp === "") {
 		dataObject["hp"] = 0;
-	}
-	let baseHPCR = calculateCR("ac", dataObject.hp);
+  }
+  let baseHPCR = calculateCR("hp", dataObject.hp);
 	let effectiveHP = dataObject.hp
 	let immunitiesCount = dataObject.immunities.length;
 	let resistancesCount = dataObject.resistances.length;
@@ -134,11 +134,11 @@ function calculateEffectiveHP(dataObject) {
 		let multiplier = 1
 		let key = resistancesCount > immunitiesCount ? "resistance" : "immunity";
 		for (var index in modifierMultipliers) {
-			if (baseHPCR >= modifierMultipliers[index].lowerBoundCR) {
+			if (eval(baseHPCR) >= modifierMultipliers[index].lowerBoundCR) {
 				multiplier = modifierMultipliers[index][key];
 				break;
 			}
-		}
+    }
 		effectiveHP = Math.ceil(effectiveHP * multiplier);
 	}
 	return effectiveHP;
