@@ -16,11 +16,12 @@
     width:100%;
 }
 
-.buttonCell {
+.buttonCell, buttonCell-editing {
     width:0px;
     overflow: hidden;
     justify-content: center;
     flex-direction: column;
+    padding-left: 5px;
 }
 
 .abilityRow {
@@ -35,10 +36,10 @@
     transition: width 0.5s;
 }
 
-.abilityRow:hover .abilityCell{
-    width: Calc(100% - 52px);
+.abilityRow:hover .abilityCell, .abilityCell-editing{
+    width: Calc(100% - 80);
 }
 
-.abilityRow:hover .buttonCell{
-    width: 50px;
+.abilityRow:hover .buttonCell, .buttonCell-editing{
+    width: 80px;
 }

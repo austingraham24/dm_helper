@@ -13,8 +13,10 @@ class DiceForm extends Component {
     this.debouncedCalcAvg = _.debounce(this.calcAverageDamage, 1000);
     this.debouncedCalcExpression = _.debounce(this.calcDiceExpression, 1000);
 
+    let formValid = (this.props.flatDamage && this.props.dmgType)? true : false;
+
     this.state = {
-      formIsValid: false,
+      formIsValid: formValid,
       flatDamage: this.props.flatDamage,
       diceExpression: this.props.diceExpression,
       dmgType: this.props.dmgType
@@ -22,7 +24,7 @@ class DiceForm extends Component {
   }
 
   submitChanges(action) {
-    if(!this.props.submitFunction) {
+    if(!this.props.submitFunction || !this.state.formIsValid) {
       return
     }
     let newDamageObject = {
@@ -31,15 +33,14 @@ class DiceForm extends Component {
       dmgType: this.state.dmgType
     }
     this.props.submitFunction(action, this.props.index, newDamageObject);
-  }
-
-  hasUpdated() {
-    if((this.props.flatDamage !== this.state.flatDamage) ||
-    (this.props.diceExpression !== this.state.diceExpression) ||
-    (this.props.dmgType !== this.state.dmgType)) {
-      return true;
+    if(this.props.defaultEmpty) {
+      this.setState({
+        formIsValid: false,
+        flatDamage: "",
+        diceExpression: "",
+        dmgType: ""
+      });
     }
-    return false;
   }
 
   //basically the master onChange function. all debounces and regular functions route through this to update state
@@ -50,7 +51,13 @@ class DiceForm extends Component {
     if (newState.dmgType && newState.flatDamage) {
       validForm = true;
     }
-    this.setState({ ...newState, formIsValid: validForm });
+    let callback = null;
+    if(!this.props.defaultEmpty) {
+      callback = () => {
+        this.submitChanges("update");
+      }
+    }
+    this.setState({ ...newState, formIsValid: validForm }, callback);
   }
 
   updateDMGType(event) {
@@ -156,10 +163,7 @@ class DiceForm extends Component {
   }
 
   getButton() {
-    if (this.props.defaultEmpty) {
-      if (this.state.formIsValid) {
-        return <Button bsStyle="success" onClick={() => {this.submitChanges("add")}}><Glyphicon glyph="plus" /></Button>
-      }
+    if (!this.state.formIsValid) {
       return (
         <OverlayTrigger
           overlay={this.getTooltip("validWarn")}
@@ -171,8 +175,8 @@ class DiceForm extends Component {
         </OverlayTrigger>
       );
     }
-    if(this.hasUpdated()) {
-      return <Button bsStyle="success" onClick={() => {this.submitChanges("update")}}><Glyphicon glyph="floppy-save" /></Button>
+    if (this.props.defaultEmpty) {
+      return <Button bsStyle="success" onClick={() => {this.submitChanges("add")}}><Glyphicon glyph="plus" /></Button>
     }
     return <Button bsStyle="danger" onClick={() => {this.submitChanges("delete")}}><Glyphicon glyph="remove" /></Button>
 
@@ -216,7 +220,7 @@ class DiceForm extends Component {
                     bsSize="small"
                     type="text"
                     name="flatDamage"
-                    value={this.state.flatDamage}
+                    value={this.state.flatDamage || ""}
                     placeholder="2"
                     onChange={this.onChange.bind(this)}
                   />

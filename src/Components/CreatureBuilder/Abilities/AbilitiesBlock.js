@@ -20,7 +20,7 @@ class AbilitiesBlock extends Component {
     this.editingGlyph = "floppy-save"
 
     let abilities = this.props.abilities || [
-      { name: "Sample1", desc: "This is a sample description", damage: [{ flatDamage: "15", diceExpression: "2d12+2", dmgType: "Poison" }, { flatDamage: "5", dmgType: "Necrotic" }] },
+      { name: "Sample1", desc: "This is a sample description. sadfadsfdf.fa dfa.dfg fdgdsfg sg.gsdg sfdgfds.g fdg dfs.g fdsg fd.gsf ddfg dshsgdh .sfgh gsf.gh sgfh.gh. fg.gh .", damage: [{ flatDamage: "15", diceExpression: "2d12+2", dmgType: "Poison" }, { flatDamage: "5", dmgType: "Necrotic" }] },
       { name: "Sample2", desc: "This is a sample2 description" },
       { name: "Sample3", desc: "This is a sample3 description" }
     ];
@@ -33,50 +33,60 @@ class AbilitiesBlock extends Component {
 
     this.state = {
       abilityObjects: abilities,
-      isEditing: false
     };
   }
 
-  getToolbar() {
-    let toolbar = [];
-    toolbar.push(this.getEditButton());
-    return toolbar;
-  }
-
-  getEditButton() {
-    let type = this.state.isEditing ? "save" : "edit";
-    return <GenericButton type={type} onClick={this.toggleFormVisible.bind(this)} />
-  }
-
-  toggleFormVisible() {
-    let visible = !this.state.isEditing;
-    if (!visible) {
-      if (this.onSubmit) {
-        this.onSubmit("abilities", this.state.abilityObjects);
-      }
+  updateAbilities(action, index, object) {
+    let abilities = [...this.state.abilityObjects];
+    switch (action) {
+      case "create":
+        abilities.push({empty:true});
+        break;
+      case "update":
+        abilities.splice(index,1,object);
+        break;
+      case "delete":
+        abilities.splice(index,1);
+        break;
     }
-    this.setState({ ...this.state, isEditing: visible });
+    this.setState({abilityObjects: abilities});
   }
 
   layoutPanelBody() {
-    if (this.state.isEditing) {
-      return this.state.abilityObjects.map((ability) => {
+    return this.state.abilityObjects.map((ability, index) => {
+      if(ability.empty) {
         return (
-          <AbilityForm key={ability.name} name={ability.name} desc={ability.desc} damage={ability.damage} />
+          <AbilityWrapper 
+            key={"emptyForm"} 
+            ability={ability} 
+            index={index} 
+            onSubmit={this.updateAbilities.bind(this)} 
+            defaultEditing/>
         );
-      });
-    }
-    else {
-      return
-    }
+      }
+      return (
+        <AbilityWrapper 
+          key={ability.name} 
+          ability={ability} 
+          index={index} 
+          onSubmit={this.updateAbilities.bind(this)}/>
+      );
+    });
   }
 
   render() {
     return (
       <Col xs={12} sm={6}>
         <FormGroup controlId="abilities">
-          <UtilityPanel title={"Traits and Abilities"} toolbar={this.getToolbar()} defaultOpened collapsible>
-            <AbilityWrapper abilities={this.state.abilityObjects} />
+          <UtilityPanel title={"Traits and Abilities"} collapsible defaultOpened>
+            {this.layoutPanelBody()}
+            <div style={{marginTop: "10px", marginBottom: "10px"}}>
+              <Button bsSize={"xsmall"} bsStyle="primary" onClick={() => {
+                this.updateAbilities("create", null, null);
+              }}>
+                <Glyphicon glyph="plus"/ > Add a Trait / Ability
+              </Button>
+            </div>
           </UtilityPanel>
         </FormGroup>
       </Col>
