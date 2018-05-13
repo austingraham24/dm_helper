@@ -6,12 +6,12 @@ import SelectField from "../../SelectField.js";
 import CalculationFunctions from "../CalculationFunctions.js";
 import DiceAverages from "../../../Inf/DiceAverages.json";
 
-class DiceForm extends Component {
+class DamageForm extends Component {
   constructor(props) {
     super(props);
 
-    this.debouncedCalcAvg = _.debounce(this.calcAverageDamage, 1000);
-    this.debouncedCalcExpression = _.debounce(this.calcDiceExpression, 1000);
+    this.debouncedCalcAvg = _.debounce(this.calcAverageDamage, 2000);
+    this.debouncedCalcExpression = _.debounce(this.calcDiceExpression, 2000);
 
     let formValid = (this.props.flatDamage && this.props.dmgType)? true : false;
 
@@ -45,14 +45,17 @@ class DiceForm extends Component {
 
   //basically the master onChange function. all debounces and regular functions route through this to update state
   //keeps validation in one place before updating state
-  updateState(key, value) {
+  updateState(key, value, callback = null) {
     let newState = { ...this.state, [key]: value };
     let validForm = false;
     if (newState.dmgType && newState.flatDamage) {
       validForm = true;
     }
-    let callback = null;
-    if(!this.props.defaultEmpty) {
+    if(callback) {
+      this.setState({ ...newState, formIsValid: validForm }, callback(value));
+      return
+    }
+    if(!this.props.defaultEmpty && !callback) {
       callback = () => {
         this.submitChanges("update");
       }
@@ -68,13 +71,14 @@ class DiceForm extends Component {
   onChange(event) {
     let field = event.target.name;
     let value = event.target.value;
+    let callback = null;
     if (field === "diceExpression") {
-      this.debouncedCalcAvg(value); //
+      callback = this.debouncedCalcAvg.bind(this);
     }
     else if (field === "flatDamage") {
-      this.debouncedCalcExpression(value)
+      callback = this.debouncedCalcExpression.bind(this);
     }
-    this.updateState(field,value);
+    this.updateState(field,value,callback);
   }
 
   calcDiceExpression(flatDamage) {
@@ -84,7 +88,6 @@ class DiceForm extends Component {
     let diceType = this.parseExpresion(this.state.diceExpression).type;
     let diceAverage = DiceAverages["d" + diceType];
     if (isNaN(diceType) || !diceAverage) {
-      console.log("Not valid dice or no average for that kind of dice");
       return
     }
 
@@ -245,4 +248,4 @@ class DiceForm extends Component {
   }
 }
 
-export default DiceForm;
+export default DamageForm;

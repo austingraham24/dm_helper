@@ -19,11 +19,11 @@ class AbilitiesBlock extends Component {
     this.defaultGlyph = "wrench";
     this.editingGlyph = "floppy-save"
 
-    let abilities = this.props.abilities || [
-      { name: "Sample1", desc: "This is a sample description. sadfadsfdf.fa dfa.dfg fdgdsfg sg.gsdg sfdgfds.g fdg dfs.g fdsg fd.gsf ddfg dshsgdh .sfgh gsf.gh sgfh.gh. fg.gh .", damage: [{ flatDamage: "15", diceExpression: "2d12+2", dmgType: "Poison" }, { flatDamage: "5", dmgType: "Necrotic" }] },
-      { name: "Sample2", desc: "This is a sample2 description" },
-      { name: "Sample3", desc: "This is a sample3 description" }
-    ];
+    let abilities = this.props.abilities;// || [
+    //   { name: "Sample1", desc: "This is a sample description. sadfadsfdf.fa dfa.dfg fdgdsfg sg.gsdg sfdgfds.g fdg dfs.g fdsg fd.gsf ddfg dshsgdh .sfgh gsf.gh sgfh.gh. fg.gh .", damage: [{ flatDamage: "15", diceExpression: "2d12+2", dmgType: "Poison" }, { flatDamage: "5", dmgType: "Necrotic" }] },
+    //   { name: "Sample2", desc: "This is a sample2 description" },
+    //   { name: "Sample3", desc: "This is a sample3 description" }
+    // ];
     //ability object:
     //{name:"", desc:"", damage: null} -> no damage
     //name:"", desc:"", damage: [damageType]} -> does damage; affects offensive CR
@@ -37,7 +37,11 @@ class AbilitiesBlock extends Component {
   }
 
   updateAbilities(action, index, object) {
-    let abilities = [...this.state.abilityObjects];
+    let abilities = [];
+    if(this.state.abilityObjects) {
+      abilities = [...this.state.abilityObjects];
+    }
+    console.log(abilities);
     switch (action) {
       case "create":
         abilities.push({empty:true});
@@ -53,6 +57,9 @@ class AbilitiesBlock extends Component {
   }
 
   layoutPanelBody() {
+    if(!this.state.abilityObjects) {
+      return
+    }
     return this.state.abilityObjects.map((ability, index) => {
       if(ability.empty) {
         return (

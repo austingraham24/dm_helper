@@ -46,7 +46,9 @@ class AbilityWrapper extends Component {
     return (
       <div className="abilityRow">
         <div className="abilityCell">
+          <div style={{marginTop:"5px"}}>
             <AbilityItem name={ability.name} desc={ability.desc} damage={ability.damage}/>
+          </div>
         </div>
         <div className="buttonCell">
           <div className="contentCenteredVertically">

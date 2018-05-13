@@ -16,3 +16,7 @@ body {
 .has-float-label .form-control.input-sm:placeholder-shown:not(:focus)+* {
   top:0.5em;
 }
+
+.has-float-label .form-control{
+  font-weight: normal;
+}
