@@ -101,7 +101,7 @@ class DefenseBlock extends Component {
               <div>{this.props.defenseProps.effectiveAC || 0}</div>
             </Col>
             <Col xs={12} className="form-col">
-              <UtilityPanel title="Damage Modifiers" collapsible>
+              <UtilityPanel title="Damage Modifiers">
                 <HealthMod
                   name="Immunities"
                   prefill={this.state.immunities}

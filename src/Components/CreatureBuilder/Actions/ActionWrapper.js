@@ -1,16 +1,16 @@
 import React, { Component, Fragment } from 'react';
 import { Col, Button, ButtonGroup, Glyphicon, Table } from "react-bootstrap";
-import AbilityItem from './AbilityItem';
+import ActionItem from './ActionItem';
 import GenericButton from '../../GenericButton';
-import AbilityForm from './AbilityForm';
-//import "./style.css";
+import ActionForm from './ActionForm';
+import "./style.css";
 
-class AbilityWrapper extends Component {
+class ActionWrapper extends Component {
 	constructor(props) {
     super(props);
 
 		this.state = {
-			isEditing: this.props.newAbility || false
+			isEditing: this.props.newAction || false
 		};
   }
 
@@ -32,22 +32,22 @@ class AbilityWrapper extends Component {
     });
   }
 
-  getFormComponent(ability) {
+  getFormComponent(action) {
     return (
-      <div className="abilityRow" style={{display:"block"}}>
+      <div className="actionRow" style={{display:"block"}}>
         <div style={{marginTop:"10px"}}>
-            <AbilityForm name={ability.name} desc={ability.desc} damage={ability.damage} onSubmit={this.submitChanges.bind(this)}/>
+            <ActionForm name={action.name} desc={action.desc} damage={action.damage} onSubmit={this.submitChanges.bind(this)}/>
         </div>
       </div>
     );
   }
 
-  getViewOnlyComponent(ability) {
+  getViewOnlyComponent(action) {
     return (
-      <div className="abilityRow">
-        <div className="abilityCell">
+      <div className="actionRow">
+        <div className="actionCell">
           <div style={{marginTop:"5px"}}>
-            <AbilityItem name={ability.name} desc={ability.desc} damage={ability.damage}/>
+            <ActionItem name={action.name} desc={action.desc} damage={action.damage}/>
           </div>
         </div>
         <div className="buttonCell">
@@ -61,14 +61,15 @@ class AbilityWrapper extends Component {
   }
 
   layoutItems() {
-    //if newAbility prop is set, always keep the form open. There is a weird glitch where after mounting state becomes false even though it was never toggled
-    if(this.props.newAbility || this.state.isEditing) {
-      return this.getFormComponent(this.props.ability);
+    //if newAction prop is set, always keep the form open. There is a weird glitch where after mounting state becomes false even though it was never toggled
+    if(this.props.newAction || this.state.isEditing) {
+      return this.getFormComponent(this.props.action);
     }
-    return this.getViewOnlyComponent(this.props.ability);
+    return this.getViewOnlyComponent(this.props.action);
   }
 
   render() {
+    console.log(this.props.index, this.state);
     return (
       <div>
         {this.layoutItems()}
@@ -77,4 +78,4 @@ class AbilityWrapper extends Component {
   }
 }
 
-export default AbilityWrapper;
+export default ActionWrapper;

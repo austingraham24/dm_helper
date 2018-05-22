@@ -4,12 +4,12 @@ import _ from "lodash";
 import DamageForm from '../Damage/DamageForm';
 import GenericButton from '../../GenericButton';
 
-class AbilityForm extends Component {
+class ActionForm extends Component {
   constructor(props) {
     super(props);
 
     this.debouncedSubmit = _.debounce(this.submitChanges, 500);
-
+    console.log(props);
     this.state = {
       name: this.props.name || "",
       desc: this.props.desc || "",
@@ -134,11 +134,11 @@ class AbilityForm extends Component {
               type="text"
               name="name"
               value={this.state.name || ""}
-              className="form-label-group ability-input"
+              className="form-label-group action-input"
               placeholder="Put a cool name here..."
               onChange={this.onChange.bind(this)}
             />
-            <span>Ability Name</span>
+            <span>Action Name</span>
           </label>
         </FormGroup>
         <FormGroup validationState="">
@@ -146,13 +146,13 @@ class AbilityForm extends Component {
             <FormControl
               bsSize="small"
               componentClass="textarea"
-              className="ability-description ability-input"
+              className="action-description action-input"
               name="desc"
               value={this.state.desc || ""}
               placeholder="What does it do?"
               onChange={this.onChange.bind(this)}
             />
-            <span>Ability Description</span>
+            <span>Action Description</span>
           </label>
         </FormGroup>
         {this.getDamageForms()}
@@ -164,4 +164,4 @@ class AbilityForm extends Component {
   }
 }
 
-export default AbilityForm;
+export default ActionForm;

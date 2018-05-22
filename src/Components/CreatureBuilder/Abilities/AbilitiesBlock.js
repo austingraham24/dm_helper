@@ -64,11 +64,11 @@ class AbilitiesBlock extends Component {
       if(ability.empty) {
         return (
           <AbilityWrapper 
-            key={"emptyForm"} 
+            key={"emptyForm"+index} 
             ability={ability} 
             index={index} 
             onSubmit={this.updateAbilities.bind(this)} 
-            defaultEditing/>
+            newAbility/>
         );
       }
       return (
