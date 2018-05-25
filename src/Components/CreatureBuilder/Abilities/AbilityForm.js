@@ -18,7 +18,6 @@ class AbilityForm extends Component {
   }
 
   submitChanges(action) {
-    console.log(this.state.damage);
     if (!this.props.onSubmit) {
       return null;
     }

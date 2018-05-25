@@ -41,7 +41,6 @@ class AbilitiesBlock extends Component {
     if(this.state.abilityObjects) {
       abilities = [...this.state.abilityObjects];
     }
-    console.log(abilities);
     switch (action) {
       case "create":
         abilities.push({empty:true});

@@ -69,7 +69,6 @@ class ActionWrapper extends Component {
   }
 
   render() {
-    console.log(this.props.index, this.state);
     return (
       <div>
         {this.layoutItems()}

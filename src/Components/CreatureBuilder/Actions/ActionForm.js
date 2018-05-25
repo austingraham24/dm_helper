@@ -9,7 +9,6 @@ class ActionForm extends Component {
     super(props);
 
     this.debouncedSubmit = _.debounce(this.submitChanges, 500);
-    console.log(props);
     this.state = {
       name: this.props.name || "",
       desc: this.props.desc || "",
@@ -18,7 +17,6 @@ class ActionForm extends Component {
   }
 
   submitChanges(action) {
-    console.log(this.state.damage);
     if (!this.props.onSubmit) {
       return null;
     }
@@ -34,6 +32,7 @@ class ActionForm extends Component {
   }
 
   updateDamage(action, index, object) {
+    console.log("update damage", action, object);
     let damage = this.state.damage ? [...this.state.damage] : [];
     switch (action) {
       case "add":
@@ -72,14 +71,16 @@ class ActionForm extends Component {
       this.state.damage.map(
         (damageItem, index) => {
           return (
-            <DamageForm
-              key={damageItem.dmgType + "-" + damageItem.flatDamage}
-              flatDamage={damageItem.flatDamage}
-              diceExpression={damageItem.diceExpression}
-              dmgType={damageItem.dmgType}
-              index={index}
-              submitFunction={this.updateDamage.bind(this)}
-            />
+            <div className={index + "-" + damageItem.dmgType + "-" + damageItem.flatDamage}>
+              <DamageForm
+                key={index + "-" + damageItem.dmgType + "-" + damageItem.flatDamage}
+                flatDamage={damageItem.flatDamage}
+                diceExpression={damageItem.diceExpression}
+                dmgType={damageItem.dmgType}
+                index={index}
+                submitFunction={this.updateDamage.bind(this)}
+              />
+            </div>
           );
         })
     );
@@ -90,7 +91,7 @@ class ActionForm extends Component {
       return (
         <Fragment>
           {this.layoutDamageItems()}
-          <DamageForm defaultEmpty submitFunction={this.updateDamage.bind(this)} />
+          <DamageForm key="empty" defaultEmpty submitFunction={this.updateDamage.bind(this)} />
         </Fragment>
       );
     }
@@ -105,7 +106,7 @@ class ActionForm extends Component {
 
   getSubmitButton() {
     if (this.state.name === "" || this.state.desc === "") {
-      if(!this.props.name) {
+      if (!this.props.name) {
         return (
           <GenericButton type="cancel" onClick={() => {
             this.submitChanges("delete");
@@ -127,7 +128,8 @@ class ActionForm extends Component {
   render() {
     return (
       <div style={{ width: "100%" }}>
-        <FormGroup validationState="">
+      <Col sm={8}>
+        <FormGroup validationState="success">
           <label className="has-float-label">
             <FormControl
               bsSize="small"
@@ -141,6 +143,8 @@ class ActionForm extends Component {
             <span>Action Name</span>
           </label>
         </FormGroup>
+        </Col>
+        <Col xs={12}>
         <FormGroup validationState="">
           <label className="has-float-label">
             <FormControl
@@ -155,6 +159,7 @@ class ActionForm extends Component {
             <span>Action Description</span>
           </label>
         </FormGroup>
+        </Col>
         {this.getDamageForms()}
         <div style={{ marginBottom: "10px" }}>
           {this.getSubmitButton()}

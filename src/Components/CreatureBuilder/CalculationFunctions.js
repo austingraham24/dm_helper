@@ -104,15 +104,18 @@ function calculateOverallOffensiveCR(dataObject) {
 	let offenses = dataObject;
 	let finalOffenseCR = 0;
 
-	//calculate the Challenge Ratings for each field
-	let saveCR = calculateCR("saveDC", offenses.saveDC);
-	let attackCR = calculateCR("attackBonus", offenses.attackBonus);
-	let damageCR = calculateCR("dpr", offenses.dpr);
+  //calculate the Challenge Ratings for each field
+  let damageCR = calculateCR("dpr", offenses.dpr);
+	let saveCR = calculateCR("saveDC", offenses.saveDC, damageCR);
+	let attackCR = calculateCR("attackBonus", offenses.attackBonus, damageCR);
 	//console.log("saveCR:",saveCR,"attackCR:",attackCR,"damageCR:",damageCR);
 	//get the index for that CR; this is because the average of 2 and 1/8 isn't a real CR, but by using indexes we can get the proper CR
 	let saveIndex = crKeys.indexOf(saveCR.toString());
 	let attackIndex = crKeys.indexOf(attackCR.toString());
   let damageIndex = crKeys.indexOf(damageCR.toString());
+
+  //console.log("attackCR: ",attackCR);
+  //console.log("damageCR: ",damageCR);
   
   let difference = Math.abs(damageCR - attackCR);
 		if (difference == 1) {
@@ -122,7 +125,7 @@ function calculateOverallOffensiveCR(dataObject) {
       let offset = Math.floor(difference/2);
       finalOffenseCR = eval(damageCR) > eval(attackCR)? crKeys[damageIndex - offset]: crKeys[damageIndex + offset];
     }
-	offenses.offenseCR = finalOffenseCR;
+  offenses.offenseCR = finalOffenseCR;
 	return offenses;
 }
 

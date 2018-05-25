@@ -10,23 +10,27 @@ class DamageForm extends Component {
   constructor(props) {
     super(props);
 
-    this.debouncedCalcAvg = _.debounce(this.calcAverageDamage, 2000);
-    this.debouncedCalcExpression = _.debounce(this.calcDiceExpression, 2000);
+    this.debouncedCalcAvg = _.debounce(this.calcAverageDamage, 500);
+    this.debouncedCalcExpression = _.debounce(this.calcDiceExpression, 500);
+    this.debouncedSubmit = _.debounce(this.submitChanges, 500);
 
     let formValid = (this.props.flatDamage && this.props.dmgType)? true : false;
 
     this.state = {
+      activeField: null, //string of the field name or null
       formIsValid: formValid,
-      flatDamage: this.props.flatDamage,
-      diceExpression: this.props.diceExpression,
-      dmgType: this.props.dmgType
+      flatDamage: this.props.flatDamage || "",
+      diceExpression: this.props.diceExpression || "",
+      dmgType: this.props.dmgType || ""
     };
   }
 
   submitChanges(action) {
     if(!this.props.submitFunction || !this.state.formIsValid) {
+      console.log("Can't submit")
       return
     }
+    console.log("Damage State ",this.state);
     let newDamageObject = {
       flatDamage: this.state.flatDamage,
       diceExpression: this.state.diceExpression,
@@ -35,6 +39,7 @@ class DamageForm extends Component {
     this.props.submitFunction(action, this.props.index, newDamageObject);
     if(this.props.defaultEmpty) {
       this.setState({
+        hasChanged: false, //used for prefilled forms to see if it should show a save icon or delete
         formIsValid: false,
         flatDamage: "",
         diceExpression: "",
@@ -46,21 +51,18 @@ class DamageForm extends Component {
   //basically the master onChange function. all debounces and regular functions route through this to update state
   //keeps validation in one place before updating state
   updateState(key, value, callback = null) {
+    console.log(key,value);
     let newState = { ...this.state, [key]: value };
     let validForm = false;
     if (newState.dmgType && newState.flatDamage) {
       validForm = true;
     }
-    if(callback) {
-      this.setState({ ...newState, formIsValid: validForm }, callback(value));
-      return
-    }
-    if(!this.props.defaultEmpty && !callback) {
-      callback = () => {
-        this.submitChanges("update");
+    this.setState({ ...newState, formIsValid: validForm, hasChanged: true }, () => {
+      if(callback){
+        callback()
       }
-    }
-    this.setState({ ...newState, formIsValid: validForm }, callback);
+      return
+    });
   }
 
   updateDMGType(event) {
@@ -73,21 +75,29 @@ class DamageForm extends Component {
     let value = event.target.value;
     let callback = null;
     if (field === "diceExpression") {
-      callback = this.debouncedCalcAvg.bind(this);
+      callback = () => {
+        this.debouncedCalcAvg(value);
+      };
     }
     else if (field === "flatDamage") {
-      callback = this.debouncedCalcExpression.bind(this);
+      callback = () => {
+        this.debouncedCalcExpression(value);
+      }
     }
     this.updateState(field,value,callback);
   }
 
   calcDiceExpression(flatDamage) {
-    if (!flatDamage || isNaN(flatDamage) || !this.state.diceExpression) {
+    if (!flatDamage || isNaN(flatDamage) || (!this.state.diceExpression && this.state.diceExpression != "")) {
       return
     }
     let diceType = this.parseExpresion(this.state.diceExpression).type;
+    if(!diceType || isNaN(diceType)) {
+      return
+    }
+
     let diceAverage = DiceAverages["d" + diceType];
-    if (isNaN(diceType) || !diceAverage) {
+    if (!diceAverage) {
       return
     }
 
@@ -98,6 +108,7 @@ class DamageForm extends Component {
   }
 
   calcAverageDamage(expression) {
+    console.log("avg")
     if (!expression) {
       return
     }
@@ -181,11 +192,15 @@ class DamageForm extends Component {
     if (this.props.defaultEmpty) {
       return <Button bsStyle="success" onClick={() => {this.submitChanges("add")}}><Glyphicon glyph="plus" /></Button>
     }
+    if(this.state.hasChanged) {
+      return <Button bsStyle="success" onClick={() => {this.submitChanges("update")}}><Glyphicon glyph="floppy-save" /></Button>
+    }
     return <Button bsStyle="danger" onClick={() => {this.submitChanges("delete")}}><Glyphicon glyph="remove" /></Button>
 
   }
 
   render() {
+    console.log(this.state)
     return (
       <Fragment>
         <Row style={{ marginBottom: "10px" }}>

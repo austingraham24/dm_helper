@@ -27,7 +27,6 @@ const ActionBlock = (props) => {
 }
 
 function layoutActions(props) {
-  console.log(props.actions)
   return props.actions.map((action, index) => {
     if (Object.keys(action).length === 0) {
       return (
