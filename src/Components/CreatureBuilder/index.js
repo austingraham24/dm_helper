@@ -47,7 +47,8 @@ class CreatureBuilder extends Component {
 				offenseCR: 0,
 				saveDC: 0,
 				attackBonus: 0,
-				dpr: 0
+        dpr: 0,
+        actions: [{ name: "Breath", desc: "Breathe fire upon everything! Mwuahahahaha!", damage: [{ dmgType: "Fire", flatDamage: "50" }] }]
 			},
 			stats: {},
 			languages: ["Common","Draconic"],
@@ -96,6 +97,7 @@ class CreatureBuilder extends Component {
 	}
 
 	updateOffenseData(dataObject) {
+    console.log("new offsenses: ", dataObject)
 		let currentState = this.state;
 		//we will be storing calculated values in the defense block of state that don't exist in the component's state
 		//to make sure we dont overwrite that piece of state, get the current defensive state then adjust fields as necessary
@@ -107,6 +109,7 @@ class CreatureBuilder extends Component {
 	}
 
 	render() {
+    //console.log(this.state);
 		return (
 		  <div className="container">
 		  	<PageHeader>Creature Builder</PageHeader>

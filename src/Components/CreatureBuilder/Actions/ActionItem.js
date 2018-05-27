@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import {Col, Button, Glyphicon} from "react-bootstrap";
 
-const AbilityItem = (props) => {
+const ActionItem = (props) => {
     let name = props.name;
     let desc = props.desc;
     let damage = props.damage;
@@ -58,4 +58,4 @@ const AbilityItem = (props) => {
     );
 }
 
-export default AbilityItem;
+export default ActionItem;
