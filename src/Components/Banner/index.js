@@ -16,7 +16,7 @@ const Banner =()=> {
 			  </Navbar.Header>
 			  <Navbar.Collapse>
 			    <Nav>
-			      <NavItem eventKey={1} href="#/test">
+			      <NavItem eventKey={1} href="#/test" disabled>
 			        Campaign Manager
 			      </NavItem>
 			      <LinkContainer to="/CreatureBuilder">

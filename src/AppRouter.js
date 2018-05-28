@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Banner from './Components/Banner';
+import Footer from './Components/Footer/Footer.js';
 import {Route, Switch} from 'react-router-dom';
 import CreatureBuilder from './Components/CreatureBuilder'
 import Landing from './Components/Landing'
@@ -15,6 +16,8 @@ class AppRouter extends Component {
           <Route path="/CreatureBuilder" component={CreatureBuilder}/>
           <Route component={NotFound} />
         </Switch>
+        <div style={{minHeight:"75px"}}></div>
+        <Footer />
       </div>
     );
   }
