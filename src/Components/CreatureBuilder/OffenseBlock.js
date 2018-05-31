@@ -18,7 +18,7 @@ const OffenseBlock = (props) => {
     }
     newData = {...dataObject}
     newData.dpr = calcDPR(newData.actions);
-    props.handleChange(newData);
+    props.handleChange("offenses", newData);
     return
   }
   

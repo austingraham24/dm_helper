@@ -21,11 +21,14 @@ class DefenseBlock extends Component {
     };
   };
 
-  componentDidUpdate(prevProps, prevState) {
-    if (prevState !== this.state) {
-      let currentState = this.state;
-      this.props.handleChange(currentState);
-    }
+  pushChanges = _.debounce(() => {
+    this.props.handleChange("defenses", this.state);
+  }, 500);
+
+  updateState(field, value) {
+    this.setState({[field]: value}, () => {
+      this.pushChanges();
+    });
   }
 
   getExceptionMods(exceptionKey) {
@@ -39,18 +42,10 @@ class DefenseBlock extends Component {
     return mods;
   }
 
-  updateDamageMod(name, values) {
-    let dataObject = { ...this.state, [name]: values };
-    this.setState({ ...dataObject })
-  }
-
   handleChange(event) {
-    let fieldName = event.target.name
-    let newValue = event.target.value
-    let newDataObject = { ...this.state }
-    newDataObject[fieldName] = newValue;
-    this.setState({ ...newDataObject });
-    return
+    let field = event.target.name;
+    let value = event.target.value;
+    this.updateState(field, value);
   }
 
   getHitDice() {
@@ -105,19 +100,19 @@ class DefenseBlock extends Component {
                 <HealthMod
                   name="Immunities"
                   prefill={this.state.immunities}
-                  updateMods={this.updateDamageMod.bind(this)}
+                  updateMods={this.updateState.bind(this)}
                   exceptionMods={this.getExceptionMods("immunities")}
                 />
                 <HealthMod
                   name="Resistances"
                   prefill={this.state.resistances}
-                  updateMods={this.updateDamageMod.bind(this)}
+                  updateMods={this.updateState.bind(this)}
                   exceptionMods={this.getExceptionMods("resistances")}
                 />
                 <HealthMod
                   name="Vulnerabilities"
                   prefill={this.state.vulnerabilities}
-                  updateMods={this.updateDamageMod.bind(this)}
+                  updateMods={this.updateState.bind(this)}
                   exceptionMods={this.getExceptionMods("vulnerabilities")}
                 />
               </UtilityPanel>

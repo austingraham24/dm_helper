@@ -165,6 +165,33 @@ function calculateEffectiveAC(dataObject) {
 	return effectiveAC;
 }
 
+//calculates the average damage per round by looking at the actions and abilities
+function calculateDamagePerRound(dataObject) {
+  let actionDamage, abilityDamage = 0;
+  if(dataObject.offenses && dataObject.offenses.actions){
+    actionDamage = calcActionDamage(dataObject.offenses.actions);
+  }
+  //abilityDamage = calcAbilityDamage();
+}
+
+function calcActionDamage(actionList) {
+  if (!actionList || actionList.length == 0) {
+    return null;
+  }
+  let highestDamageIndex;
+  actionList.forEach((action, index) => {
+    if (index == 0) {
+      highestDamageIndex = 0
+      return
+    }
+    if (getDamageOutput(action.damage) > (getDamageOutput(actionList[highestDamageIndex].damage))) {
+      highestDamageIndex = index;
+    }
+    return
+  });
+  return getDamageOutput(actionList[highestDamageIndex].damage)
+}
+
 // *** end exported functions *** //
 
 // *** helper/non-exported functions *** //
@@ -247,6 +274,16 @@ function crCompareValues(index, rating, crValue, value) {
 		}
 	}
 	return cr;
+}
+
+function getDamageOutput(damageItem) {
+  let damage = 0;
+  if (damageItem) {
+    damageItem.forEach((item) => {
+      damage += parseInt(item.flatDamage);
+    });
+  }
+  return damage;
 }
 
 // *** end helper functions *** //

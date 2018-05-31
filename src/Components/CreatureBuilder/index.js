@@ -53,7 +53,8 @@ class CreatureBuilder extends Component {
 			stats: {},
 			languages: ["Common","Draconic"],
 			proficiencies: {},
-			movement: []
+      movement: [],
+      abilities: []
 		};
 	};
 
@@ -72,10 +73,6 @@ class CreatureBuilder extends Component {
 		//console.log(this.calculateCR(event.target.name, event.target.value));
 	}
 
-	updateNonCalculatedProperties(propName, data) {
-		this.setState({[propName]: data});
-	}
-
 	//method that will actually end up updating state; runs all calculations to get updated values before updating state
 	//ex: EffectiveHP and defesive CR is influenced by other parts of the form so this does a pre-screen before changing state
 	precalculateFormChanges(dataObject) {
@@ -83,7 +80,30 @@ class CreatureBuilder extends Component {
 		newState = CalculationFunctions.calculateFinalCR(newState);
 		//console.log(newState);
 		this.setState({...newState});
-	}
+  }
+
+  overwriteIsolatedPropertyField(field, value) {
+    this.setState({[field]: value})
+  }
+
+  updateIsolatedPropertyObject(field, dataObject) {
+    let currentState = {...this.state};
+    let newFieldState = {...currentState[field], ...dataObject};
+    this.setState({[field]: newFieldState});
+  }
+  
+  overwriteDynamicPropertyField(field, value) {
+    let newDataObject = {...this.state};
+    newDataObject[field] = value;
+    this.precalculateFormChanges(newDataObject);
+  }
+
+  updateDynamicPropertyObject(field, dataObject) {
+    let currentState = {...this.state};
+    let newFieldState = {...currentState[field], ...dataObject};
+    let newState = {...currentState, [field]: newFieldState};
+    this.precalculateFormChanges(newState);
+  }
 
 	updateDefensiveData(newDataObject) {
 		let currentState = this.state;
@@ -109,7 +129,7 @@ class CreatureBuilder extends Component {
 	}
 
 	render() {
-    //console.log(this.state);
+    console.log(this.state);
 		return (
 		  <div className="container">
 		  	<PageHeader>Creature Builder</PageHeader>
@@ -190,13 +210,13 @@ class CreatureBuilder extends Component {
 				</Row>
 	        	<Row className="formRow">
 				<AbilitiesBlock />
-				<MovementBlock onSubmit={this.updateNonCalculatedProperties.bind(this)} movement={this.state.movement}/>
-				<LanguageBlock languages={this.state.languages} onSubmit={this.updateNonCalculatedProperties.bind(this)} />
+				<MovementBlock onSubmit={this.overwriteIsolatedPropertyField.bind(this)} movement={this.state.movement}/>
+				<LanguageBlock languages={this.state.languages} onSubmit={this.overwriteIsolatedPropertyField.bind(this)} />
 				<Clearfix />
 				{/*Creature Defenses Panel*/}
-	        	<DefenseBlock handleChange={this.updateDefensiveData.bind(this)} hitDice={creatureSizes[this.state.size] || null} defenseProps={this.state.defenses} />
+	        	<DefenseBlock handleChange={this.updateDynamicPropertyObject.bind(this)} hitDice={creatureSizes[this.state.size] || null} defenseProps={this.state.defenses} />
 	        	{/*Creature Offenses Panel*/}
-				<OffenseBlock handleChange = {this.updateOffenseData.bind(this)} offenseProps={this.state.offenses}/>
+				<OffenseBlock handleChange = {this.updateDynamicPropertyObject.bind(this)} offenseProps={this.state.offenses}/>
 	        	</Row>
 		  </div>
 		);
