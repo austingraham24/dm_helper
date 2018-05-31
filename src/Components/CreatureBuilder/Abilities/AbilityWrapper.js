@@ -50,7 +50,7 @@ class AbilityWrapper extends Component {
             <AbilityItem name={ability.name} desc={ability.desc} damage={ability.damage}/>
           </div>
         </div>
-        <div className="buttonCell">
+        <div className="ability-buttonCell">
           <div className="contentCenteredVertically">
             <GenericButton type="edit" onClick={() => {this.toggleEditing()}}/>
             <GenericButton style={{marginTop:"5px"}} type="delete" onClick={() => {this.submitChanges("delete", null)}}/>

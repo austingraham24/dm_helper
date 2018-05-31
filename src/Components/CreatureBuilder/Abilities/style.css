@@ -18,7 +18,7 @@
     width:100%;
 }
 
-.buttonCell, buttonCell-editing {
+.ability-buttonCell {
     width:0px;
     overflow: hidden;
     justify-content: center;
@@ -42,6 +42,6 @@
     width: Calc(100% - 80);
 }
 
-.abilityRow:hover .buttonCell, .buttonCell-editing{
+.abilityRow:hover .action-buttonCell{
     width: 80px;
 }

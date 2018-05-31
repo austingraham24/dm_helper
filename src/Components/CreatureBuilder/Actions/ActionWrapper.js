@@ -10,7 +10,8 @@ class ActionWrapper extends Component {
     super(props);
 
 		this.state = {
-			isEditing: this.props.newAction || false
+      isEditing: this.props.newAction || false,
+      isClickedExpanded: false
 		};
   }
 
@@ -43,17 +44,22 @@ class ActionWrapper extends Component {
   }
 
   getViewOnlyComponent(action) {
+    let className = "actionRow";
+    if(this.state.isClickedExpanded) {
+      className += " actionRow-expanded"
+    }
+    console.log(className);
     return (
-      <div className="actionRow">
-        <div className="actionCell">
+      <div className={className}>
+        <div className="actionCell" onClick={() => {this.setState({isClickedExpanded: !this.state.isClickedExpanded})}}>
           <div style={{marginTop:"5px"}}>
             <ActionItem name={action.name} desc={action.desc} damage={action.damage}/>
           </div>
         </div>
-        <div className="buttonCell">
+        <div className="action-buttonCell">
           <div className="contentCenteredVertically">
             <GenericButton type="edit" onClick={() => {this.toggleEditing()}}/>
-            <GenericButton style={{marginTop:"5px"}} type="delete" onClick={() => {this.submitChanges("delete", null)}}/>
+            <GenericButton type="delete" onClick={() => {this.submitChanges("delete", null)}}/>
           </div>
         </div>
       </div>
