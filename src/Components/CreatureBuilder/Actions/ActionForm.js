@@ -32,7 +32,6 @@ class ActionForm extends Component {
   }
 
   updateDamage(action, index, object) {
-    console.log("update damage", action, object);
     let damage = this.state.damage ? [...this.state.damage] : [];
     switch (action) {
       case "add":

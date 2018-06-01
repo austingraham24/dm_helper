@@ -48,7 +48,6 @@ class ActionWrapper extends Component {
     if(this.state.isClickedExpanded) {
       className += " actionRow-expanded"
     }
-    console.log(className);
     return (
       <div className={className}>
         <div className="actionCell" onClick={() => {this.setState({isClickedExpanded: !this.state.isClickedExpanded})}}>

@@ -30,7 +30,6 @@ class DamageForm extends Component {
       console.log("Can't submit")
       return
     }
-    console.log("Damage State ",this.state);
     let newDamageObject = {
       flatDamage: this.state.flatDamage,
       diceExpression: this.state.diceExpression,
@@ -51,7 +50,6 @@ class DamageForm extends Component {
   //basically the master onChange function. all debounces and regular functions route through this to update state
   //keeps validation in one place before updating state
   updateState(key, value, callback = null) {
-    console.log(key,value);
     let newState = { ...this.state, [key]: value };
     let validForm = false;
     if (newState.dmgType && newState.flatDamage) {
@@ -108,7 +106,6 @@ class DamageForm extends Component {
   }
 
   calcAverageDamage(expression) {
-    console.log("avg")
     if (!expression) {
       return
     }
@@ -200,7 +197,6 @@ class DamageForm extends Component {
   }
 
   render() {
-    console.log(this.state)
     return (
       <Fragment>
         <Row style={{ marginBottom: "10px" }}>
