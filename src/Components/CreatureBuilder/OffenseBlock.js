@@ -17,7 +17,9 @@ const OffenseBlock = (props) => {
       newData = {...props.offenseProps}
     }
     newData = {...dataObject}
-    newData.dpr = calcDPR(newData.actions);
+    if (newData.actions.length > 0) {
+      newData.dpr = calcDPR(newData.actions);
+    }
     props.handleChange("offenses", newData);
     return
   }
@@ -48,7 +50,12 @@ const OffenseBlock = (props) => {
       newActions.splice(index, 1);
         break;
     }
-    pushChanges({ actions: newActions});
+
+    let newData = {actions: newActions};
+    if(newActions.length == 0) {
+      newData["dpr"] = null;
+    }
+    pushChanges(newData);
   }
 
   return (
@@ -110,19 +117,25 @@ function getDamageOutput(damageItem) {
 
 function calcDPR(actionList) {
   if (!actionList || actionList.length == 0) {
-    return null;
+    return this.props.dpr;
   }
-  let highestDamageIndex;
+  let highestDamageIndex = null;
   actionList.forEach((action, index) => {
+    if(action.damage == undefined || action.damage == null) {
+      return
+    }
     if (index == 0) {
       highestDamageIndex = 0
-      return
+      return 
     }
     if (getDamageOutput(action.damage) > (getDamageOutput(actionList[highestDamageIndex].damage))) {
       highestDamageIndex = index;
     }
     return
   });
+  if(highestDamageIndex == undefined) {
+    return this.props.dpr;
+  }
   return getDamageOutput(actionList[highestDamageIndex].damage)
 }
 
