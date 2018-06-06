@@ -58,7 +58,7 @@ const OffenseBlock = (props) => {
   }
 
   return (
-    <Col xs={12} md={7}>
+    <div>
       <FormGroup controlId="offenseBlock">
         <UtilityPanel title={"Offense (CR: " + offenseCR + ")"} defaultOpened collapsible>
           <Col xs={12} md={4} className="form-col">
@@ -100,7 +100,7 @@ const OffenseBlock = (props) => {
           <ActionBlock actions={actions} updateActions={updateActions} />
         </UtilityPanel>
       </FormGroup>
-    </Col>
+    </div>
   );
 }
 

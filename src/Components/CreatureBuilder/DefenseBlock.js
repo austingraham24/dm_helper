@@ -60,7 +60,7 @@ class DefenseBlock extends Component {
 
   render() {
     return (
-      <Col xs={12} md={5}>
+      <div>
         <FormGroup controlId="deffenseBlock">
           <UtilityPanel title={"Defense (CR: " + (this.props.defenseProps.defenseCR) + ")"} defaultOpened collapsible>
             <Col xs={12} sm={6} className="form-col">
@@ -119,7 +119,7 @@ class DefenseBlock extends Component {
             </Col>
           </UtilityPanel>
         </FormGroup>
-      </Col>
+      </div>
     );
   }
 }

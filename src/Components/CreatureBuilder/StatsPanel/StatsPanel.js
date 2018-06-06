@@ -7,6 +7,7 @@ import StatGroup from "./StatGroup.js";
 import ProficiencyList from "./ProficiencyList.js";
 import PropTypes from 'prop-types';
 import _ from "lodash";
+import "./statPanel.css";
 
 //component rendered in the CreatureBuilder form showing stats and proficiencies
 class StatsPanel extends Component {
@@ -73,13 +74,13 @@ class StatsPanel extends Component {
 
 	render() {
 		return (
-			<Col xs={12}>
+			<div>
 				<UtilityPanel 
 					title="Stats & Proficiencies"
-					collapsible>
+					defaultOpened>
 					{this.statGroups()}
 				</UtilityPanel>
-			</Col>
+			</div>
 		);
 	}
 }

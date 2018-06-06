@@ -82,7 +82,7 @@ class AbilitiesBlock extends Component {
 
   render() {
     return (
-      <Col xs={12} sm={6}>
+      <div>
         <FormGroup controlId="abilities">
           <UtilityPanel title={"Traits and Abilities"} collapsible defaultOpened>
             {this.layoutPanelBody()}
@@ -95,7 +95,7 @@ class AbilitiesBlock extends Component {
             </div>
           </UtilityPanel>
         </FormGroup>
-      </Col>
+      </div>
     );
   }
 }

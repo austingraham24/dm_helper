@@ -1,0 +1,12 @@
+.statGroup {
+  border-top: solid 1px #cacaca;
+  padding: 0px;
+  padding-top: 10px;
+}
+
+@media (max-width: 768px) {
+  .col-xs-12 .panel-body{
+    max-height: 450px;
+    overflow-y: scroll;
+  }
+}
