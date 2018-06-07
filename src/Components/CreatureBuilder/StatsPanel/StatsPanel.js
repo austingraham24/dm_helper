@@ -1,6 +1,6 @@
-import React, {Component} from 'react';
+import React, {Component, Fragment} from 'react';
 import "../style.css";
-import {Label, FormGroup, FormControl, ControlLabel, Checkbox, Col, Clearfix} from "react-bootstrap";
+import {Label, FormGroup, FormControl, ControlLabel, Checkbox, Col, Clearfix, Row} from "react-bootstrap";
 import UtilityPanel from "../../UtilityPanel";
 import StatCalculationFunctions from "./StatCalculationFunctions.js";
 import StatGroup from "./StatGroup.js";
@@ -67,10 +67,24 @@ class StatsPanel extends Component {
 	//generates a statgroup component for each stat ("Strength", "Wsidom")
 	//each group has the stat value field and sub-component for proficiencies
 	statGroups() {
-		return StatCalculationFunctions.statKeys.map((key) => {
+		return StatCalculationFunctions.statKeys.map((key, index) => {
 			return <StatGroup key={key} statName={key} statObject={this.state[key]} statProficiencies={this.state.statProficiencies[key]} onChange={this.onChange.bind(this)} changeProfficiency={this.updateProficiencies.bind(this)} />
 		});
-	}
+  }
+  
+  setUpGroups() {
+    let groups = this.statGroups();
+    return (
+      <div>
+        <Row>
+          {groups.slice(0,groups.length/2)}
+        </Row>
+        <Row>
+          {groups.slice(groups.length/2,groups.length)}
+        </Row>
+      </div>
+    );
+  }
 
 	render() {
 		return (
@@ -78,7 +92,7 @@ class StatsPanel extends Component {
 				<UtilityPanel 
 					title="Stats & Proficiencies"
 					defaultOpened>
-					{this.statGroups()}
+					{this.setUpGroups()}
 				</UtilityPanel>
 			</div>
 		);

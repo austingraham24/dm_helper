@@ -27,10 +27,10 @@ const StatGroup = (props) => {
 
   return (
     <div>
+      <Col xs={12} md={4} key={statName} className="form-col">
       <strong>{getFormLabel()}  {statBonus}</strong>
-      <Col xs={12} key={statName} className="form-col statGroup">
-        <Row>
-          <Col xs={4} sm={4}>
+        <Row className="statGroup">
+          <Col xs={12} sm={12}>
             <FormControl
               type="text"
               name={statName}
@@ -39,7 +39,7 @@ const StatGroup = (props) => {
               onChange={onChange}
             />
           </Col>
-          <Col xs={12} sm={6} style={{ minHeight: "75px", paddingRight:"0px"}}>
+          <Col xs={12} sm={12} style={{ minHeight: "75px", paddingRight:"0px"}}>
             <FormGroup>
               {/* <div className="profLabel"><strong>Proficiencies:</strong></div> */}
               <ProficiencyList statName={statName} proficiencyObject={statProficiencies} onChange={changeProfficiency} />

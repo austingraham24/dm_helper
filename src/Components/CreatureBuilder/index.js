@@ -13,6 +13,7 @@ import OffenseBlock from "./OffenseBlock.js";
 import MovementBlock from "./Movement/MovementBlock.js";
 import LanguageBlock from "./Language/LanguageBlock.js";
 import AbilitiesBlock from "./Abilities/AbilitiesBlock.js";
+import OverviewBlock from "./OverviewBlock";
 import CalculationFunctions from "./CalculationFunctions";
 import PropTypes from 'prop-types';
 
@@ -144,91 +145,90 @@ class CreatureBuilder extends Component {
         </Row>
         {/*Creature Overview Panel*/}
         <Row>
-          <Col xs={12} md={9} style={{ padding: "0px" }}>
-            <Col sm={12} md={7}>
-              <Panel>
-                <Panel.Heading>Creature Overview</Panel.Heading>
-                <Panel.Body>
-                  <Row>
-                    <Col sm={12} className="form-col">
-                      <FormGroup controlId="creatureIdentifiers">
-                        <Col xs={12} className="form-col">
-                          <ControlLabel>Creature Type:</ControlLabel>
-                          <FormControl
-                            type="text"
-                            name="type"
-                            value={this.state.type}
-                            placeholder="Creature Type (e.g. Skeleton)"
-                            onChange={this.handleChange.bind(this)}
-                          />
-                        </Col>
-                        <Col xs={12} className="form-col">
-                          <ControlLabel>Creature Name: <span className="form-help">(Optional)</span></ControlLabel>
-                          <FormControl
-                            type="text"
-                            name="name"
-                            value={this.state.name}
-                            placeholder="Creature's Name (e.g. Yorick)"
-                            onChange={this.handleChange.bind(this)}
-                          />
-                        </Col>
-                      </FormGroup>
+          <Col sm={12} md={6}>
+            <OverviewBlock>
+              <Row>
+                <Col sm={12} className="form-col">
+                  <FormGroup controlId="creatureIdentifiers">
+                    <Col xs={12} className="form-col">
+                      <ControlLabel>Creature Type:</ControlLabel>
+                      <FormControl
+                        type="text"
+                        name="type"
+                        value={this.state.type}
+                        placeholder="Creature Type (e.g. Skeleton)"
+                        onChange={this.handleChange.bind(this)}
+                      />
                     </Col>
-                    <Col sm={12} md={7} className="form-col">
-                      <FormGroup controlId="creatureIdentifiers">
-                        <Col xs={6} md={4} className="form-col">
-                          <ControlLabel>Classification:</ControlLabel>
-                          <SelectField name="classification" arrayData={CreatureClassificationArray} onChange={this.handleChange.bind(this)} stateValue={this.state.classification} placeholder="Unknown" />
-                        </Col>
-                        <Col xs={6} md={4} className="form-col">
-                          <ControlLabel>Alignment:</ControlLabel>
-                          <SelectField name="alignment" objectData={this.alignments} onChange={this.handleChange.bind(this)} stateValue={this.state.alignment} />
-                        </Col>
-                        <Col xs={6} md={4} className="form-col">
-                          <ControlLabel>Size:</ControlLabel>
-                          <SelectField name="size" arrayData={Object.keys(creatureSizes)} placeholder="Select Size" onChange={this.handleChange.bind(this)} stateValue={this.state.size} />
-                        </Col>
-                      </FormGroup>
-                      <FormGroup controlId="creatureCore">
-                        <Col xs={6} md={4} className="form-col">
-                          <ControlLabel>Challenge Rating (CR):</ControlLabel>
-                          <div>{this.state.challengeRating || 0}</div>
-                        </Col>
-                        <Clearfix visibleXsBlock visibleSmBlock />
-                        <Col xs={6} md={4} className="form-col">
-                          <ControlLabel>XP Awarded:</ControlLabel>
-                          <div>{this.state.experience || 0}</div>
-                        </Col>
-                        <Col xs={6} md={4} className="form-col">
-                          <ControlLabel>Proficiency Bonus:</ControlLabel>
-                          <div>+{this.state.proficiencyBonus || 0}</div>
-                        </Col>
-                      </FormGroup>
+                    <Col xs={12} className="form-col">
+                      <ControlLabel>Creature Name: <span className="form-help">(Optional)</span></ControlLabel>
+                      <FormControl
+                        type="text"
+                        name="name"
+                        value={this.state.name}
+                        placeholder="Creature's Name (e.g. Yorick)"
+                        onChange={this.handleChange.bind(this)}
+                      />
                     </Col>
-                  </Row>
-                </Panel.Body>
-              </Panel>
-            </Col>
-            <Col sm={12} md={5}>
-              <MovementBlock onSubmit={this.overwriteIsolatedPropertyField.bind(this)} movement={this.state.movement} />
-              <LanguageBlock languages={this.state.languages} onSubmit={this.overwriteIsolatedPropertyField.bind(this)} />
-              <AbilitiesBlock />
-            </Col>
-            <Clearfix />
-            {/*Creature Offenses Panel*/}
-            <Col xs={12} sm={7}>
-              <OffenseBlock handleChange={this.updateDynamicPropertyObject.bind(this)} offenseProps={this.state.offenses} />
-            </Col>
-            {/*Creature Defenses Panel*/}
-            <Col xs={12} sm={5}>
-              <DefenseBlock handleChange={this.updateDynamicPropertyObject.bind(this)} hitDice={creatureSizes[this.state.size] || null} defenseProps={this.state.defenses} />
-            </Col>
+                  </FormGroup>
+                </Col>
+                <Col sm={12} className="form-col">
+                  <FormGroup controlId="creatureIdentifiers">
+                    <Col xs={6} md={4} className="form-col">
+                      <ControlLabel>Classification:</ControlLabel>
+                      <SelectField name="classification" arrayData={CreatureClassificationArray} onChange={this.handleChange.bind(this)} stateValue={this.state.classification} placeholder="Unknown" />
+                    </Col>
+                    <Col xs={6} md={4} className="form-col">
+                      <ControlLabel>Alignment:</ControlLabel>
+                      <SelectField name="alignment" objectData={this.alignments} onChange={this.handleChange.bind(this)} stateValue={this.state.alignment} />
+                    </Col>
+                    <Col xs={6} md={4} className="form-col">
+                      <ControlLabel>Size:</ControlLabel>
+                      <SelectField name="size" arrayData={Object.keys(creatureSizes)} placeholder="Select Size" onChange={this.handleChange.bind(this)} stateValue={this.state.size} />
+                    </Col>
+                  </FormGroup>
+                  <FormGroup controlId="creatureCore">
+                    <Col xs={6} md={4} className="form-col">
+                      <ControlLabel>Challenge Rating (CR):</ControlLabel>
+                      <div>{this.state.challengeRating || 0}</div>
+                    </Col>
+                    <Clearfix visibleXsBlock visibleSmBlock />
+                    <Col xs={6} md={4} className="form-col">
+                      <ControlLabel>XP Awarded:</ControlLabel>
+                      <div>{this.state.experience || 0}</div>
+                    </Col>
+                    <Col xs={6} md={4} className="form-col">
+                      <ControlLabel>Proficiency Bonus:</ControlLabel>
+                      <div>+{this.state.proficiencyBonus || 0}</div>
+                    </Col>
+                  </FormGroup>
+                </Col>
+              </Row>
+            </OverviewBlock>
           </Col>
-          <Col xs={12} md={3}>
+          <Col sm={12} md={6}>
             <StatsPanel />
           </Col>
+          <Col sm={12} md={6}>
+            <AbilitiesBlock />
+          </Col>
+          <Col sm={12} md={3}>
+            <MovementBlock onSubmit={this.overwriteIsolatedPropertyField.bind(this)} movement={this.state.movement} />
+          </Col>
+          <Col sm={12} md={3}>
+            <LanguageBlock languages={this.state.languages} onSubmit={this.overwriteIsolatedPropertyField.bind(this)} />
+          </Col>
+          <Clearfix />
+          {/*Creature Offenses Panel*/}
+          <Col xs={12} sm={6}>
+            <OffenseBlock handleChange={this.updateDynamicPropertyObject.bind(this)} offenseProps={this.state.offenses} />
+          </Col>
+          {/*Creature Defenses Panel*/}
+          <Col xs={12} sm={5}>
+            <DefenseBlock handleChange={this.updateDynamicPropertyObject.bind(this)} hitDice={creatureSizes[this.state.size] || null} defenseProps={this.state.defenses} />
+          </Col>
         </Row>
-      </div>
+      </div >
     );
   }
 }
