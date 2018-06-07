@@ -127,42 +127,44 @@ class ActionForm extends Component {
   render() {
     return (
       <div style={{ width: "100%" }}>
-      <Col sm={8}>
-        <FormGroup validationState="success">
-          <label className="has-float-label">
-            <FormControl
-              bsSize="small"
-              type="text"
-              name="name"
-              value={this.state.name || ""}
-              className="form-label-group action-input"
-              placeholder="Put a cool name here..."
-              onChange={this.onChange.bind(this)}
-            />
-            <span>Action Name</span>
-          </label>
-        </FormGroup>
+        <Col sm={8}>
+          <FormGroup validationState="success">
+            <label className="has-float-label">
+              <FormControl
+                bsSize="small"
+                type="text"
+                name="name"
+                value={this.state.name || ""}
+                className="form-label-group action-input"
+                placeholder="Put a cool name here..."
+                onChange={this.onChange.bind(this)}
+              />
+              <span>Action Name</span>
+            </label>
+          </FormGroup>
         </Col>
         <Col xs={12}>
-        <FormGroup validationState="">
-          <label className="has-float-label">
-            <FormControl
-              bsSize="small"
-              componentClass="textarea"
-              className="action-description action-input"
-              name="desc"
-              value={this.state.desc || ""}
-              placeholder="What does it do?"
-              onChange={this.onChange.bind(this)}
-            />
-            <span>Action Description</span>
-          </label>
-        </FormGroup>
+          <FormGroup validationState="">
+            <label className="has-float-label">
+              <FormControl
+                bsSize="small"
+                componentClass="textarea"
+                className="action-description action-input"
+                name="desc"
+                value={this.state.desc || ""}
+                placeholder="What does it do?"
+                onChange={this.onChange.bind(this)}
+              />
+              <span>Action Description</span>
+            </label>
+          </FormGroup>
         </Col>
-        {this.getDamageForms()}
-        <div style={{ marginBottom: "10px" }}>
-          {this.getSubmitButton()}
-        </div>
+        <Col xs={12}>
+          {this.getDamageForms()}
+          <div style={{ marginBottom: "10px" }}>
+            {this.getSubmitButton()}
+          </div>
+        </Col>
       </div>
     );
   }
