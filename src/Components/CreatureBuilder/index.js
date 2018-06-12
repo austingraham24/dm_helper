@@ -210,7 +210,7 @@ class CreatureBuilder extends Component {
           <Col sm={12} md={4}>
             <LanguageBlock languages={this.state.languages} onSubmit={this.overwriteIsolatedPropertyField.bind(this)} />
           </Col>
-          <Col sm={12} md={6}>
+          <Col xs={12} md={6}>
             <AbilitiesBlock />
           </Col>
           <Clearfix />
@@ -222,7 +222,7 @@ class CreatureBuilder extends Component {
           <Col xs={12} sm={5}>
             <DefenseBlock handleChange={this.updateDynamicPropertyObject.bind(this)} hitDice={creatureSizes[this.state.size] || null} defenseProps={this.state.defenses} />
           </Col>
-          <Col sm={12} md={6}>
+          <Col xs={12} md={6}>
             <StatsPanel />
           </Col>
         </Row>
