@@ -39,9 +39,9 @@
 }
 
 .abilityRow:hover .abilityCell, .abilityCell-editing{
-    width: Calc(100% - 80);
+    width: Calc(100% - 80px);
 }
 
-.abilityRow:hover .action-buttonCell{
+.abilityRow:hover .ability-buttonCell{
     width: 80px;
 }

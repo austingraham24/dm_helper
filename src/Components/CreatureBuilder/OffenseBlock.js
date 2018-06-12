@@ -18,7 +18,7 @@ const OffenseBlock = (props) => {
     }
     newData = {...dataObject}
     if (newData.actions.length > 0) {
-      newData.dpr = calcDPR(newData.actions);
+      newData.dpr = calcDPR(props, newData.actions);
     }
     props.handleChange("offenses", newData);
     return
@@ -114,9 +114,9 @@ function getDamageOutput(damageItem) {
   return damage;
 }
 
-function calcDPR(actionList) {
+function calcDPR(props, actionList) {
   if (!actionList || actionList.length == 0) {
-    return this.props.dpr;
+    return props.dpr;
   }
   let highestDamageIndex = null;
   actionList.forEach((action, index) => {
@@ -133,7 +133,7 @@ function calcDPR(actionList) {
     return
   });
   if(highestDamageIndex == undefined) {
-    return this.props.dpr;
+    return props.dpr;
   }
   return getDamageOutput(actionList[highestDamageIndex].damage)
 }

@@ -114,28 +114,28 @@ function calculateOverallOffensiveCR(dataObject) {
   let attackIndex = crKeys.indexOf(attackCR.toString());
   let damageIndex = crKeys.indexOf(damageCR.toString());
 
-  console.log("attackCR: ", attackCR);
-  console.log("damageCR: ", damageCR);
+  // console.log("attackCR: ", attackCR);
+  // console.log("damageCR: ", damageCR);
 
   let difference = Math.abs(damageIndex - attackIndex);
   if (difference == 1) {
-    console.log("take greater");
+    // console.log("take greater");
     finalOffenseCR = eval(damageCR) > eval(attackCR) ? damageIndex : attackIndex;
   }
   else {
     let offset = Math.floor(difference / 2);
-    console.log(offset);
-    console.log(finalOffenseCR);
+    // console.log(offset);
+    // console.log(finalOffenseCR);
     if(eval(damageCR) > eval(attackCR)) {
       finalOffenseCR = crKeys[damageIndex - offset];
     }
     else {
       finalOffenseCR = crKeys[damageIndex + offset];
     }
-    console.log(finalOffenseCR);
+    // console.log(finalOffenseCR);
   }
-  console.log(offenses);
-  console.log(finalOffenseCR);
+  // console.log(offenses);
+  // console.log(finalOffenseCR);
   offenses.offenseCR = finalOffenseCR;
   return offenses;
 }

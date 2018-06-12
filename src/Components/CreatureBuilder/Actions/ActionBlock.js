@@ -30,14 +30,12 @@ function layoutActions(props) {
   return props.actions.map((action, index) => {
     if (Object.keys(action).length === 0) {
       return (
-        <div className={"emptyForm"+index} >
         <ActionWrapper
           key={"emptyForm"+index}
           action={action}
           index={index}
           onSubmit={props.updateActions}
           newAction />
-        </div>
       );
     }
     return (

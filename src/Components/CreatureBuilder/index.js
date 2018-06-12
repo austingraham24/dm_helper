@@ -118,7 +118,6 @@ class CreatureBuilder extends Component {
   }
 
   updateOffenseData(dataObject) {
-    console.log("new offsenses: ", dataObject)
     let currentState = this.state;
     //we will be storing calculated values in the defense block of state that don't exist in the component's state
     //to make sure we dont overwrite that piece of state, get the current defensive state then adjust fields as necessary
@@ -130,10 +129,9 @@ class CreatureBuilder extends Component {
   }
 
   render() {
-    console.log(this.state);
     return (
       <div className="container">
-        <PageHeader>Creature Builder</PageHeader>
+        <PageHeader>Creature Builder & CR Calculator</PageHeader>
         <Row className="formRow">
           <FormGroup controlId="templateOptions">
             <Col md={12}>
@@ -145,28 +143,28 @@ class CreatureBuilder extends Component {
         </Row>
         {/*Creature Overview Panel*/}
         <Row>
-          <Col sm={12} md={6}>
+          <Col sm={12} md={7}>
             <OverviewBlock>
               <Row>
                 <Col sm={12} className="form-col">
                   <FormGroup controlId="creatureIdentifiers">
                     <Col xs={12} className="form-col">
-                      <ControlLabel>Creature Type:</ControlLabel>
+                      <ControlLabel>Creature Name:</ControlLabel>
                       <FormControl
                         type="text"
                         name="type"
                         value={this.state.type}
-                        placeholder="Creature Type (e.g. Skeleton)"
+                        placeholder="ex. Skeleton"
                         onChange={this.handleChange.bind(this)}
                       />
                     </Col>
                     <Col xs={12} className="form-col">
-                      <ControlLabel>Creature Name: <span className="form-help">(Optional)</span></ControlLabel>
+                      <ControlLabel>Unique Name: <span className="form-help">(Optional)</span></ControlLabel>
                       <FormControl
                         type="text"
                         name="name"
                         value={this.state.name}
-                        placeholder="Creature's Name (e.g. Yorick)"
+                        placeholder="ex. Yorick"
                         onChange={this.handleChange.bind(this)}
                       />
                     </Col>
@@ -174,17 +172,17 @@ class CreatureBuilder extends Component {
                 </Col>
                 <Col sm={12} className="form-col">
                   <FormGroup controlId="creatureIdentifiers">
-                    <Col xs={6} md={4} className="form-col">
-                      <ControlLabel>Classification:</ControlLabel>
-                      <SelectField name="classification" arrayData={CreatureClassificationArray} onChange={this.handleChange.bind(this)} stateValue={this.state.classification} placeholder="Unknown" />
+                  <Col xs={6} md={4} className="form-col">
+                      <ControlLabel>Size:</ControlLabel>
+                      <SelectField name="size" arrayData={Object.keys(creatureSizes)} placeholder="Select Size" onChange={this.handleChange.bind(this)} stateValue={this.state.size} />
                     </Col>
                     <Col xs={6} md={4} className="form-col">
                       <ControlLabel>Alignment:</ControlLabel>
                       <SelectField name="alignment" objectData={this.alignments} onChange={this.handleChange.bind(this)} stateValue={this.state.alignment} />
                     </Col>
                     <Col xs={6} md={4} className="form-col">
-                      <ControlLabel>Size:</ControlLabel>
-                      <SelectField name="size" arrayData={Object.keys(creatureSizes)} placeholder="Select Size" onChange={this.handleChange.bind(this)} stateValue={this.state.size} />
+                      <ControlLabel>Classification:</ControlLabel>
+                      <SelectField name="classification" arrayData={CreatureClassificationArray} onChange={this.handleChange.bind(this)} stateValue={this.state.classification} placeholder="Unknown" />
                     </Col>
                   </FormGroup>
                   <FormGroup controlId="creatureCore">
@@ -206,17 +204,14 @@ class CreatureBuilder extends Component {
               </Row>
             </OverviewBlock>
           </Col>
-          <Col sm={12} md={6}>
-            <StatsPanel />
+          <Col sm={12} md={4}>
+            <MovementBlock onSubmit={this.overwriteIsolatedPropertyField.bind(this)} movement={this.state.movement} />
+          </Col>
+          <Col sm={12} md={4}>
+            <LanguageBlock languages={this.state.languages} onSubmit={this.overwriteIsolatedPropertyField.bind(this)} />
           </Col>
           <Col sm={12} md={6}>
             <AbilitiesBlock />
-          </Col>
-          <Col sm={12} md={3}>
-            <MovementBlock onSubmit={this.overwriteIsolatedPropertyField.bind(this)} movement={this.state.movement} />
-          </Col>
-          <Col sm={12} md={3}>
-            <LanguageBlock languages={this.state.languages} onSubmit={this.overwriteIsolatedPropertyField.bind(this)} />
           </Col>
           <Clearfix />
           {/*Creature Offenses Panel*/}
@@ -226,6 +221,9 @@ class CreatureBuilder extends Component {
           {/*Creature Defenses Panel*/}
           <Col xs={12} sm={5}>
             <DefenseBlock handleChange={this.updateDynamicPropertyObject.bind(this)} hitDice={creatureSizes[this.state.size] || null} defenseProps={this.state.defenses} />
+          </Col>
+          <Col sm={12} md={6}>
+            <StatsPanel />
           </Col>
         </Row>
       </div >
