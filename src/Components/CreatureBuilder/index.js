@@ -40,6 +40,7 @@ class CreatureBuilder extends Component {
         ac: 0,
         effectiveHP: 0,
         effectiveAC: 0,
+        hitDice: null,
         immunities: [],
         resistances: [],
         vulnerabilities: []
@@ -71,7 +72,7 @@ class CreatureBuilder extends Component {
       //this.setState({challengeRating: hpCR})
     }
     //calculate hit dice if size changes
-    if(event.target.name == "size") {
+    if(event.target.name == "size" && !this.state.defenses.hitDice) {
       newDataObject.defenses.hitDice = creatureSizes[newDataObject.size] || null;
     }
     this.precalculateFormChanges(newDataObject);

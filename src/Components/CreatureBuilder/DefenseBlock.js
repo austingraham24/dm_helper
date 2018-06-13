@@ -97,7 +97,7 @@ class DefenseBlock extends Component {
           <UtilityPanel title={"Defense (CR: " + (this.props.defenseProps.defenseCR) + ")"} defaultOpened collapsible>
             <Col xs={12} sm={12} md={7} className="form-col">
               <InputGroup>
-                <label className="has-float-label">
+                <label className="has-float-label" style={{display:"table-cell"}}>
                   <FormControl
                     type="text"
                     name="hp"
@@ -109,6 +109,18 @@ class DefenseBlock extends Component {
                   <span>Health Points</span>
                 </label>
                 {this.getHitDice()}
+                <InputGroup.Addon>+0</InputGroup.Addon>
+                <label className="has-float-label" style={{display:"table-cell"}}>
+                  <FormControl
+                    type="text"
+                    name="hp"
+                    value={this.state.hp || ""}
+                    placeholder="#"
+                    onChange={this.handleChange.bind(this)}
+                    style={{ borderRadius: "4px 0px 0px 0px" }}
+                  />
+                  <span>Health Points</span>
+                </label>
               </InputGroup>
               <div className="input-addon-bottom">
                 <b>Effecitve HP:</b> {this.props.defenseProps.effectiveHP || 0}
