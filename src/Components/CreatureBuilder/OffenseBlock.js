@@ -70,7 +70,7 @@ const OffenseBlock = (props) => {
               <FormControl
                 type="text"
                 name="attackBonus"
-                placeholder="Enter Number Value"
+                placeholder="#"
                 value={attackBonus}
                 onChange={handleChange}
               />
@@ -82,7 +82,7 @@ const OffenseBlock = (props) => {
               <FormControl
                 type="text"
                 name="saveDC"
-                placeholder="Enter Number Value"
+                placeholder="#"
                 value={saveDC}
                 onChange={handleChange}
               />
