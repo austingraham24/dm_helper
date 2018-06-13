@@ -1,7 +1,14 @@
 .statGroup {
-  border-top: solid 1px #cacaca;
   padding: 0px;
   padding-top: 10px;
+}
+
+.stat-border {
+  position: relative;
+  width: 100%;
+  border-top: solid 1px #cacaca;
+  left: 0px;
+  right: 0px;
 }
 
 @media (max-width: 768px) {

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { Label, FormGroup, FormControl, ControlLabel, Checkbox, Col, Clearfix, Row } from "react-bootstrap";
 import StatCalculationFunctions from "./StatCalculationFunctions.js";
 import ProficiencyList from "./ProficiencyList.js";
@@ -26,28 +26,27 @@ const StatGroup = (props) => {
   }
 
   return (
-    <div>
-      <Col xs={12} md={4} key={statName} className="form-col">
+    <Col xs={12} sm={3} md={2} key={statName} className="form-col">
       <strong>{getFormLabel()}  {statBonus}</strong>
-        <Row className="statGroup">
-          <Col xs={12} sm={12}>
-            <FormControl
-              type="text"
-              name={statName}
-              value={statObject.value || ""}
-              placeholder="#"
-              onChange={onChange}
-            />
-          </Col>
-          <Col xs={12} sm={12} style={{ minHeight: "75px", paddingRight:"0px"}}>
-            <FormGroup>
-              {/* <div className="profLabel"><strong>Proficiencies:</strong></div> */}
-              <ProficiencyList statName={statName} proficiencyObject={statProficiencies} onChange={changeProfficiency} />
-            </FormGroup>
-          </Col>
-        </Row>
-      </Col>
-    </div>
+      <div className="stat-border"></div>
+      <Row className="statGroup">
+        <Col xs={12} sm={12}>
+          <FormControl
+            type="text"
+            name={statName}
+            value={statObject.value || ""}
+            placeholder="#"
+            onChange={onChange}
+          />
+        </Col>
+        <Col xs={12} sm={12} style={{ minHeight: "75px", paddingRight: "0px" }}>
+          <FormGroup>
+            {/* <div className="profLabel"><strong>Proficiencies:</strong></div> */}
+            <ProficiencyList statName={statName} proficiencyObject={statProficiencies} onChange={changeProfficiency} />
+          </FormGroup>
+        </Col>
+      </Row>
+    </Col>
   );
 }
 

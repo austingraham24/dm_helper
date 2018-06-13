@@ -57,6 +57,10 @@ const OffenseBlock = (props) => {
     pushChanges(newData);
   }
 
+  let panelDPR = () => {
+    return <p>{dpr}</p>
+  }
+
   return (
     <div>
       <FormGroup controlId="offenseBlock">
@@ -85,19 +89,7 @@ const OffenseBlock = (props) => {
               <span>Save DC</span>
             </label>
           </Col>
-          <Col xs={12} md={4} className="form-col">
-            <label className="has-float-label">
-              <FormControl
-                type="text"
-                name="dpr"
-                placeholder="Enter Number Value"
-                value={dpr}
-                onChange={handleChange}
-              />
-              <span>Damage Per Round</span>
-            </label>
-          </Col>
-          <ActionBlock actions={actions} updateActions={updateActions} />
+          <ActionBlock actions={actions} updateActions={updateActions} dpr={dpr}/>
         </UtilityPanel>
       </FormGroup>
     </div>

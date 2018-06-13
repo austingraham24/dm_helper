@@ -77,10 +77,7 @@ class StatsPanel extends Component {
     return (
       <div>
         <Row>
-          {groups.slice(0,groups.length/2)}
-        </Row>
-        <Row>
-          {groups.slice(groups.length/2,groups.length)}
+          {groups}
         </Row>
       </div>
     );

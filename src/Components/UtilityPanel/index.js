@@ -40,7 +40,7 @@ class UtilityPanel extends Component {
 				title = this.props.closedTitle;
 			}
 		}
-		return title;
+		return <b>{title}</b>;
 	}
 
 	getToolbar() {

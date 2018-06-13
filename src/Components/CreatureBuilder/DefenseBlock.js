@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import "./style.css";
-import { Panel, FormGroup, FormControl, ControlLabel, Col, Glyphicon } from "react-bootstrap";
+import { Panel, FormGroup, FormControl, ControlLabel, Col, Glyphicon, InputGroup, DropdownButton, MenuItem } from "react-bootstrap";
 import HealthMod from "./HealthMod/HealthMod.js"
 import UtilityPanel from "../UtilityPanel";
 import PropTypes from 'prop-types';
 import CalculationFunctions from "./CalculationFunctions";
+import DiceAverages from "../../Inf/DiceAverages.json";
+import AbilitiesBlock from "./Abilities/AbilitiesBlock.js";
 import _ from "lodash";
 
 class DefenseBlock extends Component {
@@ -21,12 +23,18 @@ class DefenseBlock extends Component {
     };
   };
 
+
+
   pushChanges = _.debounce(() => {
     this.props.handleChange("defenses", this.state);
   }, 500);
 
+  submitChanges = (dataObject) => {
+    this.props.handleChange("defenses", dataObject);
+  }
+
   updateState(field, value) {
-    this.setState({[field]: value}, () => {
+    this.setState({ [field]: value }, () => {
       this.pushChanges();
     });
   }
@@ -49,12 +57,36 @@ class DefenseBlock extends Component {
   }
 
   getHitDice() {
-    if (!this.props.hitDice) {
-      return null;
-    }
+    // if (!this.props.hitDice) {
+    //   return null;
+    // }
 
+    // return (
+    //   <span className="form-help">(Hit Dice: {this.props.hitDice})</span>
+    // );
+    let existingHitDice = this.props.defenseProps.hitDice || null
+    let validDice = Object.keys(DiceAverages).map((value, index) => {
+      return (
+        <MenuItem
+          key={value}
+          onClick={() => { this.submitChanges({ "hitDice": value }) }}>
+          {value}
+        </MenuItem>
+      );
+    });
+    let labelExtension = ""
+    if (existingHitDice) {
+      labelExtension += ": " + existingHitDice;
+    }
     return (
-      <span className="form-help">(Hit Dice: {this.props.hitDice})</span>
+      <DropdownButton
+        componentClass={InputGroup.Button}
+        id="input-dropdown-addon"
+        title={"Hit Dice" + labelExtension}
+        style={{ borderRadius: "0px 4px 0px 0px", boxShadow: "none" }}
+      >
+        {validDice}
+      </DropdownButton>
     );
   }
 
@@ -63,40 +95,54 @@ class DefenseBlock extends Component {
       <div>
         <FormGroup controlId="deffenseBlock">
           <UtilityPanel title={"Defense (CR: " + (this.props.defenseProps.defenseCR) + ")"} defaultOpened collapsible>
-            <Col xs={12} sm={6} className="form-col">
-              <label className="has-float-label">
-                <FormControl
-                  type="text"
-                  name="hp"
-                  value={this.state.hp || ""}
-                  placeholder="It's dead Jim."
-                  onChange={this.handleChange.bind(this)}
-                />
-                <span>Health Points {this.getHitDice()}</span>
-              </label>
+            <Col xs={12} sm={12} md={7} className="form-col">
+              <InputGroup>
+                <label className="has-float-label">
+                  <FormControl
+                    type="text"
+                    name="hp"
+                    value={this.state.hp || ""}
+                    placeholder="#"
+                    onChange={this.handleChange.bind(this)}
+                    style={{ borderRadius: "4px 0px 0px 0px" }}
+                  />
+                  <span>Health Points</span>
+                </label>
+                {this.getHitDice()}
+              </InputGroup>
+              <div className="input-addon-bottom">
+                <b>Effecitve HP:</b> {this.props.defenseProps.effectiveHP || 0}
+              </div>
             </Col>
-            <Col xs={12} sm={6} className="form-col">
-              <label className="has-float-label">
+            {/* <Col xs={12} sm={6} className="form-col">
+              <ControlLabel>Effective HP:</ControlLabel>
+              <div>{this.props.defenseProps.effectiveHP || 0}</div>
+            </Col> */}
+            <Col xs={12} sm={12} md={5} className="form-col">
+              <label className="has-float-label" style={{ marginBottom: "0px" }}>
                 <FormControl
                   type="text"
                   name="ac"
                   value={this.state.ac || ""}
-                  placeholder="#GlassCannon"
+                  placeholder="#"
                   onChange={this.handleChange.bind(this)}
+                  style={{ borderRadius: "4px 4px 0px 0px" }}
                 />
                 <span>Armor Class</span>
               </label>
+              <div className="input-addon-bottom">
+                <b>Effective AC:</b> {this.props.defenseProps.effectiveAC || 0}
+              </div>
             </Col>
-            <Col xs={12} sm={6} className="form-col">
-              <ControlLabel>Effective Health Points:</ControlLabel>
-              <div>{this.props.defenseProps.effectiveHP || 0}</div>
-            </Col>
-            <Col xs={12} sm={6} className="form-col">
-              <ControlLabel>Effective Armor Class:</ControlLabel>
+            {/* <Col xs={12} sm={6} className="form-col">
+              <ControlLabel>Effective AC:</ControlLabel>
               <div>{this.props.defenseProps.effectiveAC || 0}</div>
+            </Col> */}
+            <Col xs={12}>
+              <AbilitiesBlock />
             </Col>
             <Col xs={12} className="form-col">
-              <UtilityPanel title="Damage Modifiers">
+              <UtilityPanel title="Damage Modifiers" style={{ marginBottom: "0px" }} collapsible>
                 <HealthMod
                   name="Immunities"
                   prefill={this.state.immunities}

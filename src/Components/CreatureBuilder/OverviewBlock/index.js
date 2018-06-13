@@ -7,7 +7,7 @@ import CreatureClassificationArray from "../../../Inf/CreatureClassification.jso
 const OverviewBlock = (props) => {
   return (
     <Panel>
-      <Panel.Heading>Creature Overview</Panel.Heading>
+      <Panel.Heading><b>Creature Overview</b></Panel.Heading>
       <Panel.Body>
         {props.children}
       </Panel.Body>

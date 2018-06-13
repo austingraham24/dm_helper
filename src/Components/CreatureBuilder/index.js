@@ -49,7 +49,7 @@ class CreatureBuilder extends Component {
         saveDC: 0,
         attackBonus: 0,
         dpr: 0,
-        actions: [{ name: "Breath", desc: "Breathe fire upon everything! Mwuahahahaha!", damage: [{ dmgType: "Fire", flatDamage: "50" }] }]
+        actions: []//[{ name: "Breath", desc: "Breathe fire upon everything! Mwuahahahaha!", damage: [{ dmgType: "Fire", flatDamage: "50" }] }]
       },
       stats: {},
       languages: ["Common", "Draconic"],
@@ -69,6 +69,10 @@ class CreatureBuilder extends Component {
     newDataObject[event.target.name] = event.target.value;
     if (!this.state.allowFieldOverrides) {
       //this.setState({challengeRating: hpCR})
+    }
+    //calculate hit dice if size changes
+    if(event.target.name == "size") {
+      newDataObject.defenses.hitDice = creatureSizes[newDataObject.size] || null;
     }
     this.precalculateFormChanges(newDataObject);
     //console.log(this.calculateCR(event.target.name, event.target.value));
@@ -210,19 +214,19 @@ class CreatureBuilder extends Component {
           <Col sm={12} md={4}>
             <LanguageBlock languages={this.state.languages} onSubmit={this.overwriteIsolatedPropertyField.bind(this)} />
           </Col>
-          <Col xs={12} md={6}>
+          {/* <Col xs={12} md={6}>
             <AbilitiesBlock />
-          </Col>
-          <Clearfix />
+          </Col> */}
+          {/* <Clearfix /> */}
           {/*Creature Offenses Panel*/}
           <Col xs={12} sm={6}>
             <OffenseBlock handleChange={this.updateDynamicPropertyObject.bind(this)} offenseProps={this.state.offenses} />
           </Col>
           {/*Creature Defenses Panel*/}
-          <Col xs={12} sm={5}>
+          <Col xs={12} sm={6}>
             <DefenseBlock handleChange={this.updateDynamicPropertyObject.bind(this)} hitDice={creatureSizes[this.state.size] || null} defenseProps={this.state.defenses} />
           </Col>
-          <Col xs={12} md={6}>
+          <Col xs={12}>
             <StatsPanel />
           </Col>
         </Row>
