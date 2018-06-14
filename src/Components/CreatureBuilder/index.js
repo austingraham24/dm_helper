@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import "./style.css";
 import CreatureStats from "../../Inf/CreatureStatChart.json";
 import creatureSizes from "../../Inf/CreatureSize.json";
+import DiceAverages from "../../Inf/DiceAverages.json";
 import CreatureClassificationArray from "../../Inf/CreatureClassification.json";
 import ReferenceStatTable from "./ReferenceStatTable/ReferenceStatTable.js";
 import { PageHeader, Panel, Clearfix, FormGroup, FormControl, ControlLabel, Row, Col } from "react-bootstrap";
@@ -83,6 +84,8 @@ class CreatureBuilder extends Component {
   //ex: EffectiveHP and defesive CR is influenced by other parts of the form so this does a pre-screen before changing state
   precalculateFormChanges(dataObject) {
     let newState = dataObject;
+    console.log("HP!",this.calcHP(newState));
+    newState.defenses["hp"] = this.calcHP(newState);
     newState = CalculationFunctions.calculateFinalCR(newState);
     //console.log(newState);
     this.setState({ ...newState });
@@ -111,12 +114,25 @@ class CreatureBuilder extends Component {
     this.precalculateFormChanges(newState);
   }
 
+  calcHP(dataObject) {
+    let hp = 0;
+    let constMod = dataObject.stats["Constitution"]? dataObject.stats["Constitution"].mod : 0
+    if(dataObject.defenses.diceCount != null && dataObject.defenses.hitDice) {
+      hp += dataObject.defenses.diceCount * DiceAverages[dataObject.defenses.hitDice];
+      hp += constMod;
+      hp += eval(dataObject.defenses.bonus) || 0;
+    }
+    return Math.ceil(hp);
+  }
+
   updateDefensiveData(newDataObject) {
     let currentState = this.state;
     //we will be storing calculated values in the defense block of state that don't exist in the component's state
     //to make sure we dont overwrite that piece of state, get the current defensive state then adjust fields as necessary
     let newDefenseState = this.state.defenses;
     newDefenseState = { ...newDefenseState, ...newDataObject };
+    newDefenseState["hp"] = this.calcHP();
+    console.log(newDefenseState);
     let newState = { ...currentState, defenses: { ...newDefenseState } };
     //console.log(newState);
     this.precalculateFormChanges(newState);
@@ -134,6 +150,7 @@ class CreatureBuilder extends Component {
   }
 
   render() {
+    console.log(this.state);
     return (
       <div className="container">
         <PageHeader>Creature Builder & CR Calculator</PageHeader>
@@ -225,10 +242,10 @@ class CreatureBuilder extends Component {
           </Col>
           {/*Creature Defenses Panel*/}
           <Col xs={12} sm={6}>
-            <DefenseBlock handleChange={this.updateDynamicPropertyObject.bind(this)} hitDice={creatureSizes[this.state.size] || null} defenseProps={this.state.defenses} />
+            <DefenseBlock handleChange={this.updateDynamicPropertyObject.bind(this)} defenseProps={{...this.state.defenses, constitution:this.state.stats["Constitution"] || null}}/>
           </Col>
           <Col xs={12}>
-            <StatsPanel />
+            <StatsPanel onSubmit={this.updateDynamicPropertyObject.bind(this)}/>
           </Col>
         </Row>
       </div >

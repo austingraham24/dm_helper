@@ -28,7 +28,7 @@ class StatsPanel extends Component {
 		let newStatState = this.state[name];
 		newStatState.value = value;
 		this.setState({...this.state, [name]: newStatState});
-		this.debounceUpdateStatMod(name,value);
+		this.updateStatMod(name,value);
 	}
 
 	//pass the stat and proficiency state to the index of the form
@@ -41,8 +41,9 @@ class StatsPanel extends Component {
 			stats[key] = this.state[key];
 		});
 		let proficiencies = this.state.statProficiencies;
-		let dataObject = {"stats":stats, "proficiencies":proficiencies}
-		//console.log(dataObject);
+		let dataObject = {...stats, "proficiencies":proficiencies}
+    console.log(dataObject);
+    this.props.onSubmit("stats", dataObject)
 	}
 
 	//called when user enables or disables proficiencies under stats

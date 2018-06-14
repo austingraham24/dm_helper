@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import "./style.css";
-import { Panel, FormGroup, FormControl, ControlLabel, Col, Glyphicon, InputGroup, DropdownButton, MenuItem } from "react-bootstrap";
+import { Panel, FormGroup, FormControl, ControlLabel, Col, Glyphicon, InputGroup, DropdownButton, MenuItem, Popover, OverlayTrigger } from "react-bootstrap";
 import HealthMod from "./HealthMod/HealthMod.js"
 import UtilityPanel from "../UtilityPanel";
 import PropTypes from 'prop-types';
@@ -15,7 +15,8 @@ class DefenseBlock extends Component {
 
     this.modifierMultipliers = [{ lowerBoundCR: 17, resistance: 1, immunity: 1.25 }, { lowerBoundCR: 11, resistance: 1.25, immunity: 1.5 }, { lowerBoundCR: 5, resistance: 1.5, immunity: 2 }, { lowerBoundCR: 0, resistance: 2, immunity: 2 }];
     this.state = {
-      hp: 0,
+      diceCount: null,
+      bonus: null,
       ac: 0,
       immunities: [],
       resistances: [],
@@ -57,80 +58,94 @@ class DefenseBlock extends Component {
   }
 
   getHitDice() {
-    // if (!this.props.hitDice) {
-    //   return null;
-    // }
-
-    // return (
-    //   <span className="form-help">(Hit Dice: {this.props.hitDice})</span>
-    // );
     let existingHitDice = this.props.defenseProps.hitDice || null
     let validDice = Object.keys(DiceAverages).map((value, index) => {
+      var active = false
+      if (existingHitDice == value) {
+        active = true
+      }
       return (
-        <MenuItem
-          key={value}
-          onClick={() => { this.submitChanges({ "hitDice": value }) }}>
-          {value}
-        </MenuItem>
+        <option key={value} value={value}>{value} ({DiceAverages[value]})</option>
       );
     });
-    let labelExtension = ""
-    if (existingHitDice) {
-      labelExtension += ": " + existingHitDice;
-    }
+
     return (
-      <DropdownButton
-        componentClass={InputGroup.Button}
-        id="input-dropdown-addon"
-        title={"Hit Dice" + labelExtension}
-        style={{ borderRadius: "0px 4px 0px 0px", boxShadow: "none" }}
-      >
+      <FormControl
+        componentClass="select"
+        placeholder=""
+        onChange={(event) => { this.submitChanges({ "hitDice": event.target.value }) }}
+        style={{ borderRadius: "0px", padding: "2px" }}
+        value={existingHitDice || ""}>
+        <option value="" hidden>Hit Dice</option>
         {validDice}
-      </DropdownButton>
+      </FormControl>
+    );
+  }
+
+  effectiveHPPopover() {
+    return (
+      <Popover id="effectiveHPPopover" title="Not what you expect?" style={{maxWidth:"500px"}}>
+        Damage Modifers multiply the base HP value. <b>See DM Handbook pg.277</b><br/>
+        {/* Don't forget the Const mod from below is also multiplied by # of dice.<br/> */}
+        ((# x AVG) + (CONST Mod x #) + Bonus) * Damage Mod (ex. 1.25)
+      </Popover>
+    );
+  }
+
+  effectiveACPopover() {
+    return (
+      <Popover id="effectiveACPopover" title="What is this?" style={{maxWidth:"350px"}}>
+        Some spells, abilities, and items add a bonus to AC. This value changes to reflect those bonuses and is the value used in CR calculations.
+      </Popover>
     );
   }
 
   render() {
+    console.log(this.props.defenseProps)
+    let constitution = this.props.defenseProps.constitution;
+    let constMod = constitution ? constitution.mod : null;
     return (
       <div>
         <FormGroup controlId="deffenseBlock">
           <UtilityPanel title={"Defense (CR: " + (this.props.defenseProps.defenseCR) + ")"} defaultOpened collapsible>
-            <Col xs={12} sm={12} md={7} className="form-col">
+            <Col xs={12} sm={12} md={8} className="form-col">
               <InputGroup>
-                <label className="has-float-label" style={{display:"table-cell"}}>
+                <label className="has-float-label" style={{ display: "table-cell", width: "25%" }}>
                   <FormControl
                     type="text"
-                    name="hp"
-                    value={this.state.hp || ""}
+                    name="diceCount"
+                    value={this.state.diceCount || ""}
                     placeholder="#"
                     onChange={this.handleChange.bind(this)}
                     style={{ borderRadius: "4px 0px 0px 0px" }}
                   />
-                  <span>Health Points</span>
+                  <span>Die #</span>
                 </label>
                 {this.getHitDice()}
-                <InputGroup.Addon>+0</InputGroup.Addon>
-                <label className="has-float-label" style={{display:"table-cell"}}>
+                <label className="has-float-label" style={{ display: "table-cell", width: "25%" }}>
                   <FormControl
                     type="text"
-                    name="hp"
-                    value={this.state.hp || ""}
+                    name="bonus"
+                    value={this.state.bonus || ""}
                     placeholder="#"
                     onChange={this.handleChange.bind(this)}
-                    style={{ borderRadius: "4px 0px 0px 0px" }}
+                    style={{ borderRadius: "0px 4px 0px 0px" }}
                   />
-                  <span>Health Points</span>
+                  <span>Bonus</span>
                 </label>
               </InputGroup>
-              <div className="input-addon-bottom">
-                <b>Effecitve HP:</b> {this.props.defenseProps.effectiveHP || 0}
-              </div>
+              <OverlayTrigger
+                trigger="click"
+                rootClose
+                placement="bottom"
+                overlay={this.effectiveHPPopover()}
+              >
+                <div className="input-addon-bottom" style={{cursor:"help"}}>
+                  <b>AVG Effecitve HP:</b> {this.props.defenseProps.effectiveHP || 0}
+                </div>
+              </OverlayTrigger>
             </Col>
-            {/* <Col xs={12} sm={6} className="form-col">
-              <ControlLabel>Effective HP:</ControlLabel>
-              <div>{this.props.defenseProps.effectiveHP || 0}</div>
-            </Col> */}
-            <Col xs={12} sm={12} md={5} className="form-col">
+            <Col xs={12} sm={12} md={4} className="form-col">
               <label className="has-float-label" style={{ marginBottom: "0px" }}>
                 <FormControl
                   type="text"
@@ -142,9 +157,16 @@ class DefenseBlock extends Component {
                 />
                 <span>Armor Class</span>
               </label>
-              <div className="input-addon-bottom">
+              <OverlayTrigger
+                trigger="click"
+                rootClose
+                placement="bottom"
+                overlay={this.effectiveACPopover()}
+              >
+              <div className="input-addon-bottom" style={{cursor:"help"}}>
                 <b>Effective AC:</b> {this.props.defenseProps.effectiveAC || 0}
               </div>
+              </OverlayTrigger>
             </Col>
             {/* <Col xs={12} sm={6} className="form-col">
               <ControlLabel>Effective AC:</ControlLabel>
