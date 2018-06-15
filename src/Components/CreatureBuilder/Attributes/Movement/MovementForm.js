@@ -57,7 +57,7 @@ class MovementForm extends Component {
       return <Button bsSize="small" bsStyle="danger" onClick={() => { this.submitChanges("delete") }} name="deleteButton"><Glyphicon glyph="remove" /></Button>
     }
     else if (!this.state.type || !this.state.speed) {
-      return <Button bsSize="small" bsStyle="warning" name="warningButton"><Glyphicon glyph="alert" /></Button>
+      return <Button bsSize="small" bsStyle="success" name="addButton" disabled><Glyphicon glyph="plus" /></Button>
     }
     return <Button bsSize="small" bsStyle="success" onClick={() => { this.submitChanges("add") }} name="addButton"><Glyphicon glyph="plus" /></Button>
   }
