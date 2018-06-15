@@ -8,27 +8,10 @@ class LanguageBlock extends Component {
   constructor(props) {
     super(props);
     this.onSubmit = this.props.onSubmit || null
-    this.validSizes = { "editing": 3, "default": 3 }
 
     this.state = {
-      isEditing: false,
-      languages: this.props.languages || [],
-      activeSize: this.validSizes.default
+      languages: this.props.languages || []
     };
-  }
-
-  toggleFormVisible() {
-    let visible = !this.state.isEditing;
-    let size = this.validSizes.default;
-    if (visible) {
-      size = this.validSizes.editing
-    }
-    else {
-      if (this.onSubmit) {
-        this.onSubmit("movement", this.state.movementItems);
-      }
-    }
-    this.setState({ ...this.state, isEditing: visible, activeSize: size });
   }
 
   handleChange(action, index = null, newData = null) {
@@ -49,11 +32,30 @@ class LanguageBlock extends Component {
   }
 
   layoutExistingItemsForms() {
+    let sortedLanguaged = this.state.languages.sort((itemA, itemB) => {
+      var nameA = itemA.value.toLowerCase(), nameB = itemB.value.toLowerCase();
+      if(itemA.understandsOnly > itemB.understandsOnly) {
+        return 1;
+      }
+      else if(itemA.understandsOnly < itemB.understandsOnly) {
+        return -1;
+      }
+      else {
+        if(nameA > nameB) {
+          return 1;
+        }
+        return -1;
+      }
+    });
     return (
-      this.state.languages.map((item, index) => {
+      sortedLanguaged.map((item, index) => {
+        let extraLabel = null;
+        if(item.understandsOnly) {
+          extraLabel = "(understood not spoken)"
+        }
         return (
-          <ButtonGroup key={index} bsSize="xsmall" style={{margin:"0px 5px 5px 0px"}}>
-            <Button className="languageButton">{item}</Button>
+          <ButtonGroup key={item.value} bsSize="xsmall" style={{margin:"0px 5px 5px 0px"}}>
+            <Button className="languageButton">{item.value} {extraLabel}</Button>
             <Button bsStyle="danger" onClick={(event) => { this.handleChange("delete", index) }}><Glyphicon glyph="minus" /></Button>
           </ButtonGroup>
         );

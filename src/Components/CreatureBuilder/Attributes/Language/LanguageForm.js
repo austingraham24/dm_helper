@@ -7,7 +7,8 @@ class LanguageForm extends Component {
     super(props);
 
     this.state = {
-      value: null
+      value: null,
+      understandsOnly: false
     };
   }
 
@@ -16,18 +17,22 @@ class LanguageForm extends Component {
     this.setState({ value: value });
   }
 
+  toggleUnderstandsOnly() {
+    this.setState({ understandsOnly: !this.state.understandsOnly });
+  }
+
   submitChanges(action) {
-    console.log(this.state);
     if (action === "delete") {
       this.props.submitChanges("delete", this.props.index);
     }
     else {
       let fieldValue = this.state.value;
       if (fieldValue) {
-        this.props.submitChanges(action, this.props.index, fieldValue);
+        this.props.submitChanges(action, this.props.index, {"value":fieldValue, "understandsOnly":this.state.understandsOnly});
         if (action === "add") {
           this.setState({
-            value: null
+            value: null,
+            understandsOnly:false
           });
         }
       }
@@ -36,12 +41,20 @@ class LanguageForm extends Component {
 
   getSubmitButton() {
     if (!this.state.value) {
-      return <Button bsSize="sm" bsStyle="success" name="nullButton" disabled><Glyphicon glyph="plus"/></Button>
+      return <Button bsSize="sm" bsStyle="success" name="nullButton" disabled><Glyphicon glyph="plus" /></Button>
     }
-    return <Button bsSize="sm" bsStyle="success" onClick={() => { this.submitChanges("add")}} name="addButton"><Glyphicon glyph="plus"/></Button>
+    return <Button bsSize="sm" bsStyle="success" onClick={() => { this.submitChanges("add") }} name="addButton"><Glyphicon glyph="plus" /></Button>
   }
 
   render() {
+    let understandsGlyph = "unchecked";
+
+    if (this.state.understandsOnly) {
+      understandsGlyph = "check";
+    }
+
+    let buttonStyle = { borderRadius: "0px", borderLeft: "0px" };
+
     return (
       <InputGroup>
         <FormControl
@@ -52,6 +65,11 @@ class LanguageForm extends Component {
           placeholder="Common"
           onChange={this.onChange.bind(this)}
         />
+        <InputGroup.Button>
+          <Button bsSize="sm" style={buttonStyle} onClick={() => { this.toggleUnderstandsOnly() }}>
+            Understands only <Glyphicon glyph={understandsGlyph} />
+          </Button>
+        </InputGroup.Button>
         <InputGroup.Button>
           {this.getSubmitButton()}
         </InputGroup.Button>
