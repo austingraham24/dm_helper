@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { PageHeader, Panel, Clearfix, FormGroup, FormControl, ControlLabel, Row, Col, ButtonGroup, Button, Glyphicon } from "react-bootstrap";
 import './style.css';
-import UtilityPanel from "../../UtilityPanel";
 import LanguageForm from './LanguageForm.js';
-import GenericButton from "../../GenericButton.js";
+import GenericButton from "../../../GenericButton";
 
 class LanguageBlock extends Component {
   constructor(props) {
@@ -89,13 +88,17 @@ class LanguageBlock extends Component {
 
   render() {
     return (
-      <UtilityPanel title={"Languages"} toolbar={[this.getEditButton()]} defaultOpened collapsible>
-        <FormGroup controlId="creatureLanguages">
-          <div style={{ marginTop: "5px" }}>
-            {this.setUpLanguages()}
-          </div>
-        </FormGroup>
-      </UtilityPanel>
+      <FormGroup controlId="creatureLanguages">
+        <div style={{ border: "1px solid #ccc", borderWidth: "0px 0px 1px 0px", paddingBottom: "5px" }}>
+          <b>Languages</b>
+          <span style={{ float: "right" }}>
+            {this.getEditButton()}
+          </span>
+        </div>
+        <div style={{ marginTop: "5px" }}>
+          {this.setUpLanguages()}
+        </div>
+      </FormGroup>
     );
   }
 }

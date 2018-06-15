@@ -7,12 +7,11 @@ import CreatureClassificationArray from "../../Inf/CreatureClassification.json";
 import ReferenceStatTable from "./ReferenceStatTable/ReferenceStatTable.js";
 import { PageHeader, Panel, Clearfix, FormGroup, FormControl, ControlLabel, Row, Col } from "react-bootstrap";
 import TemplateSelect from "./TemplateSelect.js";
+import AttributePanel from "./Attributes/AttributePanel";
 import StatsPanel from "./StatsPanel/StatsPanel.js";
 import SelectField from "../SelectField.js"
 import DefenseBlock from "./DefenseBlock.js";
 import OffenseBlock from "./OffenseBlock.js";
-import MovementBlock from "./Movement/MovementBlock.js";
-import LanguageBlock from "./Language/LanguageBlock.js";
 import AbilitiesBlock from "./Abilities/AbilitiesBlock.js";
 import OverviewBlock from "./OverviewBlock";
 import CalculationFunctions from "./CalculationFunctions";
@@ -226,16 +225,9 @@ class CreatureBuilder extends Component {
               </Row>
             </OverviewBlock>
           </Col>
-          <Col sm={12} md={4}>
-            <MovementBlock onSubmit={this.overwriteIsolatedPropertyField.bind(this)} movement={this.state.movement} />
+          <Col sm={12} md={5}>
+          <AttributePanel languages={this.state.languages} movement={this.state.movement} onSubmit={this.overwriteIsolatedPropertyField.bind(this)} />
           </Col>
-          <Col sm={12} md={4}>
-            <LanguageBlock languages={this.state.languages} onSubmit={this.overwriteIsolatedPropertyField.bind(this)} />
-          </Col>
-          {/* <Col xs={12} md={6}>
-            <AbilitiesBlock />
-          </Col> */}
-          {/* <Clearfix /> */}
           {/*Creature Offenses Panel*/}
           <Col xs={12} sm={6}>
             <OffenseBlock handleChange={this.updateDynamicPropertyObject.bind(this)} offenseProps={this.state.offenses} />

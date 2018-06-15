@@ -126,7 +126,7 @@ class AbilityForm extends Component {
   render() {
     return (
       <div style={{ width: "100%" }}>
-        <FormGroup validationState="">
+        <FormGroup>
           <label className="has-float-label">
             <FormControl
               bsSize="small"
@@ -140,7 +140,7 @@ class AbilityForm extends Component {
             <span>Ability Name</span>
           </label>
         </FormGroup>
-        <FormGroup validationState="">
+        <FormGroup>
           <label className="has-float-label">
             <FormControl
               bsSize="small"

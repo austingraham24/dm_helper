@@ -128,7 +128,7 @@ class ActionForm extends Component {
     return (
       <div style={{ width: "100%" }}>
         <Col sm={8}>
-          <FormGroup validationState="success">
+          <FormGroup>
             <label className="has-float-label">
               <FormControl
                 bsSize="small"
@@ -144,7 +144,7 @@ class ActionForm extends Component {
           </FormGroup>
         </Col>
         <Col xs={12}>
-          <FormGroup validationState="">
+          <FormGroup>
             <label className="has-float-label">
               <FormControl
                 bsSize="small"

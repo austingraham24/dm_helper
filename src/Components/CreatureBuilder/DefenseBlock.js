@@ -101,7 +101,6 @@ class DefenseBlock extends Component {
   }
 
   render() {
-    console.log(this.props.defenseProps)
     let constitution = this.props.defenseProps.constitution;
     let constMod = constitution ? constitution.mod : null;
     return (
@@ -122,14 +121,14 @@ class DefenseBlock extends Component {
                   <span>Die #</span>
                 </label>
                 {this.getHitDice()}
-                <label className="has-float-label" style={{ display: "table-cell", width: "25%" }}>
+                <label className="has-float-label" style={{ display: "table-cell", width: "25%"}}>
                   <FormControl
                     type="text"
                     name="bonus"
                     value={this.state.bonus || ""}
                     placeholder="#"
                     onChange={this.handleChange.bind(this)}
-                    style={{ borderRadius: "0px 4px 0px 0px" }}
+                    style={{ borderRadius: "0px 4px 0px 0px", borderLeft:"0px"}}
                   />
                   <span>Bonus</span>
                 </label>

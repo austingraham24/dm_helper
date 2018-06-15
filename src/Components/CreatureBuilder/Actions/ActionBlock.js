@@ -12,7 +12,6 @@ const ActionBlock = (props) => {
         <UtilityPanel
           title="Actions"
           toolbar={[<p>DPR: {(props.dpr || 0)}</p>]}
-          defaultOpened
         >
           {layoutActions(props)}
           <div style={{ marginTop: "10px", marginBottom: "10px" }}>

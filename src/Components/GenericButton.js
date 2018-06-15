@@ -7,7 +7,9 @@ const statusValues = {
     save: {style: "success", glyph: "floppy-save", label: "Save"},
     done: {style: "success", glyph: "ok", label: "Done"},
     cancel: {style: "danger", glyph: "remove", label: "Cancel"},
-    delete: {style: "danger", glyph: "remove", label: "Delete"}
+    delete: {style: "danger", glyph: "remove", label: "Delete"},
+    add: {style: "success", glyph: "plus", label: "Add"},
+    warn: {style: "warning", glyph: "alert", label: "Warning!"}
 }
 
 const GenericButton = (props) => {
@@ -22,17 +24,18 @@ const GenericButton = (props) => {
             onClick={props.onClick}
             style={props.style}
         >
-            <Glyphicon glyph={currentStatus.glyph}/> {currentStatus.label}
+            <Glyphicon glyph={currentStatus.glyph}/> {props.label || currentStatus.label}
         </Button>
     );
 }
 
 GenericButton.propTypes = {
     /*REQUIRED*/
-    onClick: PropTypes.func, //the function to call when the button is clicked
-    type: PropTypes.oneOf(Object.keys(statusValues)) //a key for the kind of button to use
+    onClick: PropTypes.func.isRequired, //the function to call when the button is clicked
+    type: PropTypes.oneOf(Object.keys(statusValues)).isRequired, //a key for the kind of button to use
 
-	/*Optional*/
+  /*Optional*/
+  label:PropTypes.string // an optional override label
 }
 
 export default GenericButton;
