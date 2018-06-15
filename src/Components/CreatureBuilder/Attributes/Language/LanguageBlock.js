@@ -32,6 +32,7 @@ class LanguageBlock extends Component {
   }
 
   handleChange(action, index = null, newData = null) {
+    console.log("language", action, index, newData);
     let newLanguages = [...this.state.languages];
     if (action === "delete" && index != null) {
       newLanguages.splice(index, 1);
@@ -51,8 +52,8 @@ class LanguageBlock extends Component {
     return (
       this.state.languages.map((item, index) => {
         return (
-          <ButtonGroup key={index} bsSize="xsmall">
-            <Button className="languageButton" disabled>{item}</Button>
+          <ButtonGroup key={index} bsSize="xsmall" style={{margin:"0px 5px 5px 0px"}}>
+            <Button className="languageButton">{item}</Button>
             <Button bsStyle="danger" onClick={(event) => { this.handleChange("delete", index) }}><Glyphicon glyph="minus" /></Button>
           </ButtonGroup>
         );
@@ -61,29 +62,13 @@ class LanguageBlock extends Component {
   }
 
   setUpLanguages() {
-    if (this.state.isEditing) {
-      return (
-        <React.Fragment>
-          <div>{this.layoutExistingItemsForms()}</div>
-          <LanguageForm submitChanges={this.handleChange.bind(this)} />
-        </React.Fragment>
-      );
-    }
-    let languageString = "";
-    this.state.languages.map((item, index) => {
-      if (index === 0) {
-        languageString += item;
-      }
-      else {
-        languageString += ", " + item;
-      }
-    })
-    return <div>{languageString}</div>
-  }
+    return (
+      <React.Fragment>
+        <div>{this.layoutExistingItemsForms()}</div>
+        <LanguageForm submitChanges={this.handleChange.bind(this)} />
+      </React.Fragment>
+    );
 
-  getEditButton() {
-    let type = this.state.isEditing ? "save" : "edit";
-    return <GenericButton type={type} onClick={this.toggleFormVisible.bind(this)} />
   }
 
   render() {
@@ -91,9 +76,6 @@ class LanguageBlock extends Component {
       <FormGroup controlId="creatureLanguages">
         <div style={{ border: "1px solid #ccc", borderWidth: "0px 0px 1px 0px", paddingBottom: "5px" }}>
           <b>Languages</b>
-          <span style={{ float: "right" }}>
-            {this.getEditButton()}
-          </span>
         </div>
         <div style={{ marginTop: "5px" }}>
           {this.setUpLanguages()}

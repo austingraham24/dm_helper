@@ -24,7 +24,7 @@ const GenericButton = (props) => {
             onClick={props.onClick}
             style={props.style}
         >
-            <Glyphicon glyph={currentStatus.glyph}/> {props.label || currentStatus.label}
+            <Glyphicon glyph={currentStatus.glyph}/> {props.label || currentStatus.label} />
         </Button>
     );
 }

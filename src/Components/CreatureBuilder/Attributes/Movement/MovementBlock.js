@@ -48,27 +48,19 @@ class MovementBlock extends Component {
   }
 
   setUpMovement() {
-    if (this.state.isEditing) {
+    if (!this.state.movementItems || this.state.movementItems.length === 0) {
+      return (
+        <div style={{ marginTop: "5px" }}>
+        <MovementForm submitChanges={this.handleChange.bind(this)} />
+        </div>
+      );
+    }
       return (
         <div style={{ marginTop: "5px" }}>
           {this.layoutExistingItemsForms()}
           <MovementForm submitChanges={this.handleChange.bind(this)} />
         </div>
       );
-    }
-    if (!this.state.movementItems || this.state.movementItems.length === 0) {
-      return null;
-    }
-    return (
-      this.state.movementItems.map((item) => {
-        return <MovementItem key={item.type} type={item.type} speed={item.speed} hover={item.hover} />
-      })
-    );
-  }
-
-  getEditButton() {
-    let type = this.state.isEditing ? "save" : "edit";
-    return <GenericButton type={type} onClick={this.toggleFormVisible.bind(this)} />
   }
 
   render() {
@@ -76,9 +68,6 @@ class MovementBlock extends Component {
       <FormGroup controlId="creatureMovement">
         <div style={{ border: "1px solid #ccc", borderWidth: "0px 0px 1px 0px", paddingBottom: "5px" }}>
           <b>Movement</b>
-          <span style={{ float: "right" }}>
-            {this.getEditButton()}
-          </span>
         </div>
         <div>
           {this.setUpMovement()}
