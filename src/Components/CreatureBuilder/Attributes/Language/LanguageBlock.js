@@ -9,14 +9,15 @@ class LanguageBlock extends Component {
     super(props);
     this.onSubmit = this.props.onSubmit || null
 
-    this.state = {
-      languages: this.props.languages || []
-    };
+    this.state = {};
+  }
+
+  submitChanges(newData) {
+    this.props.onSubmit("languages", newData);
   }
 
   handleChange(action, index = null, newData = null) {
-    console.log("language", action, index, newData);
-    let newLanguages = [...this.state.languages];
+    let newLanguages = [...this.props.languages];
     if (action === "delete" && index != null) {
       newLanguages.splice(index, 1);
     }
@@ -26,13 +27,11 @@ class LanguageBlock extends Component {
     else if (action === "update" && index != null && newData != null) {
       newLanguages.splice(index, 1, newData);
     }
-    if (action === "update" || (newLanguages.length !== this.state.languages.length)) {
-      this.setState({ languages: newLanguages });
-    }
+    this.submitChanges(newLanguages);
   }
 
   layoutExistingItemsForms() {
-    let sortedLanguaged = this.state.languages.sort((itemA, itemB) => {
+    let sortedLanguaged = this.props.languages.sort((itemA, itemB) => {
       var nameA = itemA.value.toLowerCase(), nameB = itemB.value.toLowerCase();
       if(itemA.understandsOnly > itemB.understandsOnly) {
         return 1;
