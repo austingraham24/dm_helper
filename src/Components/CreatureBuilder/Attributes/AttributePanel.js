@@ -11,7 +11,7 @@ let movement = props.movement || [];
 
   return (
     <FormGroup controlId="offenseBlock">
-      <UtilityPanel title={"Creatue Attributes"} defaultOpened>
+      <UtilityPanel title={"Creature Attributes"} defaultOpened>
           <MovementBlock onSubmit={props.onSubmit} movement={movement} />
           <LanguageBlock languages={languages} onSubmit={props.onSubmit} />
       </UtilityPanel>
