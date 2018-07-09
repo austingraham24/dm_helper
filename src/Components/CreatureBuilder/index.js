@@ -50,7 +50,7 @@ class CreatureBuilder extends Component {
         saveDC: 0,
         attackBonus: 0,
         dpr: 0,
-        actions: [{ name: "Breath", desc: "Breathe fire upon everything! Mwuahahahaha!", damage: [{ dmgType: "Fire", flatDamage: "50" }] }]
+        actions: []//[{ name: "Breath", desc: "Breathe fire upon everything! Mwuahahahaha!", damage: [{ dmgType: "Fire", flatDamage: "50" }] }]
       },
       stats: {},
       languages: [{ value: "Common", "understandsOnly": false }],
