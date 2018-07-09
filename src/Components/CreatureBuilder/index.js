@@ -64,6 +64,12 @@ class CreatureBuilder extends Component {
     if (!this.state.templateCR && this.state.templateCR!== "0") {
       return
     }
+
+    let overwrite = window.confirm("This will overwrite all currently filled in fields. Are you sure you wish to continue?");
+    if (!overwrite) {
+      return
+    }
+
     let template = this.state.templateCR;
     let CRData = CreatureStats[this.state.templateCR];
     let newState = {...this.state};
