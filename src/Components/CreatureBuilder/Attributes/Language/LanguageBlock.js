@@ -50,7 +50,7 @@ class LanguageBlock extends Component {
       sortedLanguaged.map((item, index) => {
         let extraLabel = null;
         if(item.understandsOnly) {
-          extraLabel = "(understood not spoken)"
+          extraLabel = "(understands but cannot speak)"
         }
         return (
           <ButtonGroup key={item.value} bsSize="xsmall" style={{margin:"0px 5px 5px 0px"}}>
