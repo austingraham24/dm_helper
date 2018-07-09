@@ -3,6 +3,7 @@ import { Form, PageHeader, Panel, Clearfix, InputGroup, FormGroup, FormControl, 
 import _ from "lodash";
 import DamageForm from '../Damage/DamageForm';
 import GenericButton from '../../GenericButton';
+import MagicAttack from "./MagicAction";
 
 class ActionForm extends Component {
   constructor(props) {
@@ -127,6 +128,7 @@ class ActionForm extends Component {
   render() {
     return (
       <div style={{ width: "100%" }}>
+        <MagicAttack />
         <Col sm={8}>
           <FormGroup>
             <label className="has-float-label">

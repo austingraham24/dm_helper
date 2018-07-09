@@ -1,0 +1,12 @@
+{ 
+  "none": "Unaligned",
+  "lg": "Lawful Good",
+  "ng": "Neutral Good",
+  "cg": "Chaotic Good",
+  "ln": "Lawful Neutral",
+  "n": "Neutral",
+  "cn": "Chaotic Neutral",
+  "le": "Lawful Evil",
+  "ne": "Neutral Evil",
+  "ce": "Chaotic Evil"
+}

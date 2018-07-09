@@ -89,7 +89,7 @@ class StatsPanel extends Component {
 			<div>
 				<UtilityPanel 
 					title="Stats & Proficiencies"
-					defaultOpened>
+					collapsible>
 					{this.setUpGroups()}
 				</UtilityPanel>
 			</div>

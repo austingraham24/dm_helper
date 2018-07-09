@@ -31,7 +31,8 @@ function calculateCR(field, value, referenceCR = null) {
     }
   }
 
-  for (var index in crKeys) {
+  //start from the highest CR and work back down. This makes sure you get the highest CR that value exists at rather than the first
+  for (var index = crKeys.length-1; index > -1; index--) {
     let rating = crKeys[index];
     let dataValue = CreatureStats[rating][field];
     let result = crCompareValues(index, rating, dataValue, value);
@@ -50,7 +51,6 @@ function getOffsetCRIndex(a, b) {
 
 function calculateFinalCR(dataObject) {
   var newState = dataObject;
-  console.log("new state:", newState);
   newState.offenses = calculateOverallOffensiveCR(newState.offenses);
   newState.defenses = calculateOverallDefensiveCR(newState.defenses);
   let defenseCRIndex = crKeys.indexOf(newState.defenses.defenseCR.toString());
@@ -63,9 +63,9 @@ function calculateFinalCR(dataObject) {
     CRIndex += adjustNum;
   }
   let challengeRating = crKeys[CRIndex];
-  newState.challengeRating = challengeRating;
-  newState.proficiencyBonus = CreatureStats[challengeRating].proficiency || 0;
-  newState.experience = CreatureStats[challengeRating].xp || 0;
+  newState.calculatedCR = challengeRating;
+  newState.proficiencyBonus = CreatureStats[dataObject.challengeRating].proficiency || 0;
+  newState.experience = CreatureStats[dataObject.challengeRating].xp || 0;
   return newState;
 }
 
@@ -126,7 +126,7 @@ function calculateOverallOffensiveCR(dataObject) {
     let offset = Math.floor(difference / 2);
     // console.log(offset);
     // console.log(finalOffenseCR);
-    if(eval(damageCR) > eval(attackCR)) {
+    if (eval(damageCR) > eval(attackCR)) {
       finalOffenseCR = crKeys[damageIndex - offset];
     }
     else {
@@ -159,6 +159,7 @@ function calculateEffectiveHP(dataObject) {
         break;
       }
     }
+    //console.log(baseHPCR, multiplier, key);
     effectiveHP = Math.ceil(effectiveHP * multiplier);
   }
   return effectiveHP;

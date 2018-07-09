@@ -20,7 +20,7 @@ class MovementBlock extends Component {
     if (this.onSubmit) {
       this.onSubmit("movement", this.state.movementItems);
     }
-    this.setState({ ...this.state, isEditing: visible});
+    this.setState({ ...this.state, isEditing: visible });
   }
 
   handleChange(action, index = null, newData = null) {
@@ -42,7 +42,18 @@ class MovementBlock extends Component {
   layoutExistingItemsForms() {
     return (
       this.state.movementItems.map((item, index) => {
-        return <MovementForm key={item.type || "Form"} index={index} type={item.type} speed={item.speed} hover={item.hover} submitChanges={this.handleChange.bind(this)} />
+        return (
+          <div style={{ marginBottom: "2px" }}>
+            <MovementForm
+              key={item.type || "Form"}
+              index={index}
+              type={item.type}
+              speed={item.speed}
+              hover={item.hover}
+              submitChanges={this.handleChange.bind(this)}
+            />
+          </div>
+        );
       })
     );
   }
@@ -50,17 +61,17 @@ class MovementBlock extends Component {
   setUpMovement() {
     if (!this.state.movementItems || this.state.movementItems.length === 0) {
       return (
-        <div style={{ marginTop: "5px" }}>
-        <MovementForm submitChanges={this.handleChange.bind(this)} />
-        </div>
-      );
-    }
-      return (
-        <div style={{ marginTop: "5px" }}>
-          {this.layoutExistingItemsForms()}
+        <div style={{ marginTop: "10px" }}>
           <MovementForm submitChanges={this.handleChange.bind(this)} />
         </div>
       );
+    }
+    return (
+      <div style={{ marginTop: "10px" }}>
+        {this.layoutExistingItemsForms()}
+        <MovementForm submitChanges={this.handleChange.bind(this)} />
+      </div>
+    );
   }
 
   render() {

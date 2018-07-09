@@ -66,27 +66,35 @@ class MovementForm extends Component {
     return (
       <Form horizontal>
         <InputGroup bsSize="small">
+          {/* <label className="has-float-label" style={{ display: "table-cell" }}> */}
           <FormControl
             type="text"
             name="type"
+            bsSize="small"
             value={this.state.type}
             placeholder="Walking"
             onChange={this.onChange.bind(this)}
-            style={{width:"50%"}}
+            style={{ padding: "5px 10px 5px 10px", width: "50%" }}
           />
+          {/* <span>Movement Type</span>
+          </label> */}
+          {/* <label className="has-float-label" style={{ display: "table-cell"}}> */}
           <FormControl
             type="text"
             name="speed"
+            bsSize="small"
             value={this.state.speed}
             placeholder="30"
             onChange={this.onChange.bind(this)}
-            style={{width:"50%", borderLeft:"0px", borderRight:"0px"}}
+            style={{ borderLeft: "0px", borderRight: "0px", padding: "5px 10px 5px 10px", width: "50%" }}
           />
+          {/* <span>Range</span>
+          </label> */}
           <InputGroup.Button>
             {this.getSubmitButton()}
           </InputGroup.Button>
         </InputGroup>
-      </Form>
+      </Form >
     );
   }
 
