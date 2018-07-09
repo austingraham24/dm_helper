@@ -15,28 +15,19 @@ class DefenseBlock extends Component {
 
     this.modifierMultipliers = [{ lowerBoundCR: 17, resistance: 1, immunity: 1.25 }, { lowerBoundCR: 11, resistance: 1.25, immunity: 1.5 }, { lowerBoundCR: 5, resistance: 1.5, immunity: 2 }, { lowerBoundCR: 0, resistance: 2, immunity: 2 }];
     this.state = {
-      diceCount: null,
-      bonus: null,
-      ac: 0,
       immunities: [],
       resistances: [],
       vulnerabilities: []
     };
   };
 
-
-
-  pushChanges = _.debounce(() => {
-    this.props.handleChange("defenses", this.state);
-  }, 500);
-
-  submitChanges = (dataObject) => {
+  handleChange = (dataObject) => {
     this.props.handleChange("defenses", dataObject);
   }
 
   updateState(field, value) {
     this.setState({ [field]: value }, () => {
-      this.pushChanges();
+      this.handleChange(this.state);
     });
   }
 
@@ -51,11 +42,10 @@ class DefenseBlock extends Component {
     return mods;
   }
 
-  handleChange(event) {
-    console.log("Defense Handle Change");
+  onChange(event) {
     let field = event.target.name;
     let value = event.target.value;
-    this.updateState(field, value);
+    this.handleChange({[field]:value});
   }
 
   getHitDice() {
@@ -74,7 +64,7 @@ class DefenseBlock extends Component {
       <FormControl
         componentClass="select"
         placeholder=""
-        onChange={(event) => { this.submitChanges({"hitDice": event.target.value }) }}
+        onChange={(event) => { this.handleChange({"hitDice": event.target.value }) }}
         style={{ borderRadius: "0px", padding: "2px" }}
         value={existingHitDice || ""}>
         <option value="" hidden>Hit Dice</option>
@@ -115,9 +105,9 @@ class DefenseBlock extends Component {
                       <FormControl
                         type="text"
                         name="diceCount"
-                        value={this.state.diceCount || ""}
+                        value={this.props.defenseProps.diceCount || ""}
                         placeholder="#"
-                        onChange={this.handleChange.bind(this)}
+                        onChange={this.onChange.bind(this)}
                         style={{ borderRadius: "4px 0px 0px 0px" }}
                       />
                       <span>Die #</span>
@@ -127,9 +117,9 @@ class DefenseBlock extends Component {
                       <FormControl
                         type="text"
                         name="bonus"
-                        value={this.state.bonus || ""}
+                        value={this.props.defenseProps.bonus || ""}
                         placeholder="#"
-                        onChange={this.handleChange.bind(this)}
+                        onChange={this.onChange.bind(this)}
                         style={{ borderRadius: "0px 4px 0px 0px", borderLeft: "0px" }}
                       />
                       <span>Bonus</span>
@@ -162,9 +152,9 @@ class DefenseBlock extends Component {
                 <FormControl
                   type="text"
                   name="ac"
-                  value={this.state.ac || ""}
+                  value={this.props.defenseProps.ac || ""}
                   placeholder="#"
-                  onChange={this.handleChange.bind(this)}
+                  onChange={this.onChange.bind(this)}
                   style={{ borderRadius: "4px 4px 0px 0px" }}
                 />
                 <span>Armor Class</span>

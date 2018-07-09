@@ -60,16 +60,33 @@ class CreatureBuilder extends Component {
     };
   };
 
-  setSelectedCrTemplate(event) {
-    let value = event.target.value || null
-    this.setState({ templateCR: value });
+  setTemplateCR() {
+    if (!this.state.templateCR && this.state.templateCR!== "0") {
+      return
+    }
+    let template = this.state.templateCR;
+    let CRData = CreatureStats[this.state.templateCR];
+    let newState = {...this.state};
+    //console.log(CRData);
+    newState.challengeRating = this.state.templateCR;
+    //made some educated guesses on some fields.
+    let hitDice = "d8"
+    let health = parseInt(CRData.hp.split("-")[0], 10);
+    let diceAverage = DiceAverages[hitDice];
+    let diceCount = Math.floor(health / diceAverage);
+    let bonus = Math.ceil(health % diceAverage);
+    newState.defenses = {...newState.defenses, diceCount: diceCount, bonus: bonus, hitDice: hitDice, ac: CRData.ac};
+    let baseDamage = parseInt(CRData.dpr.split("-"[0]), 10);
+    let basicAction = { name: "Breath", desc: "Breathe fire upon everything! Mwuahahahaha!", damage: [{ dmgType: "Fire", flatDamage: baseDamage }] }
+    newState.offenses = {...newState.offenses, attackBonus: CRData.attackBonus, saveDC: CRData.saveDC, dpr: baseDamage, actions: [basicAction]};
+    this.precalculateFormChanges(newState);
   }
 
   handleChange = (field, value) => {
     let newState = { ...this.state };
     if (_.isPlainObject(value)) {
-      let newFieldValues = {...value};
-      var newFieldState = {...newState[field], ...newFieldValues};
+      let newFieldValues = { ...value };
+      var newFieldState = { ...newState[field], ...newFieldValues };
       newState[field] = newFieldState;
     }
     else {
@@ -109,7 +126,7 @@ class CreatureBuilder extends Component {
   }
 
   render() {
-    //console.log(this.state);
+    console.log(this.state);
     return (
       <div className="container">
         <PageHeader>Creature Builder & CR Calculator</PageHeader>
@@ -117,15 +134,22 @@ class CreatureBuilder extends Component {
           <FormGroup controlId="templateOptions">
             <Col md={12}>
               <ControlLabel>View Quick Stats for CR:</ControlLabel>
-              <TemplateSelect currentValue={this.state.templateCR} Options={CalculationFunctions.crKeys} callback={this.setSelectedCrTemplate.bind(this)} />
-              <ReferenceStatTable CR={this.state.templateCR} crData={CreatureStats[this.state.templateCR] || null} />
+              <TemplateSelect
+                currentValue={this.state.templateCR}
+                Options={CalculationFunctions.crKeys}
+                callback={(event) => {
+                  let value = event.target.value || null
+                  this.setState({ templateCR: value });
+                }}
+              />
+              <ReferenceStatTable CR={this.state.templateCR} crData={CreatureStats[this.state.templateCR] || null} setTemplateCR={() => {this.setTemplateCR()}}/>
             </Col>
           </FormGroup>
         </Row>
         {/*Creature Overview Panel*/}
         <Row>
           <Col sm={12}>
-            <OverviewBlock state={{ ...this.state }} handleChange={this.handleChange} CRKeys={CalculationFunctions.crKeys}/>
+            <OverviewBlock state={{ ...this.state }} handleChange={this.handleChange} CRKeys={CalculationFunctions.crKeys} />
           </Col>
           <Col sm={12}>
             <StatsPanel onSubmit={this.handleChange} />
@@ -136,6 +160,7 @@ class CreatureBuilder extends Component {
           <Col xs={12} md={6}>
             <AbilitiesBlock />
           </Col>
+          <Clearfix />
           {/*Creature Offenses Panel*/}
           <Col xs={12} sm={6}>
             <OffenseBlock handleChange={this.handleChange} offenseProps={this.state.offenses} />
