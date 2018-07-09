@@ -27,10 +27,11 @@ const OverviewBlock = (props) => {
   }
 
   let calcCRPopover = (
-    <Popover id="calculated-cr-popover" title="What is Calculated CR?">
+    <Popover id="calculated-cr-popover" title="What is Calculated CR?" style={{maxWidth:"500px"}}>
       This is what the form thinks the CR should be. Of course this is just a suggestion using a quick averaging calculation.
-      <br /><br />
-      There are, however, many factors the form cannot account for, so please review your creature's abilities to modify the CR to a more accurate value.
+      There are many factors the form cannot account for, so please review your creature's abilities to modify the CR to a more accurate value.
+      <br/><br/>
+      The webmaster is not responsible for a dead party because the suggested CR was 1, but your creature could breathe 50 points of fire damage each round.
     </Popover>
   );
 
