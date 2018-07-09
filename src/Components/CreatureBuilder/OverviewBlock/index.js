@@ -150,7 +150,7 @@ const OverviewBlock = (props) => {
               </Col>
               <Col xs={6} md={4} className="form-col">
                 <ControlLabel>XP Awarded:</ControlLabel>
-                <FormControl type="text" placeholder="#" value={props.state.experience || 0} />
+                <FormControl type="text" placeholder="#" value={props.state.experience || 0} onChange={onChange}/>
               </Col>
               {/* <Col xs={6} md={4} className="form-col">
                 <ControlLabel>Calculated CR:</ControlLabel>
@@ -159,7 +159,7 @@ const OverviewBlock = (props) => {
               {/* <Clearfix visibleXsBlock visibleSmBlock /> */}
               <Col xs={6} md={4} className="form-col">
                 <ControlLabel>Proficiency Bonus:</ControlLabel>
-                <FormControl type="text" placeholder="#" value={props.state.proficiencyBonus || 0} />
+                <FormControl type="text" placeholder="#" value={props.state.proficiencyBonus || 0} onChange={onChange}/>
               </Col>
             </FormGroup>
           </Col>

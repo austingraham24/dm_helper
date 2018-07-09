@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import "./style.css";
 import CreatureStats from "../../Inf/CreatureStatChart.json";
 import creatureSizes from "../../Inf/CreatureSize.json";
@@ -16,52 +17,67 @@ import OverviewBlock from "./OverviewBlock";
 import CalculationFunctions from "./CalculationFunctions";
 import PropTypes from 'prop-types';
 import _ from "lodash";
+import { bindActionCreators } from 'redux';
+import CreatureBuilderActions from './CreatureBuilderActions';
 
 class CreatureBuilder extends Component {
   constructor(props) {
     super(props);
     this.isolatedFields = ["movement", "type", "name", "classification", "alignment", "experience"]; //these fields dont trigger a recalculation of CR
-    this.state = {
-      //form specific state vars
-      templateCR: null,
-      //creature specific state vars
-      type: "",
-      name: "",
-      size: null,
-      classification: null,
-      alignment: "none",
-      experience: null,
-      proficiencyBonus: 0,
-      challengeRating: 0,
-      calculatedCR: 0,
-      defenses: {
-        defenseCR: 0,
-        hp: 0,
-        ac: 0,
-        effectiveHP: 0,
-        effectiveAC: 0,
-        hitDice: null,
-        immunities: [],
-        resistances: [],
-        vulnerabilities: []
-      },
-      offenses: {
-        offenseCR: 0,
-        saveDC: 0,
-        attackBonus: 0,
-        dpr: 0,
-        actions: []//[{ name: "Breath", desc: "Breathe fire upon everything! Mwuahahahaha!", damage: [{ dmgType: "Fire", flatDamage: "50" }] }]
-      },
-      stats: {},
-      languages: [{ value: "Common", "understandsOnly": false }],
-      proficiencies: {},
-      movement: [],
-      abilities: []
-    };
+    this.autoSave = _.debounce(this.props.autoSave, 5000);
+    if (this.props.lastSave) {
+      this.state = this.props.lastSave
+      this.state.templateCR = null;
+    }
+    else {
+      this.state = {
+        //form specific state vars
+        templateCR: null,
+        //creature specific state vars
+        type: "",
+        name: "",
+        size: null,
+        classification: null,
+        alignment: "none",
+        experience: null,
+        proficiencyBonus: 0,
+        challengeRating: 0,
+        calculatedCR: 0,
+        defenses: {
+          defenseCR: 0,
+          hp: 0,
+          ac: 0,
+          effectiveHP: 0,
+          effectiveAC: 0,
+          hitDice: null,
+          immunities: [],
+          resistances: [],
+          vulnerabilities: []
+        },
+        offenses: {
+          offenseCR: 0,
+          saveDC: 0,
+          attackBonus: 0,
+          dpr: 0,
+          actions: []//[{ name: "Breath", desc: "Breathe fire upon everything! Mwuahahahaha!", damage: [{ dmgType: "Fire", flatDamage: "50" }] }]
+        },
+        stats: {},
+        languages: [{ value: "Common", "understandsOnly": false }],
+        proficiencies: {},
+        movement: [],
+        abilities: []
+      };
+    }
   };
 
+  updateState(newState) {
+    this.setState({...this.state, ...newState}, () => {
+      this.autoSave(this.state);
+    });
+  }
+
   setTemplateCR() {
-    if (!this.state.templateCR && this.state.templateCR!== "0") {
+    if (!this.state.templateCR && this.state.templateCR !== "0") {
       return
     }
 
@@ -72,7 +88,7 @@ class CreatureBuilder extends Component {
 
     let template = this.state.templateCR;
     let CRData = CreatureStats[this.state.templateCR];
-    let newState = {...this.state};
+    let newState = { ...this.state };
     //console.log(CRData);
     newState.challengeRating = this.state.templateCR;
     //made some educated guesses on some fields.
@@ -81,10 +97,10 @@ class CreatureBuilder extends Component {
     let diceAverage = DiceAverages[hitDice];
     let diceCount = Math.floor(health / diceAverage);
     let bonus = Math.ceil(health % diceAverage);
-    newState.defenses = {...newState.defenses, diceCount: diceCount, bonus: bonus, hitDice: hitDice, ac: CRData.ac};
+    newState.defenses = { ...newState.defenses, diceCount: diceCount, bonus: bonus, hitDice: hitDice, ac: CRData.ac };
     let baseDamage = parseInt(CRData.dpr.split("-"[0]), 10);
     let basicAction = { name: "Breath", desc: "Breathe fire upon everything! Mwuahahahaha!", damage: [{ dmgType: "Fire", flatDamage: baseDamage }] }
-    newState.offenses = {...newState.offenses, attackBonus: CRData.attackBonus, saveDC: CRData.saveDC, dpr: baseDamage, actions: [basicAction]};
+    newState.offenses = { ...newState.offenses, attackBonus: CRData.attackBonus, saveDC: CRData.saveDC, dpr: baseDamage, actions: [basicAction] };
     this.precalculateFormChanges(newState);
   }
 
@@ -101,7 +117,7 @@ class CreatureBuilder extends Component {
     //console.log(newState);
     //check to see if the field should trigger a recalculation of CR
     if (this.isolatedFields.includes(field)) {
-      this.setState({ ...newState });
+      this.updateState({ ...newState });
       return
     }
     this.precalculateFormChanges(newState);
@@ -117,7 +133,7 @@ class CreatureBuilder extends Component {
     }
     newState = CalculationFunctions.calculateFinalCR(newState);
     //console.log(newState);
-    this.setState({ ...newState });
+    this.updateState({ ...newState });
   }
 
   calcHP(dataObject) {
@@ -132,7 +148,8 @@ class CreatureBuilder extends Component {
   }
 
   render() {
-    console.log(this.state);
+    //console.log(this.state);
+    //console.log(this.props);
     return (
       <div className="container">
         <PageHeader>Creature Builder & CR Calculator</PageHeader>
@@ -148,7 +165,7 @@ class CreatureBuilder extends Component {
                   this.setState({ templateCR: value });
                 }}
               />
-              <ReferenceStatTable CR={this.state.templateCR} crData={CreatureStats[this.state.templateCR] || null} setTemplateCR={() => {this.setTemplateCR()}}/>
+              <ReferenceStatTable CR={this.state.templateCR} crData={CreatureStats[this.state.templateCR] || null} setTemplateCR={() => { this.setTemplateCR() }} />
             </Col>
           </FormGroup>
         </Row>
@@ -181,4 +198,16 @@ class CreatureBuilder extends Component {
   }
 }
 
-export default CreatureBuilder;
+function mapStateToProps(State) {
+  return {
+    lastSave: State.editCreatureLastSave || null,
+    activeCreature: State.activeCreature || null
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({ autoSave: CreatureBuilderActions.autoSave }, dispatch);
+}
+
+//export default CreatureBuilder;
+export default connect(mapStateToProps, mapDispatchToProps)(CreatureBuilder);
