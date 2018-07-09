@@ -128,7 +128,7 @@ class ActionForm extends Component {
   render() {
     return (
       <div style={{ width: "100%" }}>
-        <MagicAttack />
+        {/* <MagicAttack /> */}
         <Col sm={8}>
           <FormGroup>
             <label className="has-float-label">
