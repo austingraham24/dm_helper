@@ -4,6 +4,9 @@ import creatureSizes from "../../../Inf/CreatureSize.json";
 import SelectField from "../../SelectField.js";
 import CreatureClassificationArray from "../../../Inf/CreatureClassification.json";
 import "./style.css";
+import LockIcon from "../../../img/icons8-lock-50-white.png";
+import UnLockIcon from "../../../img/icons8-unlock-50-white.png";
+import { stat } from 'fs';
 
 const OverviewBlock = (props) => {
   let onChange = (event) => {
@@ -27,10 +30,10 @@ const OverviewBlock = (props) => {
   }
 
   let calcCRPopover = (
-    <Popover id="calculated-cr-popover" title="What is Calculated CR?" style={{maxWidth:"500px"}}>
+    <Popover id="calculated-cr-popover" title="What is Calculated CR?" style={{ maxWidth: "500px" }}>
       This is what the form thinks the CR should be. Of course this is just a suggestion using a quick averaging calculation.
       There are many factors the form cannot account for, so please review your creature's abilities to modify the CR to a more accurate value.
-      <br/><br/>
+      <br /><br />
       The webmaster is not responsible for a dead party because the suggested CR was 1, but your creature could breathe 50 points of fire damage each round.
     </Popover>
   );
@@ -45,6 +48,26 @@ const OverviewBlock = (props) => {
       CRIndex = CRKeys.length - 1;
     }
     props.handleChange("challengeRating", CRKeys[CRIndex]);
+  }
+
+  let getLockButton = (field) => {
+    let status = "success"
+    let label = "On"
+    let clickMethod = () => { props.lockMethods.lockField(field) };
+    if (props.lockMethods.isLocked(field)) {
+      status = "default";
+      label = "Off"
+      clickMethod = () => { props.lockMethods.unlockField(field) }
+    }
+
+    return (
+      <Button bsStyle={status}
+        style={{ borderRadius: "0px 4px 0px 0px" }}
+        onClick={clickMethod}
+      >
+        <Glyphicon glyph="refresh" /> {label}
+      </Button>
+    );
   }
 
   return (
@@ -111,22 +134,22 @@ const OverviewBlock = (props) => {
                   </div> */}
                       <InputGroup.Button>
                         <div>
-                          <Button 
-                          bsSize={"xsmall"} 
-                          className={"crEditButton"} 
-                          style={{ paddingBottom: "1px", borderRadius: "0px 4px 0px 0px", borderBottom: "0px" }}
-                          onClick={() => {
-                            modifyCRIndex(1);
-                          }}
+                          <Button
+                            bsSize={"xsmall"}
+                            className={"crEditButton"}
+                            style={{ paddingBottom: "1px", borderRadius: "0px 4px 0px 0px", borderBottom: "0px" }}
+                            onClick={() => {
+                              modifyCRIndex(1);
+                            }}
                           >
                             <Glyphicon glyph="chevron-up" style={{ top: "2px" }} />
                           </Button>
-                          <Button 
-                          bsSize={"xsmall"} 
-                          className={"crEditButton"}
-                          onClick={() => {
-                            modifyCRIndex(-1);
-                          }}
+                          <Button
+                            bsSize={"xsmall"}
+                            className={"crEditButton"}
+                            onClick={() => {
+                              modifyCRIndex(-1);
+                            }}
                           >
                             <Glyphicon glyph="chevron-down" style={{ top: "2px" }} />
                           </Button>
@@ -150,7 +173,28 @@ const OverviewBlock = (props) => {
               </Col>
               <Col xs={6} md={4} className="form-col">
                 <ControlLabel>XP Awarded:</ControlLabel>
-                <FormControl type="text" placeholder="#" value={props.state.experience || 0} onChange={onChange}/>
+                <div style={{ display: "table", width: "100%" }}>
+                  <div style={{ display: "table-row" }}>
+                    <InputGroup>
+                      <div style={{ dispay: "table-cell" }}>
+                        <FormControl type="text"
+                          placeholder="#"
+                          name="experience"
+                          value={props.state.experience || 0}
+                          onChange={onChange}
+                          style={{ borderRight: "0px", borderRadius: "4px 0px 0px 0px" }} />
+                      </div>
+                      <InputGroup.Button>
+                        {getLockButton("experience")}
+                      </InputGroup.Button>
+                    </InputGroup>
+                  </div>
+                  <div style={{ display: "table-row" }}>
+                    <div className={"calculatedCRBlock"}>
+                      Suggested XP: {props.state.calculatedXP || 0}
+                    </div>
+                  </div>
+                </div>
               </Col>
               {/* <Col xs={6} md={4} className="form-col">
                 <ControlLabel>Calculated CR:</ControlLabel>
@@ -159,13 +203,33 @@ const OverviewBlock = (props) => {
               {/* <Clearfix visibleXsBlock visibleSmBlock /> */}
               <Col xs={6} md={4} className="form-col">
                 <ControlLabel>Proficiency Bonus:</ControlLabel>
-                <FormControl type="text" placeholder="#" value={props.state.proficiencyBonus || 0} onChange={onChange}/>
+                <div style={{ display: "table", width: "100%" }}>
+                  <div style={{ display: "table-row" }}>
+                    <InputGroup>
+                      <div style={{ dispay: "table-cell" }}>
+                        <FormControl type="text" placeholder="#"
+                          name="proficiencyBonus"
+                          value={props.state.proficiencyBonus || 0}
+                          onChange={onChange}
+                          style={{ borderRight: "0px", borderRadius: "4px 0px 0px 0px" }} />
+                      </div>
+                      <InputGroup.Button>
+                        {getLockButton("proficiencyBonus")}
+                      </InputGroup.Button>
+                    </InputGroup>
+                  </div>
+                  <div style={{ display: "table-row" }}>
+                    <div className={"calculatedCRBlock"}>
+                      Suggested Bonus: {props.state.calculatedPB || 0}
+                    </div>
+                  </div>
+                </div>
               </Col>
             </FormGroup>
           </Col>
         </Row>
       </Panel.Body>
-    </Panel>
+    </Panel >
   );
 }
 

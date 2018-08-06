@@ -19,59 +19,29 @@ import PropTypes from 'prop-types';
 import _ from "lodash";
 import { bindActionCreators } from 'redux';
 import CreatureBuilderActions from './CreatureBuilderActions';
+import DefaultState from "./DefaultState";
 
 class CreatureBuilder extends Component {
   constructor(props) {
     super(props);
     this.isolatedFields = ["movement", "type", "name", "classification", "alignment", "experience"]; //these fields dont trigger a recalculation of CR
     this.autoSave = _.debounce(this.props.autoSave, 5000);
+    this.fieldLockMethods = {
+      lockField: this.lockField,
+      unlockField: this.unlockField,
+      isLocked: this.isLocked
+    }
     if (this.props.lastSave) {
       this.state = this.props.lastSave
       this.state.templateCR = null;
     }
     else {
-      this.state = {
-        //form specific state vars
-        templateCR: null,
-        //creature specific state vars
-        type: "",
-        name: "",
-        size: null,
-        classification: null,
-        alignment: "none",
-        experience: null,
-        proficiencyBonus: 0,
-        challengeRating: 0,
-        calculatedCR: 0,
-        defenses: {
-          defenseCR: 0,
-          hp: 0,
-          ac: 0,
-          effectiveHP: 0,
-          effectiveAC: 0,
-          hitDice: null,
-          immunities: [],
-          resistances: [],
-          vulnerabilities: []
-        },
-        offenses: {
-          offenseCR: 0,
-          saveDC: 0,
-          attackBonus: 0,
-          dpr: 0,
-          actions: []//[{ name: "Breath", desc: "Breathe fire upon everything! Mwuahahahaha!", damage: [{ dmgType: "Fire", flatDamage: "50" }] }]
-        },
-        stats: {},
-        languages: [{ value: "Common", "understandsOnly": false }],
-        proficiencies: {},
-        movement: [],
-        abilities: []
-      };
+      this.state = DefaultState;
     }
   };
 
   updateState(newState) {
-    this.setState({...this.state, ...newState}, () => {
+    this.setState({ ...this.state, ...newState }, () => {
       this.autoSave(this.state);
     });
   }
@@ -105,6 +75,7 @@ class CreatureBuilder extends Component {
   }
 
   handleChange = (field, value) => {
+    //console.log(field, value);
     let newState = { ...this.state };
     if (_.isPlainObject(value)) {
       let newFieldValues = { ...value };
@@ -121,6 +92,30 @@ class CreatureBuilder extends Component {
       return
     }
     this.precalculateFormChanges(newState);
+  }
+
+  lockField = (field) => {
+    let lockedFields = this.state.lockedFields || [];
+    if (lockedFields.indexOf(field) < 0) {
+      this.handleChange("lockedFields", [...lockedFields, field]);
+    }
+  }
+
+  unlockField = (field) => {
+    let lockedFields = this.state.lockedFields || [];
+    let fieldIndex = lockedFields.indexOf(field)
+    if (fieldIndex < 0) {
+      return
+    }
+    lockedFields.splice(fieldIndex, 1);
+    this.handleChange("lockedFields", lockedFields);
+  }
+
+  isLocked = (field) => {
+    if (!this.state.lockedFields) {
+      return
+    }
+    return this.state.lockedFields.indexOf(field) >= 0;
   }
 
   //method that will actually end up updating state; runs all calculations to get updated values before updating state
@@ -152,6 +147,12 @@ class CreatureBuilder extends Component {
     //console.log(this.props);
     return (
       <div className="container">
+        <Button onClick={() => {
+          this.props.clear();
+          this.setState(DefaultState);
+        }}>
+          Clear Form
+        </Button>
         <PageHeader>Creature Builder & CR Calculator</PageHeader>
         <Row className="formRow">
           <FormGroup controlId="templateOptions">
@@ -172,7 +173,7 @@ class CreatureBuilder extends Component {
         {/*Creature Overview Panel*/}
         <Row>
           <Col sm={12}>
-            <OverviewBlock state={{ ...this.state }} handleChange={this.handleChange} CRKeys={CalculationFunctions.crKeys} />
+            <OverviewBlock state={{ ...this.state }} handleChange={this.handleChange} CRKeys={CalculationFunctions.crKeys} lockMethods={this.fieldLockMethods} />
           </Col>
           <Col sm={12}>
             <StatsPanel onSubmit={this.handleChange} />
@@ -186,7 +187,7 @@ class CreatureBuilder extends Component {
           <Clearfix />
           {/*Creature Offenses Panel*/}
           <Col xs={12} sm={6}>
-            <OffenseBlock handleChange={this.handleChange} offenseProps={this.state.offenses} />
+            <OffenseBlock handleChange={this.handleChange} offenseProps={this.state.offenses} lockMethods={this.fieldLockMethods} />
           </Col>
           {/*Creature Defenses Panel*/}
           <Col xs={12} sm={6}>
@@ -206,7 +207,10 @@ function mapStateToProps(State) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ autoSave: CreatureBuilderActions.autoSave }, dispatch);
+  return bindActionCreators({
+    autoSave: CreatureBuilderActions.autoSave,
+    clear: CreatureBuilderActions.clear
+  }, dispatch);
 }
 
 //export default CreatureBuilder;

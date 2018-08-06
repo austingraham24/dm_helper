@@ -7,6 +7,14 @@ function autoSave(dataObject) {
   }
 }
 
+function clear() {
+  return {
+    type: "CreatureBuilder_Clear",
+    payload: null
+  }
+}
+
 export default {
-  autoSave: autoSave
+  autoSave: autoSave,
+  clear: clear
 }
