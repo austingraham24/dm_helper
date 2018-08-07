@@ -1,0 +1,26 @@
+/*https://stackoverflow.com/questions/2812770/add-centered-text-to-the-middle-of-a-hr-like-line*/
+
+.hr-label {
+	display: flex;
+	flex-basis: 100%;
+	align-items: center;
+	color: rgba(41,41,41,1);
+	margin: 8px 0px;
+}
+.hr-label::before,
+.hr-label::after {
+	content: "";
+	flex-grow: 1;
+	background: rgba(0, 0, 0, 0.15);
+	height: 1px;
+	font-size: 0px;
+	line-height: 0px;
+}
+
+.hr-label::before {
+  margin: 0px 8px 0px 0px;
+}
+
+.hr-label::after {
+  margin: 0px 0px 0px 8px;
+}

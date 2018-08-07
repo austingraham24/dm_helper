@@ -75,7 +75,7 @@ const OffenseBlock = (props) => {
 
     return (
       <Button bsStyle={status}
-        style={{ borderRadius: "0px 4px 0px 0px" }}
+        style={{ borderRadius: "0px 4px 4px 0px" }}
         onClick={clickMethod}
       >
         <Glyphicon glyph="refresh" /> {label}

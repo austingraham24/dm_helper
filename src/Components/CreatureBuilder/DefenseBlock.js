@@ -128,7 +128,7 @@ class DefenseBlock extends Component {
                 </div>
                 <div style={{ display: "table-row" }}>
                   <div style={{ display: "table", width: "100%" }}>
-                    <div className="input-addon-bottom" style={{ display: "table-cell", width: "40%" }}>
+                    <div className="input-addon-bottom" style={{ display: "table-cell", width: "40%", borderRadius: "0px 0px 0px 4px", borderRight: "0" }}>
                       <b>AVG HP:</b> {this.props.defenseProps.hp || 0}
                     </div>
                     <div style={{ display: "table-cell" }}>
@@ -138,7 +138,7 @@ class DefenseBlock extends Component {
                         placement="bottom"
                         overlay={this.effectiveHPPopover()}
                       >
-                        <div className="input-addon-bottom" style={{ cursor: "help" }}>
+                        <div className="input-addon-bottom" style={{ cursor: "help", borderRadius: "0px 0px 4px 0px" }}>
                           <b>AVG Effecitve HP:</b> {this.props.defenseProps.effectiveHP || 0}
                         </div>
                       </OverlayTrigger>

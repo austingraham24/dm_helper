@@ -3,6 +3,7 @@ import { Panel, Button, Glyphicon, FormGroup, FormControl, ControlLabel, Col } f
 import CalculationFunctions from "../CalculationFunctions";
 import UtilityPanel from "../../UtilityPanel";
 import ActionWrapper from "./ActionWrapper";
+import WeaponAction from "../../Weapon/WeaponAction";
 
 const ActionBlock = (props) => {
   return (
@@ -14,6 +15,7 @@ const ActionBlock = (props) => {
           toolbar={[<p>DPR: {(props.dpr || 0)}</p>]}
         >
           {layoutActions(props)}
+          <WeaponAction />
           <div style={{ marginTop: "10px", marginBottom: "10px" }}>
             <Button bsSize={"xsmall"} bsStyle="primary" onClick={() => {
               props.updateActions("create", null, null);

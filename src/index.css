@@ -4,11 +4,15 @@ body {
   font-family: sans-serif;
 }
 
+.has-float-label span {
+  text-overflow: ellipsis;
+  max-width: calc(100% - 10px);
+  white-space: nowrap;
+}
+
 .has-float-label .form-control:placeholder-shown:not(:focus)+* {
   font-size:100%;
   overflow-x:hidden;
-  text-overflow: ellipsis;
-  max-width: calc(100% - 10px);
   height: 100%;/*calc(100% + 10px);*/
   top: 0.8em;
 }

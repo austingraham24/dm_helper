@@ -68,10 +68,10 @@ function calculateFinalCR(dataObject) {
   let calculatedXP = CreatureStats[dataObject.challengeRating].xp || 0
   newState.calculatedPB = calculatedPB;
   newState.calculatedXP = calculatedXP;
-  if(!newState.lockedFields.includes("proficiencyBonus")) {
+  if(newState.lockedFields && !newState.lockedFields.includes("proficiencyBonus")) {
     newState.proficiencyBonus = calculatedPB;
   }
-  if(!newState.lockedFields.includes("experience")) {
+  if(newState.lockedFields && !newState.lockedFields.includes("experience")) {
     newState.experience = calculatedXP;
   }
   return newState;
