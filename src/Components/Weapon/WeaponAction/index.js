@@ -84,12 +84,13 @@ class WeaponAction extends Component {
             />
             <span># Targets</span>
           </label>
-          <label className="has-float-label" style={{ display: "table-cell", width: "45%" }}>
+          <label className="has-float-label" style={{ display: "table-cell", width: "45%"}}>
             <SelectField
               name="weaponSize"
               objectData={{ "medium": "Medium (x1 DMG Dice)", "large": "Large (x2 DMG Dice)", "huge": "Huge (x3 DMG Dice)", "gargantuan": "Gargantuan (x4 DMG Dice)" }}
               stateValue={this.state.weaponSize || "medium"}
               placeholder="Weapon Size"
+              style={{borderRadius:"0px 4px 4px 0px"}}
               onChange={(event) => { this.onChange(event) }}
             />
             <span>Weapon Size</span>

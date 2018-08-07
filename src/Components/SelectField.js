@@ -32,7 +32,8 @@ const SelectField = (props) => {
 			componentClass="select"
 			name = {props.name || ""}
 			value={props.stateValue || ""}
-			placeholder=""
+      placeholder=""
+      style={props.style || {}}
 			onChange={props.onChange}
 			>
 				{hasPlaceholder()}
