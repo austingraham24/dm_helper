@@ -36,6 +36,7 @@ const OffenseBlock = (props) => {
   }
 
   let updateActions = (action, index, object) => {
+    console.log(action, index, object)
     let newActions = [];
     if (actions) {
       newActions = [...actions];

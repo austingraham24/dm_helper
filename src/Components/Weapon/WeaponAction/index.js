@@ -64,9 +64,8 @@ class WeaponAction extends Component {
       this.state.damage.map(
         (damageItem, index) => {
           return (
-            <div className={index + "-" + damageItem.dmgType + "-" + damageItem.flatDamage} style={{marginBottom:"10px"}}>
+            <div style={{marginBottom:"10px"}} key={index + "-" + damageItem.dmgType + "-" + damageItem.flatDamage}>
               <DamageForm
-                key={index + "-" + damageItem.dmgType + "-" + damageItem.flatDamage}
                 flatDamage={damageItem.flatDamage}
                 diceExpression={damageItem.diceExpression}
                 dmgType={damageItem.dmgType}
@@ -123,7 +122,6 @@ class WeaponAction extends Component {
   }
 
   render() {
-    console.log(this.state)
     return (
       <div style={{marginBottom:"10px"}}>
         <h5><b>Use Existing Weapon</b></h5>
@@ -321,7 +319,8 @@ class WeaponAction extends Component {
           </AnimateHeight>
         </div>
 
-        <Button bsStyle="success" onClick={() => { }}><Glyphicon glyph="plus" /> Create</Button>
+        <Button bsStyle="success" onClick={() => { this.props.onSubmit("create", this.state) }}><Glyphicon glyph="plus" /> Create</Button>
+        <Button bsStyle="danger" style={{marginLeft:"10px"}} onClick={() => { this.props.onSubmit("delete", {}) }}><Glyphicon glyph="remove" /> Cancel</Button>
 
       </div>
     );

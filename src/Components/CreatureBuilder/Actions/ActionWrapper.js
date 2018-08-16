@@ -26,6 +26,7 @@ class ActionWrapper extends Component {
   }
 
   submitChanges(action, object) {
+    console.log("wrapper", object)
     if(!this.props.onSubmit) {
       return null;
     }
@@ -76,6 +77,7 @@ class ActionWrapper extends Component {
   }
 
   render() {
+    console.log("props",this.props);
     return (
       <div>
         {this.layoutItems()}
