@@ -4,6 +4,7 @@ import ActionItem from './ActionItem';
 import GenericButton from '../../GenericButton';
 import ActionForm from './ActionForm';
 import "./style.css";
+import WeaponAction from "../../Weapon/WeaponAction";
 
 class ActionWrapper extends Component {
 	constructor(props) {
@@ -37,7 +38,8 @@ class ActionWrapper extends Component {
     return (
       <div className="actionRow" style={{display:"block"}}>
         <div style={{marginTop:"10px"}}>
-            <ActionForm name={action.name} desc={action.desc} damage={action.damage} onSubmit={this.submitChanges.bind(this)}/>
+            {/* <ActionForm name={action.name} desc={action.desc} damage={action.damage} onSubmit={this.submitChanges.bind(this)}/> */}
+            <WeaponAction action={action} onSubmit={this.submitChanges.bind(this)} />
         </div>
       </div>
     );

@@ -125,7 +125,7 @@ class WeaponAction extends Component {
   render() {
     console.log(this.state)
     return (
-      <div style={{ marginTop: "10px" }}>
+      <div style={{marginBottom:"10px"}}>
         <h5><b>Use Existing Weapon</b></h5>
         <InputGroup style={{ width: "100%", margin: "10px 0px" }}>
           <label className="has-float-label" style={{ display: "table-cell" }}>

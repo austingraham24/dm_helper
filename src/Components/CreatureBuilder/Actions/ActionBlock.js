@@ -15,7 +15,7 @@ const ActionBlock = (props) => {
           toolbar={[<p>DPR: {(props.dpr || 0)}</p>]}
         >
           {layoutActions(props)}
-          <WeaponAction />
+          {/* <WeaponAction /> */}
           <div style={{ marginTop: "10px", marginBottom: "10px" }}>
             <Button bsSize={"xsmall"} bsStyle="primary" onClick={() => {
               props.updateActions("create", null, null);
