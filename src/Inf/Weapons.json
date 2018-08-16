@@ -113,7 +113,7 @@
     }],
     "weight": "4 lb.",
     "properties": ["versatile"],
-    "versitileDamage": "1d8"
+    "versatileDamage": "1d8"
   },
 
   "Sickle": {
@@ -141,9 +141,9 @@
       "dmgType": "piercing"
     }],
     "weight": "3 lb.",
-    "properties": ["thrown", "versitile"],
+    "properties": ["thrown", "versatile"],
     "range":"20/60",
-    "versitileDamage":"1d8"
+    "versatileDamage":"1d8"
   },
 
   "Light Crossbow": {
@@ -217,8 +217,8 @@
       "dmgType": "slashing"
     }],
     "weight": "4 lb.",
-    "properties": ["versitile"],
-    "versitileDamage":"1d10"
+    "properties": ["versatile"],
+    "versatileDamage":"1d10"
   },
 
   "Flail": {
@@ -317,7 +317,7 @@
     }],
     "weight": "3 lb.",
     "properties": ["versatile"],
-    "versitileDamage":"1d10"
+    "versatileDamage":"1d10"
   },
 
   "Maul": {
@@ -417,7 +417,7 @@
     "weight": "4 lb.",
     "properties": ["thrown", "versatile"],
     "range": "20/60",
-    "versitileDamage":"1d8"
+    "versatileDamage":"1d8"
   },
 
   "War Pick": {
@@ -446,7 +446,7 @@
     }],
     "weight": "2 lb.",
     "properties": ["versatile"],
-    "versitileDamage":"1d10"
+    "versatileDamage":"1d10"
   },
 
   "Whip": {

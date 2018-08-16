@@ -24,3 +24,12 @@
 .hr-label::after {
   margin: 0px 0px 0px 8px;
 }
+
+.hr-divider {
+  content: "";
+	flex-grow: 1;
+	background: rgba(0, 0, 0, 0.15);
+	height: 1px;
+	font-size: 0px;
+	line-height: 0px;
+}

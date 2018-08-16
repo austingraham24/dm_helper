@@ -27,6 +27,13 @@ const SelectField = (props) => {
 		}
 	}
 
+function isDisabled() {
+  if (props.disabled) {
+    return true
+  }
+  return false
+}
+
 	return (
 		<FormControl
 			componentClass="select"
@@ -34,7 +41,8 @@ const SelectField = (props) => {
 			value={props.stateValue || ""}
       placeholder=""
       style={props.style || {}}
-			onChange={props.onChange}
+      onChange={props.onChange}
+      disabled={ isDisabled() }
 			>
 				{hasPlaceholder()}
 			  {generateOptions()}
@@ -53,6 +61,7 @@ SelectField.propTypes = {
   /*note: one of the above must not be null in order for the compoenent to render*/
   placeholder: PropTypes.string, //a hidden option to be shown as a default rather than the first item in the array/object
   stateValue: PropTypes.string, //the value the current form state has; if null the field defaults to value=""
+  disabled: PropTypes.bool // is the field disabled
 }
 
 export default SelectField;

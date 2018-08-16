@@ -14,7 +14,7 @@ class DamageForm extends Component {
     this.debouncedCalcExpression = _.debounce(this.calcDiceExpression, 500);
     this.debouncedSubmit = _.debounce(this.submitChanges, 500);
 
-    let formValid = (this.props.flatDamage && this.props.dmgType)? true : false;
+    let formValid = (this.props.flatDamage && this.props.dmgType) ? true : false;
 
     this.state = {
       activeField: null, //string of the field name or null
@@ -26,7 +26,7 @@ class DamageForm extends Component {
   }
 
   submitChanges(action) {
-    if(!this.props.submitFunction || !this.state.formIsValid) {
+    if (!this.props.submitFunction || !this.state.formIsValid) {
       console.log("Can't submit")
       return
     }
@@ -36,7 +36,7 @@ class DamageForm extends Component {
       dmgType: this.state.dmgType
     }
     this.props.submitFunction(action, this.props.index, newDamageObject);
-    if(this.props.defaultEmpty) {
+    if (this.props.defaultEmpty) {
       this.setState({
         hasChanged: false, //used for prefilled forms to see if it should show a save icon or delete
         formIsValid: false,
@@ -56,7 +56,7 @@ class DamageForm extends Component {
       validForm = true;
     }
     this.setState({ ...newState, formIsValid: validForm, hasChanged: true }, () => {
-      if(callback){
+      if (callback) {
         callback()
       }
       return
@@ -65,7 +65,7 @@ class DamageForm extends Component {
 
   updateDMGType(event) {
     let type = event.target.name.split("-")[1];
-    this.updateState("dmgType",type);
+    this.updateState("dmgType", type);
   }
 
   onChange(event) {
@@ -82,7 +82,7 @@ class DamageForm extends Component {
         this.debouncedCalcExpression(value);
       }
     }
-    this.updateState(field,value,callback);
+    this.updateState(field, value, callback);
   }
 
   calcDiceExpression(flatDamage) {
@@ -90,7 +90,7 @@ class DamageForm extends Component {
       return
     }
     let diceType = this.parseExpresion(this.state.diceExpression).type;
-    if(!diceType || isNaN(diceType)) {
+    if (!diceType || isNaN(diceType)) {
       return
     }
 
@@ -102,7 +102,7 @@ class DamageForm extends Component {
     let count = Math.floor(flatDamage / diceAverage);
     let remainder = Math.ceil(flatDamage % diceAverage);
     let expression = count + "d" + diceType + ((remainder > 0) ? "+" + remainder : "");
-    this.updateState("diceExpression",expression);
+    this.updateState("diceExpression", expression);
   }
 
   calcAverageDamage(expression) {
@@ -122,7 +122,7 @@ class DamageForm extends Component {
     }
     let avg = DiceAverages["d" + type] || 0;
     let final = Math.ceil((avg * count) + mod);
-    this.updateState("flatDamage",final);
+    this.updateState("flatDamage", final);
   }
 
   parseExpresion(expression) {
@@ -187,74 +187,69 @@ class DamageForm extends Component {
       );
     }
     if (this.props.defaultEmpty) {
-      return <Button bsStyle="success" onClick={() => {this.submitChanges("add")}}><Glyphicon glyph="plus" /></Button>
+      return <Button bsStyle="success" onClick={() => { this.submitChanges("add") }}><Glyphicon glyph="plus" /></Button>
     }
-    if(this.state.hasChanged) {
-      return <Button bsStyle="success" onClick={() => {this.submitChanges("update")}}><Glyphicon glyph="floppy-save" /></Button>
+    if (this.state.hasChanged) {
+      return <Button bsStyle="success" onClick={() => { this.submitChanges("update") }}><Glyphicon glyph="floppy-save" /></Button>
     }
-    return <Button bsStyle="danger" onClick={() => {this.submitChanges("delete")}}><Glyphicon glyph="remove" /></Button>
+    return <Button bsStyle="danger" onClick={() => { this.submitChanges("delete") }}><Glyphicon glyph="remove" /></Button>
 
   }
 
   render() {
     return (
-      <Fragment>
-        <Row style={{ marginBottom: "10px" }}>
-          <Col xs={12}>
-            <InputGroup bsSize="small">
-              <OverlayTrigger
-                overlay={this.getTooltip("expression")}
-                placement="top"
-                delayShow={300}
-                delayHide={150}
-              >
-                <label className="has-float-label">
-                  <FormControl
-                    bsSize="small"
-                    type="text"
-                    name="diceExpression"
-                    value={this.state.diceExpression || ""}
-                    placeholder="2d12+5"
-                    onChange={this.onChange.bind(this)}
-                  />
-                  <span>Dice Expression</span>
-                </label>
-              </OverlayTrigger>
-              <InputGroup.Addon>
-                or
-                    </InputGroup.Addon>
-              <OverlayTrigger
-                overlay={this.getTooltip("avg")}
-                placement="top"
-                delayShow={300}
-                delayHide={150}
-              >
-                <label className="has-float-label">
-                  <FormControl
-                    bsSize="small"
-                    type="text"
-                    name="flatDamage"
-                    value={this.state.flatDamage || ""}
-                    placeholder="2"
-                    onChange={this.onChange.bind(this)}
-                  />
-                  <span>Average DMG</span>
-                </label>
-              </OverlayTrigger>
-              <DropdownButton
-                componentClass={InputGroup.Button}
-                id="damage-dropdown-addon"
-                title={this.state.dmgType || "DMG"}
-              >
-                {this.layoutDamageOptions()}
-              </DropdownButton>
-              <InputGroup.Button>
-                {this.getButton()}
-              </InputGroup.Button>
-            </InputGroup>
-          </Col>
-        </Row>
-      </Fragment>
+      <div>
+        <InputGroup bsSize="small">
+          <OverlayTrigger
+            overlay={this.getTooltip("expression")}
+            placement="top"
+            delayShow={300}
+            delayHide={150}
+          >
+            <label className="has-float-label" style={{ display: "table-cell" }}>
+              <FormControl
+                bsSize="small"
+                type="text"
+                name="diceExpression"
+                value={this.state.diceExpression || ""}
+                placeholder="2d12+5"
+                onChange={this.onChange.bind(this)}
+              />
+              <span>Dice Expression</span>
+            </label>
+          </OverlayTrigger>
+          <InputGroup.Addon>or</InputGroup.Addon>
+          <OverlayTrigger
+            overlay={this.getTooltip("avg")}
+            placement="top"
+            delayShow={300}
+            delayHide={150}
+          >
+            <label className="has-float-label" style={{ display: "table-cell" }}>
+              <FormControl
+                bsSize="small"
+                type="text"
+                name="flatDamage"
+                value={this.state.flatDamage || ""}
+                placeholder="2"
+                onChange={this.onChange.bind(this)}
+                style={{ borderLeft: "0px" }}
+              />
+              <span>Average DMG</span>
+            </label>
+          </OverlayTrigger>
+          <DropdownButton
+            componentClass={InputGroup.Button}
+            id="damage-dropdown-addon"
+            title={this.state.dmgType || "DMG"}
+          >
+            {this.layoutDamageOptions()}
+          </DropdownButton>
+          <InputGroup.Button>
+            {this.getButton()}
+          </InputGroup.Button>
+        </InputGroup>
+      </div>
     );
   }
 }

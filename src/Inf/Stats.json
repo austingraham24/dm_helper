@@ -1,0 +1,8 @@
+{
+  "STR": "Strength", 
+  "DXT": "Dexterity", 
+  "CONST": "Constitution", 
+  "INT": "Intelligence", 
+  "WIS": "Wisdom", 
+  "CHAR": "Charisma"
+}
