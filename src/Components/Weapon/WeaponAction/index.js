@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import "./weaponAction.css";
-import { Panel, FormGroup, Well, ButtonToolbar, ToggleButtonGroup, ToggleButton, FormControl, Tabs, Tab, Checkbox, ControlLabel, Col, Glyphicon, InputGroup, DropdownButton, MenuItem, Popover, OverlayTrigger, Button } from "react-bootstrap";
+import { Panel, FormGroup, Well, ButtonToolbar, ButtonGroup, ToggleButtonGroup, ToggleButton, FormControl, Tabs, Tab, Checkbox, ControlLabel, Col, Glyphicon, InputGroup, DropdownButton, MenuItem, Popover, OverlayTrigger, Button } from "react-bootstrap";
 import UtilityPanel from "../../UtilityPanel";
 import PropTypes from 'prop-types';
 import DiceAverages from "../../../Inf/DiceAverages.json";
@@ -15,14 +15,64 @@ class WeaponAction extends Component {
   constructor(props) {
     super(props);
 
+    this.weaponSizes = { "medium": { label: "Medium (x1 DMG Dice)", multiplier: 1 }, "large": { label: "Large (x2 DMG Dice)", multiplier: 2 }, "huge": { label: "Huge (x3 DMG Dice)", multiplier: 3 }, "gargantuan": { label: "Gargantuan (x4 DMG Dice)", multiplier: 4 } }
+
     this.state = {
-      existingWeapon: null,
-      weaponSize: "medium"
+      existingWeapon: this.props.action.existingWeapon || null,
+      weaponSize: this.props.action.weaponSize || "medium",
+      name: this.props.action.name || null,
+      desc: this.props.action.desc || null,
+      damage: this.props.action.damage || null,
+      range: this.props.action.range || null,
+      attackType: this.props.action.attackType || null,
+      damage: this.props.damage || null,
+      targets: this.props.targets || 1,
+      saveType: this.props.saveType
     };
   };
 
   submitAction(key) {
+    //console.log(this.state);
+    let damageObject = this.state;
+    this.props.onSubmit(key, damageObject);
+  }
 
+  onFormCancel() {
+    console.log(this.props.newAction);
+    if (this.props.newAction) {
+      this.props.onSubmit("delete", {})
+    }
+    else {
+      this.props.onSubmit("cancel", {})
+    }
+  }
+
+  prefillWeaponInfo(weapon) {
+    if (!weapon) {
+      return {}
+    }
+    let weaponName = weapon;
+    let weaponData = DefaultWeapons[weaponName];
+    let actionObject = {
+      name: weaponName,
+      desc: weaponData.desc,
+      attackType: weaponData.type,
+      range: weaponData.range || (weaponData.properties.includes("reach") ? 10 : 5),
+    }
+
+    let damageObject = weaponData.damage;
+    console.log(damageObject);
+    if (damageObject[0].dmgType) {
+      let diceComponents = damageObject[0].diceExpression.split("d");
+      damageObject[0].diceExpression = (parseInt(diceComponents[0]) * this.weaponSizes[this.state.weaponSize].multiplier) + "d" + diceComponents[1];
+      let updatedAverage = Math.ceil((DiceAverages["d" + diceComponents[1]]) * this.weaponSizes[this.state.weaponSize].multiplier);
+      damageObject[0].flatDamage = updatedAverage;
+      actionObject.damage = damageObject;
+    }
+    else {
+      actionObject.damage = null;
+    }
+    return actionObject;
   }
 
   onChange(event) {
@@ -34,7 +84,7 @@ class WeaponAction extends Component {
 
   layoutWeapons() {
     var keys = Object.keys(DefaultWeapons);
-    var selectObjectData = {}
+    var selectObjectData = { "": "None" }
     keys.map((key) => {
       var weaponData = DefaultWeapons[key];
       var damageItem = weaponData.damage[0]
@@ -50,7 +100,8 @@ class WeaponAction extends Component {
         placeholder="Weapon"
         style={{ borderRadius: "4px 0px 0px 4px" }}
         onChange={(event) => {
-          this.setState({ ...this.state, existingWeapon: event.target.value });
+          let weaponInfo = this.prefillWeaponInfo(event.target.value);
+          this.setState({ ...this.state, ...weaponInfo, existingWeapon: event.target.value });
         }}
       />
     );
@@ -64,7 +115,7 @@ class WeaponAction extends Component {
       this.state.damage.map(
         (damageItem, index) => {
           return (
-            <div style={{marginBottom:"10px"}} key={index + "-" + damageItem.dmgType + "-" + damageItem.flatDamage}>
+            <div style={{ marginBottom: "10px" }} key={index + "-" + damageItem.dmgType + "-" + damageItem.flatDamage}>
               <DamageForm
                 flatDamage={damageItem.flatDamage}
                 diceExpression={damageItem.diceExpression}
@@ -122,8 +173,13 @@ class WeaponAction extends Component {
   }
 
   render() {
+
+    let buttonLabel = this.props.newAction ? "Create" : "Save";
+    let glyph = this.props.newAction ? "plus" : "floppy-save"
+
     return (
-      <div style={{marginBottom:"10px"}}>
+      /* Existing Weapon Form*/
+      <div style={{ marginBottom: "10px" }}>
         <h5><b>Use Existing Weapon</b></h5>
         <InputGroup style={{ width: "100%", margin: "10px 0px" }}>
           <label className="has-float-label" style={{ display: "table-cell" }}>
@@ -143,21 +199,17 @@ class WeaponAction extends Component {
           </label>
         </InputGroup>
 
-        <InputGroup style={{ width: "100%", margin: "10px 0px" }}>
-          <InputGroup.Button>
-            <Button bsStyle="success" style={{width:"100%"}} onClick={() => { }}><Glyphicon glyph="plus" /> Add Attack
-            </Button>
-          </InputGroup.Button>
-          <InputGroup.Button>
-            <Button bsStyle="primary" style={{width:"100%"}} onClick={() => { }}><Glyphicon glyph="cog" /> Weapon Creator
-            </Button>
-          </InputGroup.Button>
-        </InputGroup>
+        <Button bsStyle="primary" style={{ width: "100%", marginBottom:"10px"}} onClick={() => { }}>
+          <Glyphicon glyph="cog" /> Weapon Creator
+        </Button>
 
-        <div className="hr-label">or</div>
+        <div className="hr-divider" style={{width:"100%"}}/>
 
-        <h5><b>Create New Action</b></h5>
-        <FormGroup style={{ marginBottom: "10px" }}>
+        {/* New Action Form */}
+
+        {/* Name */}
+
+        <FormGroup style={{ margin: "10px 0px" }}>
           <label className="has-float-label">
             <FormControl
               bsSize="small"
@@ -172,6 +224,9 @@ class WeaponAction extends Component {
             <span>Action Name</span>
           </label>
         </FormGroup>
+      
+      {/* Description */}
+
         <FormGroup style={{ marginBottom: "10px" }}>
           <label className="has-float-label">
             <FormControl
@@ -187,6 +242,9 @@ class WeaponAction extends Component {
             <span>Action Description</span>
           </label>
         </FormGroup>
+
+      {/* Attack Type & Range */}
+
         <InputGroup style={{ width: "100%", marginTop: "10px", marginBottom: "10px" }}>
           <label className="has-float-label" style={{ display: "table-cell", width: "50%" }}>
             <SelectField
@@ -212,10 +270,14 @@ class WeaponAction extends Component {
           </label>
         </InputGroup>
 
-        <div style={{width: "100%", border: "2px solid #dbdbdb", borderWidth: "0px 0px 1px 0px", marginBottom:"10px"}} >
-        <h5 style={{marginBottom:"0px"}}>Initial Damage</h5>
+        {/* Damage */}
+
+        <div style={{ width: "100%", border: "2px solid #dbdbdb", borderWidth: "0px 0px 1px 0px", marginBottom: "10px" }} >
+          <h5 style={{ marginBottom: "0px" }}>Initial Damage</h5>
         </div>
         {this.getDamageForms()}
+
+        {/* Additional Details */}
 
         <div style={{ marginBottom: "10px" }}>
           <div
@@ -232,6 +294,9 @@ class WeaponAction extends Component {
           <AnimateHeight
             duration={500}
             height={this.state.showAdditionalDetails ? "auto" : 0}>
+
+            {/* saveType */}
+
             <div style={{ marginTop: "10px", width: "47%", display: "inline-block" }}>
               <label className="has-float-label">
                 <SelectField
@@ -244,6 +309,9 @@ class WeaponAction extends Component {
                 <span>Save Type</span>
               </label>
             </div>
+
+            {/* targets */}
+
             <div style={{ marginTop: "10px", marginLeft: "6%", width: "47%", display: "inline-block" }}>
               <label className="has-float-label">
                 <FormControl
@@ -257,6 +325,9 @@ class WeaponAction extends Component {
                 <span># Targets</span>
               </label>
             </div>
+
+            {/* areaEffect & aoeSize */}
+
             <InputGroup style={{ width: "100%", marginTop: "10px", marginBottom: "10px" }}>
               <label className="has-float-label" style={{ display: "table-cell", width: "60%" }}>
                 <SelectField
@@ -281,6 +352,8 @@ class WeaponAction extends Component {
               </label>
             </InputGroup>
 
+            {/* Miss Effect */}
+
             <label className="has-float-label" style={{ marginBottom: "10px" }}>
               <FormControl
                 componentClass="textarea"
@@ -293,17 +366,7 @@ class WeaponAction extends Component {
               <span>Effect on Miss</span>
             </label>
 
-            <label className="has-float-label" style={{ marginBottom: "10px" }}>
-              <FormControl
-                componentClass="textarea"
-                name="hitEffect"
-                value={this.state.hitEffect || ""}
-                placeholder="What happens when the action hits?"
-                onChange={(event) => { this.onChange(event) }}
-                style={{ borderRadius: "4px" }}
-              />
-              <span>Effect on Hit</span>
-            </label>
+            {/* Successful Save Effect */}
 
             <label className="has-float-label" style={{ marginBottom: "10px" }}>
               <FormControl
@@ -314,13 +377,27 @@ class WeaponAction extends Component {
                 onChange={(event) => { this.onChange(event) }}
                 style={{ borderRadius: "4px" }}
               />
-              <span>Effect on Save</span>
+              <span>Effect on Save Success</span>
+            </label>
+
+            {/* Save Fail Effect */}
+
+            <label className="has-float-label" style={{ marginBottom: "10px" }}>
+              <FormControl
+                componentClass="textarea"
+                name="failEffect"
+                value={this.state.failEffect || ""}
+                placeholder="What happens when the target fails a save?"
+                onChange={(event) => { this.onChange(event) }}
+                style={{ borderRadius: "4px" }}
+              />
+              <span>Effect on Save Fail</span>
             </label>
           </AnimateHeight>
         </div>
 
-        <Button bsStyle="success" onClick={() => { this.props.onSubmit("create", this.state) }}><Glyphicon glyph="plus" /> Create</Button>
-        <Button bsStyle="danger" style={{marginLeft:"10px"}} onClick={() => { this.props.onSubmit("delete", {}) }}><Glyphicon glyph="remove" /> Cancel</Button>
+        <Button bsStyle="success" onClick={() => { this.submitAction("update") }}><Glyphicon glyph={glyph} /> {buttonLabel}</Button>
+        <Button bsStyle="danger" style={{ marginLeft: "10px" }} onClick={() => { this.onFormCancel() }}><Glyphicon glyph="remove" /> Cancel</Button>
 
       </div>
     );

@@ -15,7 +15,6 @@ const ActionBlock = (props) => {
           toolbar={[<p>DPR: {(props.dpr || 0)}</p>]}
         >
           {layoutActions(props)}
-          {/* <WeaponAction /> */}
           <div style={{ marginTop: "10px", marginBottom: "10px" }}>
             <Button bsSize={"xsmall"} bsStyle="primary" onClick={() => {
               props.updateActions("create", null, null);
@@ -43,7 +42,7 @@ function layoutActions(props) {
     }
     return (
       <ActionWrapper
-        key={action.name}
+        key={action.name + index}
         action={action}
         index={index}
         onSubmit={props.updateActions} />

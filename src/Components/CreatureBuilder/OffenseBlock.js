@@ -36,14 +36,14 @@ const OffenseBlock = (props) => {
   }
 
   let updateActions = (action, index, object) => {
-    console.log(action, index, object)
+    //console.log(action, index, object)
     let newActions = [];
     if (actions) {
       newActions = [...actions];
     }
     switch (action) {
       case "create":
-        newActions.push({});
+        newActions.push(object || {});
         break;
       case "update":
         newActions.splice(index, 1, object);

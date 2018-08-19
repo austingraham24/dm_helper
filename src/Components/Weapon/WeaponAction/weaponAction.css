@@ -33,3 +33,15 @@
 	font-size: 0px;
 	line-height: 0px;
 }
+
+@media (min-width: 992px) {
+  .smallButtonGroup {
+    display:none
+  }
+}
+
+@media (max-width: 991px) {
+  .defaultButtonGroup {
+    display:none;
+  }
+}

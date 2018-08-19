@@ -26,7 +26,6 @@ class ActionWrapper extends Component {
   }
 
   submitChanges(action, object) {
-    console.log("wrapper", object)
     if(!this.props.onSubmit) {
       return null;
     }
@@ -40,7 +39,7 @@ class ActionWrapper extends Component {
       <div className="actionRow" style={{display:"block"}}>
         <div style={{marginTop:"10px"}}>
             {/* <ActionForm name={action.name} desc={action.desc} damage={action.damage} onSubmit={this.submitChanges.bind(this)}/> */}
-            <WeaponAction action={action} onSubmit={this.submitChanges.bind(this)} />
+            <WeaponAction action={action} onSubmit={this.submitChanges.bind(this)} newAction={this.props.newAction}/>
         </div>
       </div>
     );
@@ -77,7 +76,7 @@ class ActionWrapper extends Component {
   }
 
   render() {
-    console.log("props",this.props);
+    //console.log("props",this.props);
     return (
       <div>
         {this.layoutItems()}
