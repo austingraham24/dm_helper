@@ -25,9 +25,9 @@ class WeaponAction extends Component {
       damage: this.props.action.damage || null,
       range: this.props.action.range || null,
       attackType: this.props.action.attackType || null,
-      damage: this.props.damage || null,
-      targets: this.props.targets || 1,
-      saveType: this.props.saveType
+      damage: this.props.action.damage || null,
+      targets: this.props.action.targets || 1,
+      saveType: this.props.action.saveType
     };
   };
 
@@ -38,7 +38,6 @@ class WeaponAction extends Component {
   }
 
   onFormCancel() {
-    console.log(this.props.newAction);
     if (this.props.newAction) {
       this.props.onSubmit("delete", {})
     }
@@ -52,34 +51,48 @@ class WeaponAction extends Component {
       return {}
     }
     let weaponName = weapon;
-    let weaponData = DefaultWeapons[weaponName];
+    let weaponData = {...DefaultWeapons[weaponName]};
     let actionObject = {
       name: weaponName,
       desc: weaponData.desc,
       attackType: weaponData.type,
       range: weaponData.range || (weaponData.properties.includes("reach") ? 10 : 5),
     }
-
-    let damageObject = weaponData.damage;
-    console.log(damageObject);
-    if (damageObject[0].dmgType) {
-      let diceComponents = damageObject[0].diceExpression.split("d");
-      damageObject[0].diceExpression = (parseInt(diceComponents[0]) * this.weaponSizes[this.state.weaponSize].multiplier) + "d" + diceComponents[1];
-      let updatedAverage = Math.ceil((DiceAverages["d" + diceComponents[1]]) * this.weaponSizes[this.state.weaponSize].multiplier);
-      damageObject[0].flatDamage = updatedAverage;
-      actionObject.damage = damageObject;
-    }
-    else {
-      actionObject.damage = null;
-    }
+    actionObject.damage = this.calculateWeaponDamage(weaponName);
     return actionObject;
   }
 
-  onChange(event) {
+  calculateWeaponDamage(weapon) {
+    if (!weapon) {
+      return null;
+    }
+
+    let weaponData = {...DefaultWeapons[weapon]};
+    weaponData.desc = "Hard Edit";
+    let damageObject = {...weaponData.damage[0]};
+    if (damageObject.dmgType) {
+      let diceComponents = damageObject.diceExpression.split("d");
+      let newDiceCount = parseInt(diceComponents[0]) * this.weaponSizes[this.state.weaponSize].multiplier
+      damageObject.diceExpression = newDiceCount + "d" + diceComponents[1];
+      let updatedAverage = Math.ceil((DiceAverages["d" + diceComponents[1]]) * newDiceCount);
+      damageObject.flatDamage = updatedAverage;
+      if (weaponData.damage.length > 1) {
+        return [damageObject, weaponData.damage.slice(1)];
+      }
+      return [damageObject];
+    }
+    return null;
+  }
+
+  onChange(event, completion) {
     var field = event.target.name;
     var value = event.target.value;
 
-    this.setState({ [field]: value });
+    this.setState({ [field]: value }, () => {
+      if(completion) {
+        completion();
+      }
+    });
   }
 
   layoutWeapons() {
@@ -94,14 +107,16 @@ class WeaponAction extends Component {
 
     return (
       <SelectField
-        name="weapon"
+        name="existingWeapon"
         objectData={selectObjectData}
         stateValue={this.state.existingWeapon || ""}
         placeholder="Weapon"
         style={{ borderRadius: "4px 0px 0px 4px" }}
         onChange={(event) => {
-          let weaponInfo = this.prefillWeaponInfo(event.target.value);
-          this.setState({ ...this.state, ...weaponInfo, existingWeapon: event.target.value });
+          this.onChange(event, () => {
+            let weaponInfo = this.prefillWeaponInfo(this.state.existingWeapon);
+            this.setState({...weaponInfo});
+          })
         }}
       />
     );
@@ -193,14 +208,19 @@ class WeaponAction extends Component {
               stateValue={this.state.weaponSize || "medium"}
               placeholder="Weapon Size"
               style={{ borderRadius: "0px 4px 4px 0px" }}
-              onChange={(event) => { this.onChange(event) }}
+              onChange={(event) => { 
+                this.onChange(event, () => {
+                  let weaponInfo = this.prefillWeaponInfo(this.state.existingWeapon);
+                  this.setState({ ...weaponInfo });
+                });
+              }}
             />
             <span>Size</span>
           </label>
         </InputGroup>
 
-        <Button bsStyle="primary" style={{ width: "100%", marginBottom:"10px"}} onClick={() => { }}>
-          <Glyphicon glyph="cog" /> Weapon Creator
+        <Button disabled bsStyle="primary" style={{ width: "100%", marginBottom:"10px"}} onClick={() => { }}>
+          <Glyphicon glyph="cog" /> Weapon Creator Coming Soon!
         </Button>
 
         <div className="hr-divider" style={{width:"100%"}}/>
