@@ -20,6 +20,7 @@ import _ from "lodash";
 import { bindActionCreators } from 'redux';
 import CreatureBuilderActions from './CreatureBuilderActions';
 import DefaultState from "./DefaultState";
+import { withRouter } from 'react-router'
 
 class CreatureBuilder extends Component {
   constructor(props) {
@@ -43,6 +44,7 @@ class CreatureBuilder extends Component {
   updateState(newState) {
     this.setState({ ...this.state, ...newState }, () => {
       this.autoSave(this.state);
+      //this.props.autoSave(this.state);
     });
   }
 
@@ -170,6 +172,12 @@ class CreatureBuilder extends Component {
             </Col>
           </FormGroup>
         </Row>
+        <Button onClick={() => {
+          this.autoSave.cancel();
+          this.props.save(this.state);
+        }}>
+          Save
+        </Button>
         {/*Creature Overview Panel*/}
         <Row>
           <Col sm={12}>
@@ -200,8 +208,9 @@ class CreatureBuilder extends Component {
 }
 
 function mapStateToProps(State) {
+  console.log(State);
   return {
-    lastSave: State.editCreatureLastSave || null,
+    lastSave: State.editCreatureLastSave || State.activeCreature || null,
     activeCreature: State.activeCreature || null
   }
 }
@@ -209,9 +218,10 @@ function mapStateToProps(State) {
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
     autoSave: CreatureBuilderActions.autoSave,
-    clear: CreatureBuilderActions.clear
+    clear: CreatureBuilderActions.clear,
+    save: CreatureBuilderActions.save
   }, dispatch);
 }
 
 //export default CreatureBuilder;
-export default connect(mapStateToProps, mapDispatchToProps)(CreatureBuilder);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(CreatureBuilder));

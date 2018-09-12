@@ -16,11 +16,16 @@ const Banner =()=> {
 			  </Navbar.Header>
 			  <Navbar.Collapse>
 			    <Nav>
-			      <NavItem eventKey={1} href="#/test" disabled>
+          <LinkContainer to="/MyContent">
+				      <NavItem eventKey={1} href="#">
+				        My Content
+				      </NavItem>
+			      </LinkContainer>
+			      <NavItem eventKey={2} href="#/test" disabled>
 			        Campaign Manager
 			      </NavItem>
 			      <LinkContainer to="/CreatureBuilder">
-				      <NavItem eventKey={2} href="#">
+				      <NavItem eventKey={3} href="#">
 				        Creature Builder
 				      </NavItem>
 			      </LinkContainer>

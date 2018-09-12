@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Panel, FormGroup, FormControl, ControlLabel, Col, InputGroup, Button, Glyphicon } from "react-bootstrap";
-import ActionBlock from "./Actions/ActionBlock";
+import ActionBlock from "./CreatureActions/ActionBlock";
 import UtilityPanel from "../UtilityPanel";
 import CalculationFunctions from "./CalculationFunctions";
 import LockIcon from "../../img/icons8-lock-50-white.png";
