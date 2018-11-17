@@ -62,10 +62,13 @@ function calculateFinalCR(dataObject) {
     adjustNum += Math.floor(difference / 2);
     CRIndex += adjustNum;
   }
-  let challengeRating = crKeys[CRIndex];
-  newState.calculatedCR = challengeRating;
-  let calculatedPB = CreatureStats[dataObject.challengeRating].proficiency || 0;
-  let calculatedXP = CreatureStats[dataObject.challengeRating].xp || 0
+  let calcChallengeRating = crKeys[CRIndex];
+  newState.calculatedCR = calcChallengeRating;
+
+  let challengeRating = dataObject.challengeRating || 0;
+
+  let calculatedPB = CreatureStats[challengeRating].proficiency || 0;
+  let calculatedXP = CreatureStats[challengeRating].xp || 0
   newState.calculatedPB = calculatedPB;
   newState.calculatedXP = calculatedXP;
   if(newState.lockedFields && !newState.lockedFields.includes("proficiencyBonus")) {
